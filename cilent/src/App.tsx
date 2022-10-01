@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from './logo.svg';
 import Help from './components/Help';
 import './App.scss';
