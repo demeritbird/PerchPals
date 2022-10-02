@@ -10,6 +10,7 @@
   "main": "index.js",
   "scripts": {
     "cilent": "cd cilent && npm start",
+    "storybook": "cd cilent && npm run storybook",
     "server": "cd server && nodemon server.ts"
   },
   "license": "ISC"
