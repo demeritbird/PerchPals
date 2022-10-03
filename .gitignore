@@ -1,2 +1,4 @@
-/cilent/node_modules/
+/client/node_modules/
 /server/node_modules/
+
+config.env

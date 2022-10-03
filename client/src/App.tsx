@@ -3,6 +3,8 @@ import Help from './components/Help';
 import './App.scss';
 
 function App() {
+  console.log(process.env.REACT_APP_ENV);
+
   return (
     <div className='App'>
       <header className='App-header'>

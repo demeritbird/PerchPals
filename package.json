@@ -1,15 +1,15 @@
 {
-  "name": "steamxd_judging_platform",
+  "name": "steamxd_evaluation_platform",
+  "version": "0.1.0",
   "author": {
     "name": "demeritbird",
     "email": "demeritbird@gmail.com"
   },
-  "version": "0.1.0",
   "description": "lorem ipsum description",
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "cilent": "cd cilent && npm start",
+    "client": "cd client && npm start",
     "storybook": "cd cilent && npm run storybook",
     "server": "cd server && nodemon server.ts"
   },
