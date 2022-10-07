@@ -2,3 +2,5 @@
 /server/node_modules/
 
 config.env
+
+# /server/test.xlsx

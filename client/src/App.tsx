@@ -1,9 +1,40 @@
+import { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import Help from './components/Help';
 import './App.scss';
 
+type nice = String | undefined;
+
 function App() {
-  console.log(process.env.REACT_APP_ENV);
+  //console.log(process.env.REACT_APP_ENV);
+  const [name, setName] = useState<nice>();
+
+  console.log(name, 'yes');
+
+  useEffect(() => {
+    setName('nice');
+    console.log('---');
+  }, []);
+
+  async function downloadPlease() {
+    const csv = document.createElement('a');
+
+    const downloadExcelResponse = await fetch('http://localhost:3001/downloadExcel');
+    console.log(downloadExcelResponse, '--');
+    const downloadExcelBlob = await downloadExcelResponse.blob();
+    const downloadExcelObjectURL = URL.createObjectURL(downloadExcelBlob);
+    csv.href = downloadExcelObjectURL;
+
+    console.log(csv, 'sadsada');
+
+    const onClickEvent = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
+    csv.dispatchEvent(onClickEvent);
+    csv.remove();
+  }
 
   return (
     <div className='App'>
@@ -21,6 +52,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={downloadPlease}>click me</button>
       </header>
     </div>
   );
