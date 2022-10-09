@@ -2,8 +2,14 @@ import logo from './logo.svg';
 import Help from './components/Help';
 import './App.scss';
 
+import { consoleValidity } from './utils/helpers/console.helpers';
+import { Validity } from './utils/constants/types.constants';
+
 function App() {
   console.log(process.env.REACT_APP_ENV);
+
+  consoleValidity(Validity.PASS, 'pass message!');
+  consoleValidity(Validity.FAIL, 'fail message!');
 
   return (
     <div className='App'>
