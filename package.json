@@ -5,13 +5,21 @@
     "name": "demeritbird",
     "email": "demeritbird@gmail.com"
   },
+  "private": true,
   "description": "lorem ipsum description",
   "keywords": [],
   "main": "index.js",
   "scripts": {
     "client": "cd client && npm start",
     "storybook": "cd cilent && npm run storybook",
-    "server": "cd server && nodemon server.ts"
+    "server": "cd server && nodemon server.ts",
+    "start": "lerna run --parallel start"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^5.6.2"
+  }
 }

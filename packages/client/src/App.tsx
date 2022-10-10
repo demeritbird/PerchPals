@@ -5,6 +5,12 @@ import './App.scss';
 function App() {
   console.log(process.env.REACT_APP_ENV);
 
+  async function getTestData() {
+    await fetch('http://localhost:3001/testdata', {})
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }
+
   return (
     <div className='App'>
       <header className='App-header'>
@@ -21,6 +27,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={getTestData}>click me</button>
       </header>
     </div>
   );
