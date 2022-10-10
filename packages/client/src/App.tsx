@@ -2,9 +2,14 @@ import logo from './logo.svg';
 import Help from './components/Help';
 import './App.scss';
 
+import { logValidity } from './utils/helpers/log.helpers';
+import { Validity } from './utils/constants/types.constants';
+
 function App() {
   console.log(process.env.REACT_APP_ENV);
 
+  logValidity(Validity.PASS, 'pass message!');
+  logValidity(Validity.FAIL, 'fail message!');
   async function getTestData() {
     await fetch('http://localhost:3001/testdata', {})
       .then((res) => res.json())
