@@ -12,7 +12,7 @@ function App() {
   logValidity(Validity.PASS, 'pass message!');
   logValidity(Validity.FAIL, 'fail message!');
   async function getTestData() {
-    await fetch(`${process.env.REACT_APP_LINK}/testdata`, {})
+    await fetch(`https://backend-3jfa.onrender.com/testdata`, {})
       .then((res) => res.json())
       .then((data) => console.log(data));
   }

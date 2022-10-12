@@ -6,6 +6,7 @@
     "start": "env-cmd -f ./../../config.env react-scripts start",
     "production": "react-scripts start",
     "build": "react-scripts build",
+    "prod": "bash  ./render-build.sh &&react-scripts build",
     "test": "env-cmd -f ./../../config.env react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
