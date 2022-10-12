@@ -12,7 +12,7 @@ function App() {
   logValidity(Validity.PASS, 'pass message!');
   logValidity(Validity.FAIL, 'fail message!');
   async function getTestData() {
-    await fetch('http://localhost:3001/testdata', {})
+    await fetch(`${process.env.REACT_APP_LINK}/testdata`, {})
       .then((res) => res.json())
       .then((data) => console.log(data));
   }
