@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.ts",
-    "production": "npm install && ts-node server.ts"
+    "production": "ts-node server.ts"
   },
   "keywords": [],
   "license": "ISC",
