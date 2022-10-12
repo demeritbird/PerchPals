@@ -11,6 +11,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lerna run --parallel start",
+    "production": "lerna run --parallel production",
     "client": "npm --prefix ./packages/client run start",
     "server": "npm --prefix ./packages/server run start",
     "storybook": "npm --prefix ./packages/client run storybook"

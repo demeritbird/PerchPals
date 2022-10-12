@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "env-cmd -f ./../../config.env react-scripts start",
+    "production": "react-scripts start",
     "build": "env-cmd -f ./../../config.env react-scripts build",
     "test": "env-cmd -f ./../../config.env react-scripts test",
     "eject": "react-scripts eject",
