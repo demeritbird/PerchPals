@@ -7,6 +7,7 @@ import { Validity } from './utils/constants/types.constants';
 
 function App() {
   console.log(process.env.REACT_APP_ENV);
+  console.log('production branch');
 
   logValidity(Validity.PASS, 'pass message!');
   logValidity(Validity.FAIL, 'fail message!');
