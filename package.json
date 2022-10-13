@@ -11,6 +11,7 @@
   "main": "index.js",
   "scripts": {
     "start": "lerna run --parallel start",
+    "test": "lerna run --parallel test",
     "client": "npm --prefix ./packages/client run start",
     "server": "npm --prefix ./packages/server run start",
     "storybook": "npm --prefix ./packages/client run storybook"
@@ -20,6 +21,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "jest": "^29.1.2",
     "lerna": "^5.6.2",
     "nx": "^14.8.3"
   }
