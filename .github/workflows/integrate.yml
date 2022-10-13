@@ -1,0 +1,31 @@
+name: client/server Test CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  run_lerna_test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: npm ci
+
+      - name: create pseudo config.env
+        run: |
+          touch config.env
+          echo NODE_ENV=development >> config.env
+          cat config.env
+
+      - name: test client
+        run: |
+          cd ./packages/client
+          npm run test
+
+      - name: test server
+        run: |
+          cd ./packages/server
+          npm run test
