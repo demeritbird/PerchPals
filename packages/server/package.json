@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.ts",
-    "test2": "jest",
+    "test": "jest",
     "production": "ts-node server.ts"
   },
   "keywords": [],
