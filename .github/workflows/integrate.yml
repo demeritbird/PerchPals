@@ -13,4 +13,13 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
-      - run: npm run test
+
+      - name: test client
+        run: |
+          cd ./packages/client
+          npm run test
+
+      - name: test server
+        run: |
+          cd ./packages/server
+          npm run test
