@@ -1,4 +1,4 @@
-name: client/server Test CI
+name: Client/Server Check Tests CI
 
 on:
   pull_request:
