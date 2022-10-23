@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  run_lerna_test:
+  run_test:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,10 +22,10 @@ jobs:
 
       - name: test client
         run: |
-          cd ./packages/client
+          cd ./client
           npm run test
 
       - name: test server
         run: |
-          cd ./packages/server
+          cd ./server
           npm run test
