@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "env-cmd -f ./../config.env react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build ",
-    "test": "env-cmd -f ./../config.env react-scripts test --watchAll=false",
-    "test:watch": "env-cmd -f ./../config.env react-scripts test",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
