@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import Help from './components/Help';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import './App.scss';
 
 import { logValidity } from './utils/helpers/log.helpers';
@@ -33,11 +34,30 @@ function App() {
   logValidity(Validity.PASS, 'pass message!');
   logValidity(Validity.FAIL, 'fail message!');
 
+  /*
   async function getTestData() {
     await fetch(`${process.env.REACT_APP_LINK}/testdata`, {})
       .then((res) => res.json())
       .then((data) => console.log(data));
   }
+  */
+
+  async function emulateFetch() {
+    return await (await fetch(`${process.env.REACT_APP_LINK}/testdata`, {})).json();
+  }
+
+  //// onClick React Query ////
+  const getTestData = () => {
+    // manually refetch
+    refetch();
+  };
+  const { data: firstData, refetch } = useQuery(['onclick'], emulateFetch, {
+    refetchOnWindowFocus: false,
+    enabled: false, // disable this query from automatically running
+  });
+
+  //// useEffect React Query ////
+  const { isLoading, data: secondData } = useQuery(['oneffect'], emulateFetch);
 
   return (
     <div className='App'>
@@ -55,6 +75,8 @@ function App() {
         >
           Learn React
         </a>
+        <h4>{firstData?.foo}</h4>
+        <p>Data: {!isLoading ? secondData?.foo : '...loading'}</p>
         <button onClick={getTestData}>click me</button>
       </header>
     </div>
