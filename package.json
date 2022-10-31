@@ -17,5 +17,9 @@
     "storybook": "npm --prefix ./client run storybook",
     "install:all": "npm --prefix ./client install && npm --prefix ./server install"
   },
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "license": "ISC"
 }
