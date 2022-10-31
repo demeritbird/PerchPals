@@ -14,7 +14,7 @@ class APIFeatures {
   }
 
   // Filtering
-  filter() {
+  filter(): this {
     const queryObj: Record<string, string> = { ...this.queryString };
     const excludedFields: Array<string> = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((el: string) => delete queryObj[el]);
@@ -28,7 +28,7 @@ class APIFeatures {
   }
 
   // Sorting
-  sort() {
+  sort(): this {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(` `);
       this.query = this.query.sort(sortBy);
@@ -38,7 +38,7 @@ class APIFeatures {
   }
 
   // Limiting Fields
-  limitFields() {
+  limitFields(): this {
     if (this.queryString.fields) {
       const fields: string = this.queryString.fields.split(',').join(` `);
       this.query = this.query.select(fields);
@@ -50,7 +50,7 @@ class APIFeatures {
   }
 
   // Pagination
-  paginate() {
+  paginate(): this {
     const page: number = +this.queryString.page || 1;
     const limit: number = +this.queryString.limit || 100;
     const skip: number = (page - 1) * limit;

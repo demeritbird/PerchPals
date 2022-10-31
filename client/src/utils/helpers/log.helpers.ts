@@ -1,6 +1,6 @@
 import { Validity } from '../constants/types.constants';
 
-export function logValidity(type: Validity, message: String) {
+export function logValidity(type: Validity, message: String): void {
   if (process.env.REACT_APP_ENV === 'production') return;
   const TAG = '** Validity:';
 
