@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import validator from 'validator';
 
 import { Roles } from './../utils/constants/types.contants';
@@ -56,5 +56,5 @@ const userSchema = new Schema<User>({
 //// Methods ////
 // TODO: Add methods here.
 
-const User = model<User>('User', userSchema);
+const User = mongoose.model<User>('User', userSchema);
 module.exports = User;
