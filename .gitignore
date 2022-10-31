@@ -4,3 +4,6 @@
 
 /client/.env
 /server/.env
+
+.vscode
+.eslintcache
