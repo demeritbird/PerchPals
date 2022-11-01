@@ -75,6 +75,7 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "eslint-plugin-jest-dom": "^4.0.2",
     "eslint-plugin-testing-library": "^5.9.1",
+    "msw": "^0.47.4",
     "prop-types": "^15.8.1",
     "react-test-renderer": "^18.2.0",
     "webpack": "^5.74.0"
