@@ -14,4 +14,6 @@ export type User = {
   name: string;
   role: Array<Roles>;
   token: string;
-} | null;
+};
+
+export type CurrentUser = User | null;

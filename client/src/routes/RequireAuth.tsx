@@ -1,13 +1,12 @@
-import React from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from './../hooks/useAuth';
 import { Roles } from './../utils/constants/types.constants';
 
-interface AllowedRoles {
+interface AllowedRolesProps {
   allowedRoles: Array<Roles>;
 }
 
-function RequireAuth(props: AllowedRoles) {
+function RequireAuth(props: AllowedRolesProps) {
   const { allowedRoles } = props;
   const { user } = useAuth();
   const location = useLocation();

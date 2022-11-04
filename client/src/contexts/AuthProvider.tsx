@@ -1,8 +1,8 @@
 import { createContext, useState } from 'react';
-import { User, Roles } from './../utils/constants/types.constants';
+import { CurrentUser, Roles } from './../utils/constants/types.constants';
 
 interface AuthContextType {
-  user: User;
+  user: CurrentUser;
   login: () => void;
   logout: () => void;
   signup: () => void;
@@ -18,7 +18,7 @@ interface Props {
   children?: React.ReactNode;
 }
 export function AuthProvider(props: Props) {
-  const [auth, setAuth] = useState<User>(null);
+  const [auth, setAuth] = useState<CurrentUser>(null);
 
   function sendAuth(url: string, email: string, password: string) {
     // TODO: use Axios POST here
