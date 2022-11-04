@@ -16,20 +16,23 @@ function App() {
   logValidity(Validity.FAIL, 'fail message!');
 
   async function getTestData() {
-    await fetch(`${process.env.REACT_APP_LINK}/testdata`, {})
+    await fetch(`${import.meta.env.VITE_LINK}/testdata`, {})
       .then((res) => res.json())
       .then((data) => console.log(data));
   }
 
   return (
-    <Routes>
-      <Route path='/' element={<LoginPage />} />
-      <Route path='/login' element={<LoginPage />} />
+    <>
+      <button onClick={getTestData}>test me</button>
+      <Routes>
+        <Route path='/' element={<LoginPage />} />
+        <Route path='/login' element={<LoginPage />} />
 
-      <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
-        <Route path='/landingpage' element={<LandingPage />} />
-      </Route>
-    </Routes>
+        <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+          <Route path='/landingpage' element={<LandingPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
