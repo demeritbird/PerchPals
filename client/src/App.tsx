@@ -9,7 +9,7 @@ import RequireAuth from './routes/RequireAuth';
 import { logValidity } from './utils/helpers/log.helpers';
 import { Validity, Roles } from './utils/constants/types.constants';
 
-const LoginPage = React.lazy(() => import('./routes/LoginPage'));
+import LoginPage from './routes/LoginPage';
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {

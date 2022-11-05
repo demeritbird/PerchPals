@@ -4,10 +4,10 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/preset-create-react-app',
   ],
+
   core: {
-    builder: '@storybook/builder-vite', // 👈 The builder enabled here.
+    builder: '@storybook/builder-vite',
   },
   // https://storybook.js.org/docs/html/builders/vite
 };
