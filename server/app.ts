@@ -1,6 +1,5 @@
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
-import morgan from 'morgan';
 export { app };
 
 const app: Express = express();
@@ -10,6 +9,7 @@ app.options('*', cors());
 
 // Development Logging
 if (process.env.NODE_ENV === 'development') {
+  const morgan = require('morgan');
   app.use(morgan('dev'));
 }
 
