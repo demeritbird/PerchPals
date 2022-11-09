@@ -1,22 +1,13 @@
 import mongoose, { Schema, model } from 'mongoose';
 import validator from 'validator';
 
-import { Roles } from './../utils/constants/types.contants';
+import { InputUser, Roles } from './../utils/constants/types.contants';
 
-interface User {
-  name: string;
-  email: string;
-  photo?: string;
-  role: string;
-  password: string;
-  passwordConfirm: string | undefined;
-}
 interface Password {
   password: string;
 }
-
 //// Schema ////
-const userSchema = new Schema<User>({
+const userSchema = new Schema<InputUser>({
   name: {
     type: String,
     required: [true, 'Please provide your name!'],
@@ -56,5 +47,5 @@ const userSchema = new Schema<User>({
 //// Methods ////
 // TODO: Add methods here.
 
-const User = mongoose.model<User>('User', userSchema);
+const User = mongoose.model<InputUser>('User', userSchema);
 module.exports = User;

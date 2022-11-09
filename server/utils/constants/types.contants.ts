@@ -14,3 +14,18 @@ export type StatusCode =
   | 401 // UNAUTHORISED
   | 403 // FORBIDDEN
   | 404; // NOT_FOUND
+
+export type InputUser = {
+  name: string;
+  email: string;
+  photo?: string;
+  role: Roles;
+  password: string | undefined;
+  passwordConfirm: string | undefined;
+};
+
+type UserId = {
+  _id: string;
+};
+
+export type CreatedUser = UserId & InputUser;
