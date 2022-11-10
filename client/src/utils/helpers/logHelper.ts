@@ -1,4 +1,4 @@
-import { Validity } from '../constants/types.constants';
+import { Validity } from '../types';
 
 export function logValidity(type: Validity, message: String): void {
   if (import.meta.env.VITE_ENV === 'production') return;

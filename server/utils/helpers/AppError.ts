@@ -1,4 +1,4 @@
-import { StatusCode } from './../constants/types.contants';
+import { StatusCode } from '../types';
 
 // TODO: Documentation
 

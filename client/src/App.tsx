@@ -6,8 +6,8 @@ import { Routes, Route } from 'react-router-dom';
 
 import RequireAuth from './routes/RequireAuth';
 
-import { logValidity } from './utils/helpers/log.helpers';
-import { Validity, Roles } from './utils/constants/types.constants';
+import { logValidity } from './utils/helpers';
+import { Validity, Roles } from './utils/types';
 
 import LoginPage from './routes/LoginPage';
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));

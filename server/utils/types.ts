@@ -1,9 +1,3 @@
-export enum Roles {
-  USER = 'user',
-  ADMIN = 'admin',
-  MASTER = 'master',
-}
-
 export type StatusCode =
   // Success Responses
   | 200 // OK
@@ -15,6 +9,7 @@ export type StatusCode =
   | 403 // FORBIDDEN
   | 404; // NOT_FOUND
 
+//// User Related ////
 export type InputUser = {
   name: string;
   email: string;
@@ -23,9 +18,14 @@ export type InputUser = {
   password: string | undefined;
   passwordConfirm: string | undefined;
 };
-
 type UserId = {
   _id: string;
 };
 
 export type CreatedUser = UserId & InputUser;
+
+export enum Roles {
+  USER = 'user',
+  ADMIN = 'admin',
+  MASTER = 'master',
+}

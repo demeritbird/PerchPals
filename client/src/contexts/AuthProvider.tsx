@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { CurrentUser, Roles } from './../utils/constants/types.constants';
+import { CurrentUser, Roles } from '../utils/types';
 
 interface AuthContextType {
   user: CurrentUser;
@@ -31,7 +31,7 @@ export function AuthProvider(props: Props) {
     setAuth({
       email: 'login@email.com',
       name: 'testname',
-      role: [Roles.USER],
+      role: Roles.USER,
       token: 'blank',
     });
   }
@@ -50,7 +50,7 @@ export function AuthProvider(props: Props) {
     setAuth({
       email: 'signup@email.com',
       name: 'testname',
-      role: [Roles.USER],
+      role: Roles.USER,
       token: 'blank',
     });
   }

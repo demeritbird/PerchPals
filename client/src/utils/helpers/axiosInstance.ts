@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { User } from '../constants/types.constants';
+import { User } from '../types';
 
 export const axiosInstance = Axios.create({
   baseURL: process.env.REACT_APP_LINK,

@@ -3,7 +3,8 @@ import cors from 'cors';
 export { app };
 
 const userRouter = require('./routes/userRouter');
-const AppError = require('./utils/helpers/AppError.helpers');
+
+import { AppError } from './utils/helpers';
 
 const app: Express = express();
 

@@ -1,11 +1,8 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import validator from 'validator';
 
-import { InputUser, Roles } from './../utils/constants/types.contants';
+import { InputUser, Roles } from './../utils/types';
 
-interface Password {
-  password: string;
-}
 //// Schema ////
 const userSchema = new Schema<InputUser>({
   name: {
@@ -36,8 +33,7 @@ const userSchema = new Schema<InputUser>({
     required: [true, 'Please confirm your password!'],
     validate: {
       validator: function (el: string): boolean {
-        // NOTE: use 'this as any' if somehow this does not work.
-        return el === (this as Password).password;
+        return el === (this as InputUser).password;
       },
       message: 'Passwords are not the same!',
     },

@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { CreatedUser, StatusCode } from './../utils/constants/types.contants';
-
-const User = require('./../models/userModel');
-const catchAsync = require('./../utils/helpers/catchAsync.helpers');
+import { User } from './../models';
+import { CreatedUser, Roles, StatusCode } from './../utils/types';
+import { catchAsync } from '../utils/helpers';
 
 interface CookieOptions {
   expires: Date;
@@ -52,7 +51,7 @@ exports.signup = catchAsync(
         photo: req.body.photo,
         password: req.body.password,
         passwordConfirm: req.body.passwordConfirm,
-        role: req.body.role,
+        role: Roles.USER,
       });
 
       createSendToken(newUser, 201, req, res);
