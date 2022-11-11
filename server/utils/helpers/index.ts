@@ -1,5 +1,5 @@
-const ApiFeatures = require('./ApiFeatures');
-const AppError = require('./AppError');
+import { default as ApiFeatures } from './ApiFeatures';
+import { default as AppError } from './AppError';
 const catchAsync = require('./catchAsync');
 
-export { ApiFeatures, AppError, catchAsync };
+export { ApiFeatures, catchAsync, AppError };

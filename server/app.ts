@@ -3,6 +3,7 @@ import cors from 'cors';
 export { app };
 
 const userRouter = require('./routes/userRouter');
+import { globalErrorHandler } from './controllers';
 
 import { AppError } from './utils/helpers';
 
@@ -34,3 +35,5 @@ app.use('/api/v1/users', userRouter);
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+app.use(globalErrorHandler);

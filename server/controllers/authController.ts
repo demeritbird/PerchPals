@@ -44,22 +44,15 @@ function createSendToken(
 
 exports.signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const newUser: CreatedUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        photo: req.body.photo,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        role: Roles.USER,
-      });
+    const newUser: CreatedUser = await User.create({
+      name: req.body.name,
+      email: req.body.email,
+      photo: req.body.photo,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+      role: Roles.USER,
+    });
 
-      createSendToken(newUser, 201, req, res);
-    } catch (err) {
-      res.status(400).json({
-        status: 'fail',
-        message: err,
-      });
-    }
+    createSendToken(newUser, 201, req, res);
   }
 );

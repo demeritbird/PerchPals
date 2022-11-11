@@ -1,3 +1,3 @@
 const authController = require('./authController');
-
-export { authController };
+const globalErrorHandler = require('./errorController');
+export { authController, globalErrorHandler };

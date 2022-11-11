@@ -5,9 +5,11 @@ export type StatusCode =
   | 204 // NO_CONTENT
 
   // Error Responses
+  | 400 // BAD_REQUEST
   | 401 // UNAUTHORISED
   | 403 // FORBIDDEN
-  | 404; // NOT_FOUND
+  | 404 // NOT FOUND
+  | 500; // INTERNAL_SERVER_ERROR
 
 //// User Related ////
 export type InputUser = {
