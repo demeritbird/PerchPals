@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { User } from '../types';
 
 export const axiosInstance = Axios.create({
-  baseURL: process.env.REACT_APP_LINK,
+  baseURL: import.meta.env.REACT_APP_LINK,
 });
 
 export function getJWTHeader(user: User): Record<string, string> {
