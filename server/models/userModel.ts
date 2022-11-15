@@ -1,10 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, SchemaValidator } from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 
-import { InputUser, Roles } from './../utils/types';
+import { InputUser, UserDocument, UserModel, Roles } from './../utils/types';
 
 //// Schema ////
-const userSchema = new Schema<InputUser>({
+const userSchema = new Schema<UserDocument, UserModel>({
   name: {
     type: String,
     required: [true, 'Please provide your name!'],
@@ -33,15 +34,40 @@ const userSchema = new Schema<InputUser>({
     required: [true, 'Please confirm your password!'],
     validate: {
       validator: function (el: string): boolean {
-        return el === (this as InputUser).password;
+        return el === (this as InputUser & SchemaValidator<string>).password;
       },
       message: 'Passwords are not the same!',
     },
   },
 });
 
-//// Methods ////
-// TODO: Add methods here.
+//// Middlwares ////
+/**
+ * Before creating User Document in database,
+ * hash user's password and remove passwordConfirm field.
+ */
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
 
-const User = mongoose.model<InputUser>('User', userSchema);
-module.exports = User;
+  this.password = await bcrypt.hash(this.password, 12);
+  (this.passwordConfirm as unknown) = undefined;
+  next();
+});
+
+//// Methods ////
+/**
+ * Compares user's input password against user's actual password and checks if they are the same.
+ *
+ * @param candidatePassword Incoming password from user during authentication.
+ * @param userPassword User's currently saved password in database.
+ * @returns a Promise<boolean> whether both hashed passwords are the same.
+ */
+userSchema.methods.correctPassword = async function (
+  candidatePassword: string,
+  userPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
+export default User;

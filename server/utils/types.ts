@@ -1,3 +1,5 @@
+import { Types, Model } from 'mongoose';
+
 export type StatusCode =
   // Success Responses
   | 200 // OK
@@ -8,23 +10,27 @@ export type StatusCode =
   | 400 // BAD_REQUEST
   | 401 // UNAUTHORISED
   | 403 // FORBIDDEN
-  | 404 // NOT FOUND
+  | 404 // NOT_FOUND
   | 500; // INTERNAL_SERVER_ERROR
 
 //// User Related ////
-export type InputUser = {
+export interface InputUser {
   name: string;
   email: string;
   photo?: string;
   role: Roles;
-  password: string | undefined;
-  passwordConfirm: string | undefined;
-};
-type UserId = {
-  _id: string;
-};
-
-export type CreatedUser = UserId & InputUser;
+  password: string;
+  passwordConfirm: string;
+}
+// User Document & Instance Methods
+export interface UserDocument extends InputUser, Document {
+  _id: Types.ObjectId;
+  correctPassword: (candidatePassword: string, userPassword: string) => Promise<boolean>;
+}
+// User Static Methods
+export interface UserModel extends Model<UserDocument> {
+  //staticMethod: (variable: string) => Promise<UserDocument>;
+}
 
 export enum Roles {
   USER = 'user',

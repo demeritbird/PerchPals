@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { User } from './../models';
-import { CreatedUser, Roles, StatusCode } from './../utils/types';
-import { catchAsync } from '../utils/helpers';
+import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
+import { AppError, catchAsync } from '../utils/helpers';
 
 interface CookieOptions {
   expires: Date;
@@ -17,12 +17,12 @@ function signToken(id: string): string {
   });
 }
 function createSendToken(
-  user: CreatedUser,
+  user: UserDocument,
   statusCode: StatusCode,
   req: Request,
   res: Response
 ): void {
-  const token: string = signToken(user._id);
+  const token: string = signToken(user._id.toString());
   const jwtExpiryTime: number = +process.env.JWT_COOKIE_EXPIRES_IN!;
 
   const cookieOptions: CookieOptions = {
@@ -32,7 +32,7 @@ function createSendToken(
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
-  user.password = undefined;
+  (user.password as unknown) = undefined;
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -44,15 +44,41 @@ function createSendToken(
 
 exports.signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const newUser: CreatedUser = await User.create({
+    const inputUser: InputUser = {
       name: req.body.name,
       email: req.body.email,
       photo: req.body.photo,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
-    });
+    };
+    const newUser: UserDocument = await User.create(inputUser);
 
     createSendToken(newUser, 201, req, res);
+  }
+);
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+exports.login = catchAsync(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    // read email && password from the request body
+    const { email, password }: LoginRequest = req.body;
+
+    // 1) Check if email and password exist
+    if (!email || !password) {
+      return next(new AppError('Please provide email and password!', 400));
+    }
+    // 2) Check if user existts && password is correct
+    const user: UserDocument | null = await User.findOne({ email }).select('+password');
+    //const correct = await user.correctPassword(password, user.password);
+
+    if (!user || !(await user.correctPassword(password, user.password))) {
+      return next(new AppError('Incorrect email or password!', 401));
+    }
+
+    createSendToken(user, 200, req, res);
   }
 );
