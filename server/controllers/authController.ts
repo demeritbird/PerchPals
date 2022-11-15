@@ -64,16 +64,14 @@ interface LoginRequest {
 }
 exports.login = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    // read email && password from the request body
     const { email, password }: LoginRequest = req.body;
 
-    // 1) Check if email and password exist
+    // 1) Check if email and password field exist
     if (!email || !password) {
       return next(new AppError('Please provide email and password!', 400));
     }
-    // 2) Check if user existts && password is correct
+    // 2) Check if user exists && password is correct
     const user: UserDocument | null = await User.findOne({ email }).select('+password');
-    //const correct = await user.correctPassword(password, user.password);
 
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
