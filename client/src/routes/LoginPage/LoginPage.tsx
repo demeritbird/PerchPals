@@ -1,38 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import useAuth from '../../hooks/useAuth';
+import SignInForm from './layouts/SignInForm';
 
 function LoginPage() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [formValidity, setFormValidity] = useState<boolean>(false);
-
-  const userRef = useRef<HTMLInputElement | null>(null);
-  const errorRef = useRef();
-
+  const { authUser } = useAuth();
+  // TODO: check if authenticated. If so, bring him to application page.
+  // Or do it from the routes page like RequireAuth instead.
+  
   return (
     <section>
-      <h1>Sign In</h1>
-      <form>
-        <label htmlFor='username'>Username:</label>
-        <input
-          type='text'
-          id='username'
-          ref={userRef}
-          autoComplete='off'
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          required
-        />
-
-        <label htmlFor='password'>Password:</label>
-        <input
-          type='password'
-          id='password'
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          required
-        />
-        <button>Sign In</button>
-      </form>
+      <SignInForm />
       <p>
         Need an Account?
         <br />

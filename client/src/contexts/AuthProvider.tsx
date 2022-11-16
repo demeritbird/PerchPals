@@ -1,17 +1,17 @@
 import { createContext, useState } from 'react';
 import { CurrentUser, Roles } from '../utils/types';
 
-interface AuthContextType {
-  user: CurrentUser;
-  login: () => void;
-  logout: () => void;
-  signup: () => void;
+interface AuthContextOptions {
+  authUser: CurrentUser;
+  authLogIn: (email: string, password: string) => void;
+  authLogOut: () => void;
+  authSignIn: () => void;
 }
-const AuthContext = createContext<AuthContextType>({
-  user: null,
-  login: () => {},
-  logout: () => {},
-  signup: () => {},
+const AuthContext = createContext<AuthContextOptions>({
+  authUser: null,
+  authLogIn: () => {},
+  authLogOut: () => {},
+  authSignIn: () => {},
 });
 
 interface Props {
@@ -24,7 +24,7 @@ export function AuthProvider(props: Props) {
     // TODO: use Axios POST here
   }
 
-  function loginHandler() {
+  function loginHandler(email: string, password: string) {
     // TODO: Add login functionality
 
     console.log('login');
@@ -55,11 +55,11 @@ export function AuthProvider(props: Props) {
     });
   }
 
-  const authContextValue: AuthContextType = {
-    user: auth,
-    login: loginHandler,
-    logout: logoutHandler,
-    signup: signupHandler,
+  const authContextValue: AuthContextOptions = {
+    authUser: auth,
+    authLogIn: loginHandler,
+    authLogOut: logoutHandler,
+    authSignIn: signupHandler,
   };
 
   return <AuthContext.Provider value={authContextValue}>{props.children}</AuthContext.Provider>;

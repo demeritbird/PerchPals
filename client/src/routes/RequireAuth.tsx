@@ -5,13 +5,12 @@ import { Roles } from '../utils/types';
 interface AllowedRolesProps {
   allowedRoles: Array<Roles>;
 }
-
 function RequireAuth(props: AllowedRolesProps) {
   const { allowedRoles } = props;
-  const { user } = useAuth();
+  const { authUser } = useAuth();
   const location = useLocation();
 
-  return user && allowedRoles.includes(user.role) ? (
+  return authUser && allowedRoles.includes(authUser.role) ? (
     <Outlet />
   ) : (
     <Navigate to='/login' state={{ from: location }} replace />
