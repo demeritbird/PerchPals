@@ -1,12 +1,11 @@
-import logo from './logo.svg';
-import Help from './components/Help';
 import './App.scss';
-import React, { Fragment, Suspense } from 'react';
+import React, { Fragment, Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
+import useAxios from './hooks/useAxios';
 import RequireAuth from './routes/RequireAuth';
 
-import { logValidity } from './utils/helpers';
+import { axiosPublic, logValidity } from './utils/helpers';
 import { Validity, Roles } from './utils/types';
 
 import LoginPage from './routes/LoginPage';
@@ -16,11 +15,27 @@ function App() {
   logValidity(Validity.PASS, 'pass message!');
   logValidity(Validity.FAIL, 'fail message!');
 
-  async function getTestData() {
-    await fetch(`${import.meta.env.VITE_LINK}/testdata`, {})
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+  const { response: testdata, error, loading, axiosFetch: getData } = useAxios();
+
+  // async function getTestData() {
+  //   await fetch(`${import.meta.env.VITE_LINK}/testdata`, {})
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }
+
+  function getTestData() {
+    getData({
+      axiosInstance: axiosPublic,
+      method: 'get',
+      url: '/testdata',
+    });
+
+    console.log(testdata);
   }
+
+  // useEffect(() => {
+  //   getTestData();
+  // }, []);
 
   return (
     <Fragment>
