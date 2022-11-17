@@ -5,6 +5,7 @@ export enum Validity {
 
 //// User Related ////
 export type User = {
+  id: string;
   email: string;
   name: string;
   role: Roles;

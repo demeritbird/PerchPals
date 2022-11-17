@@ -1,19 +1,25 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+
 import useAuth from '../../../../hooks/useAuth';
+import useAxios from '../../../../hooks/useAxios';
+import { logValidity } from '../../../../utils/helpers';
+import { Validity } from '../../../../utils/types';
 import { AuthErrorResponse } from '../types';
 
-/**
- *
- * @param email
- * @param password
- * @returns
- */
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
 function loginInputIsValid(email: string, password: string): boolean {
   return email.includes('@') || password.length >= 8;
 }
 
+const TAG = '** SignIn Form';
 function SignInForm() {
-  const { authUser, authLogIn } = useAuth();
+  const { authUser, setAuthUser } = useAuth();
+  const { response: authResponse, error: authError, axiosRequest: authRequest } = useAxios();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<AuthErrorResponse | null>(null);
@@ -23,7 +29,31 @@ function SignInForm() {
     emailInputRef.current.focus();
   }, []);
 
-  function onSignInHandler(event: FormEvent) {
+  useEffect(() => {
+    if (authError) {
+      setError({
+        title: 'Authentication Error',
+        message: authError,
+      });
+
+      logValidity(TAG, Validity.FAIL, authError);
+      return;
+    }
+
+    if (authResponse != null) {
+      setAuthUser({
+        id: authResponse.data.user._id,
+        name: authResponse.data.user.name,
+        email: authResponse.data.user.email,
+        role: authResponse.data.user.role,
+        token: authResponse.token,
+      });
+
+      logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
+    }
+  }, [authResponse, authError, setAuthUser]);
+
+  function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
     if (!emailInputRef.current || !passwordInputRef.current) return;
 
@@ -32,20 +62,31 @@ function SignInForm() {
 
     // Client Validation
     if (!loginInputIsValid(inputEmail, inputPassword)) {
-      setError({
-        title: 'Error while trying to log in',
+      const validationError = {
+        title: 'Validation Error',
         message: 'You have input the wrong email / password format!',
-      });
+      };
+      setError(validationError);
+      logValidity(TAG, Validity.FAIL, validationError.message);
+      return;
     }
 
-    // Server Call
-    authLogIn(inputEmail, inputPassword);
+    // Server Validation
+    const requestBody: LoginRequest = {
+      email: inputEmail,
+      password: inputPassword,
+    };
+    authRequest({
+      method: 'post',
+      url: '/api/v1/users/login',
+      requestBody,
+    });
   }
 
   return (
     <Fragment>
       <h1>Sign In</h1>
-      <form onSubmit={(event: FormEvent) => onSignInHandler(event)}>
+      <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
         <label htmlFor='username'>Email:</label>
         <input
           type='text'
@@ -67,6 +108,7 @@ function SignInForm() {
 
         <button type='submit'>Sign In</button>
       </form>
+
       <h1>{error ? error.message : 'no error currently'}</h1>
       <h1>{authUser ? authUser.name : 'no user currently'}</h1>
     </Fragment>

@@ -5,17 +5,14 @@ import { Routes, Route } from 'react-router-dom';
 import useAxios from './hooks/useAxios';
 import RequireAuth from './routes/RequireAuth';
 
-import { axiosPublic, logValidity } from './utils/helpers';
-import { Validity, Roles } from './utils/types';
+import { axiosPublic } from './utils/helpers';
+import { Roles } from './utils/types';
 
 import LoginPage from './routes/LoginPage';
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {
-  logValidity(Validity.PASS, 'pass message!');
-  logValidity(Validity.FAIL, 'fail message!');
-
-  const { response: testdata, error, loading, axiosFetch: getData } = useAxios();
+  const { response: testdata, error, loading, axiosRequest: getData } = useAxios();
 
   // async function getTestData() {
   //   await fetch(`${import.meta.env.VITE_LINK}/testdata`, {})

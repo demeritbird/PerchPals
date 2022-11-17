@@ -1,11 +1,15 @@
+import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import SignInForm from './layouts/SignInForm';
 
 function LoginPage() {
   const { authUser } = useAuth();
-  // TODO: check if authenticated. If so, bring him to application page.
-  // Or do it from the routes page like RequireAuth instead.
-  
+  const location = useLocation();
+
+  if (authUser) {
+    return <Navigate to='/landingpage' state={{ from: location }} replace />;
+  }
+
   return (
     <section>
       <SignInForm />

@@ -64,7 +64,7 @@ function sendErrorDev(err: AppError, req: Request, res: Response): JSONEndpoint 
   console.error('ERROR', err);
   return res.status(err.statusCode).json({
     title: 'Something went wrong!',
-    msg: err.message,
+    message: err.message,
   });
 }
 
@@ -73,14 +73,14 @@ function sendErrorProd(err: AppError, req: Request, res: Response): JSONEndpoint
     console.log(err);
     return res.status(err.statusCode).json({
       title: 'Something went wrong!',
-      msg: err.message,
+      message: err.message,
     });
   }
 
   console.error('ERROR', err);
   return res.status(err.statusCode).json({
     title: 'Something went wrong!',
-    msg: 'Please try again later.',
+    message: 'Please try again later.',
   });
 }
 
