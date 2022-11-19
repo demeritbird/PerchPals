@@ -1,6 +1,7 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import LoginForm from './layouts/LoginForm';
+import SignupForm from './layouts/SignupForm';
 
 function EntryPage() {
   const { authUser } = useAuth();
@@ -13,13 +14,7 @@ function EntryPage() {
   return (
     <section>
       <LoginForm />
-      <p>
-        Need an Account?
-        <br />
-        <span className='line'>
-          <button>sign up</button>
-        </span>
-      </p>
+      <SignupForm />
     </section>
   );
 }

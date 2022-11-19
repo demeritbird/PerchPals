@@ -1,22 +1,33 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
-
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { Validity } from '../../../../utils/types';
 import { AuthErrorResponse } from '../types';
 
-interface LoginRequest {
+interface SignupRequest {
+  name: string;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
-function loginInputIsValid(email: string, password: string): boolean {
-  return email.includes('@') || password.length >= 8;
+function signupInputIsValid(
+  username: string,
+  email: string,
+  password: string,
+  confirmPassword: string
+): boolean {
+  if (username.length < 8) return false;
+  if (!email.includes('@')) return false;
+  if (password.length < 8) return false;
+  if (password !== confirmPassword) return false;
+
+  return true;
 }
 
-const TAG = '** Login Form';
-function LoginForm() {
+const TAG = '** Signup Form';
+function SignupForm() {
   const { authUser, setAuthUser } = useAuth();
   const {
     response: authResponse,
@@ -25,19 +36,22 @@ function LoginForm() {
     axiosRequest: authRequest,
   } = useAxios();
 
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<AuthErrorResponse | null>(null);
 
+  const usernameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
-    if (!emailInputRef.current) return;
-    emailInputRef.current.focus();
+    if (!usernameInputRef.current) return;
+    usernameInputRef.current.focus();
   }, []);
 
   useEffect(() => {
     if (authError) {
       setError({
-        title: 'Authentication Error',
+        title: 'Registration Error',
         message: authError,
       });
 
@@ -60,16 +74,24 @@ function LoginForm() {
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
-    if (!emailInputRef.current || !passwordInputRef.current) return;
+    if (
+      !usernameInputRef.current ||
+      !emailInputRef.current ||
+      !passwordInputRef.current ||
+      !confirmPasswordInputRef.current
+    )
+      return;
 
+    const inputUsername: string = usernameInputRef.current.value.trim();
     const inputEmail: string = emailInputRef.current.value.trim();
     const inputPassword: string = passwordInputRef.current.value.trim();
+    const inputConfirmPassword: string = confirmPasswordInputRef.current.value.trim();
 
     // Client Validation
-    if (!loginInputIsValid(inputEmail, inputPassword)) {
+    if (!signupInputIsValid(inputUsername, inputEmail, inputPassword, inputConfirmPassword)) {
       const validationError = {
         title: 'Validation Error',
-        message: 'You have input the wrong email / password format!',
+        message: 'You have input the wrong signup format!',
       };
       setError(validationError);
       logValidity(TAG, Validity.FAIL, validationError.message);
@@ -77,13 +99,15 @@ function LoginForm() {
     }
 
     // Server Validation
-    const requestBody: LoginRequest = {
+    const requestBody: SignupRequest = {
+      name: inputUsername,
       email: inputEmail,
       password: inputPassword,
+      passwordConfirm: inputConfirmPassword,
     };
     authRequest({
       method: 'post',
-      url: '/api/v1/users/login',
+      url: '/api/v1/users/signup',
       requestBody,
     });
   }
@@ -92,6 +116,16 @@ function LoginForm() {
     <Fragment>
       <h1>Sign In</h1>
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
+        <label htmlFor='username'>Username:</label>
+        <input
+          type='text'
+          id='username'
+          ref={usernameInputRef}
+          onChange={() => setError(null)}
+          autoComplete='off'
+          required
+        />
+
         <label htmlFor='email'>Email:</label>
         <input
           type='text'
@@ -111,6 +145,14 @@ function LoginForm() {
           required
         />
 
+        <label htmlFor='password'>Confirm Password:</label>
+        <input
+          type='password'
+          id='password'
+          ref={confirmPasswordInputRef}
+          onChange={() => setError(null)}
+          required
+        />
         <button type='submit'>Sign In</button>
       </form>
 
@@ -120,4 +162,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default SignupForm;
