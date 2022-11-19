@@ -20,9 +20,9 @@ export default defineConfig({
       exclude: ['node_modules/', 'src/setupTests.ts'],
     },
   },
-  // build: {
-  //   rollupOptions: {
-  //     external: [/src\/.*\/.*\.(test|stories)\.(ts|tsx)/, /src.setupTests.ts/],
-  //   },
-  // },
+  build: {
+    rollupOptions: {
+      external: [/src\/.*\.(test|stories)\.(ts|tsx)/, /src.setupTests.ts/],
+    },
+  },
 });

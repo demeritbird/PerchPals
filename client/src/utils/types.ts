@@ -18,3 +18,9 @@ export enum Roles {
   ADMIN = 'admin',
   MASTER = 'master',
 }
+
+//// Request & Responses ////
+export interface AuthErrorResponse {
+  title: string;
+  message: string;
+}

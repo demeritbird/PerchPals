@@ -1,9 +1,13 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
+
 import { logValidity } from '../../../../utils/helpers';
-import { Validity } from '../../../../utils/types';
-import { AuthErrorResponse } from '../types';
+import { AuthErrorResponse, Validity } from '../../../../utils/types';
+
+import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
+import AuthButton from '../../../../components/buttons/AuthButton';
 
 interface SignupRequest {
   name: string;
@@ -116,44 +120,40 @@ function SignupForm() {
     <Fragment>
       <h1>Sign In</h1>
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-        <label htmlFor='username'>Username:</label>
-        <input
-          type='text'
+        <AuthFormInput
           id='username'
-          ref={usernameInputRef}
-          onChange={() => setError(null)}
-          autoComplete='off'
-          required
-        />
-
-        <label htmlFor='email'>Email:</label>
-        <input
-          type='text'
+          inputType='text'
+          inputRef={usernameInputRef}
+          onChangeHandler={() => setError(null)}
+        >
+          Username:
+        </AuthFormInput>
+        <AuthFormInput
           id='email'
-          ref={emailInputRef}
-          onChange={() => setError(null)}
-          autoComplete='off'
-          required
-        />
-
-        <label htmlFor='password'>Password:</label>
-        <input
-          type='password'
+          inputType='text'
+          inputRef={emailInputRef}
+          onChangeHandler={() => setError(null)}
+        >
+          Email:
+        </AuthFormInput>
+        <AuthFormInput
           id='password'
-          ref={passwordInputRef}
-          onChange={() => setError(null)}
-          required
-        />
-
-        <label htmlFor='password'>Confirm Password:</label>
-        <input
-          type='password'
+          inputType='password'
+          inputRef={passwordInputRef}
+          onChangeHandler={() => setError(null)}
+        >
+          Password:
+        </AuthFormInput>
+        <AuthFormInput
           id='password'
-          ref={confirmPasswordInputRef}
-          onChange={() => setError(null)}
-          required
-        />
-        <button type='submit'>Sign In</button>
+          inputType='password'
+          inputRef={confirmPasswordInputRef}
+          onChangeHandler={() => setError(null)}
+        >
+          Confirm Password:
+        </AuthFormInput>
+
+        <AuthButton>Sign Up</AuthButton>
       </form>
 
       <h1>{error ? error.message : 'no error currently'}</h1>
