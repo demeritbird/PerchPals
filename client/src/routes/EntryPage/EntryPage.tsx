@@ -1,8 +1,8 @@
 import { useLocation, Navigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import SignInForm from './layouts/SignInForm';
+import LoginForm from './layouts/LoginForm';
 
-function LoginPage() {
+function EntryPage() {
   const { authUser } = useAuth();
   const location = useLocation();
 
@@ -12,7 +12,7 @@ function LoginPage() {
 
   return (
     <section>
-      <SignInForm />
+      <LoginForm />
       <p>
         Need an Account?
         <br />
@@ -24,4 +24,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default EntryPage;

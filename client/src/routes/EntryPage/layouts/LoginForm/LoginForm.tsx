@@ -15,10 +15,15 @@ function loginInputIsValid(email: string, password: string): boolean {
   return email.includes('@') || password.length >= 8;
 }
 
-const TAG = '** SignIn Form';
-function SignInForm() {
+const TAG = '** Login Form';
+function LoginForm() {
   const { authUser, setAuthUser } = useAuth();
-  const { response: authResponse, error: authError, axiosRequest: authRequest } = useAxios();
+  const {
+    response: authResponse,
+    error: authError,
+    loading: authLoading,
+    axiosRequest: authRequest,
+  } = useAxios();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -115,4 +120,4 @@ function SignInForm() {
   );
 }
 
-export default SignInForm;
+export default LoginForm;

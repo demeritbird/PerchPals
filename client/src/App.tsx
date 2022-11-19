@@ -8,7 +8,7 @@ import RequireAuth from './routes/RequireAuth';
 import { axiosPublic } from './utils/helpers';
 import { Roles } from './utils/types';
 
-import LoginPage from './routes/LoginPage';
+import EntryPage from './routes/EntryPage';
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {
@@ -38,8 +38,8 @@ function App() {
     <Fragment>
       <button onClick={getTestData}>test me</button>
       <Routes>
-        <Route path='/' element={<LoginPage />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route path='/' element={<EntryPage />} />
+        <Route path='/login' element={<EntryPage />} />
 
         <Route
           path='/publicpage'
