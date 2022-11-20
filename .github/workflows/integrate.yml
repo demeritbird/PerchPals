@@ -12,18 +12,27 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
-      - run: npm ci
 
-      - name: create pseudo config.env
+      - name: create client environemnt
         run: |
-          touch config.env
-          echo NODE_ENV=development >> config.env
-          cat config.env
+          cd ./client
+          npm ci
+          touch .env
+          echo NODE_ENV=development >> .env
+          cat .env
 
       - name: test client
         run: |
           cd ./client
           npm run test
+
+      - name: create server environemnt
+        run: |
+          cd ./server
+          npm ci
+          touch .env
+          echo NODE_ENV=development >> .env
+          cat .env
 
       - name: test server
         run: |

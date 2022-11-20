@@ -14,8 +14,7 @@
     "test:client": "npm --prefix ./client run test",
     "start:server": "npm --prefix ./server run start",
     "test:server": "npm --prefix ./server run test",
-    "storybook": "npm --prefix ./client run storybook",
-    "install:all": "npm --prefix ./client install && npm --prefix ./server install"
+    "storybook": "npm --prefix ./client run storybook"
   },
   "license": "ISC"
 }
