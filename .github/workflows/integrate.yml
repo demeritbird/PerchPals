@@ -12,11 +12,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
-      - run: npm ci
 
       - name: create client environemnt
         run: |
           cd ./client
+          npm ci
           touch .env
           echo NODE_ENV=development >> .env
           cat .env
@@ -29,6 +29,7 @@ jobs:
       - name: create server environemnt
         run: |
           cd ./server
+          npm ci
           touch .env
           echo NODE_ENV=development >> .env
           cat .env
