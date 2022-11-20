@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '../../utils/testing-library-utils';
 import EntryPage from './EntryPage';
 
 test('render label names for login and signup', () => {
-  render(<EntryPage />, { wrapper: BrowserRouter });
+  render(<EntryPage />);
 
   const loginTestText = screen.getByText(/log in/i);
   expect(loginTestText).toBeInTheDocument();

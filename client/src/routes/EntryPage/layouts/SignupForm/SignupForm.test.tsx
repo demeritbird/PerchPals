@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '../../../../utils/testing-library-utils';
 import SignupForm from './SignupForm';
 
 test('render label names for signup', () => {
-  render(<SignupForm />, { wrapper: BrowserRouter });
+  render(<SignupForm />);
 
   const signupTestText = screen.getByText(/sign up/i);
   expect(signupTestText).toBeInTheDocument();

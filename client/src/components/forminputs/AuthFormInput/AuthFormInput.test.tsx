@@ -1,6 +1,5 @@
 import React, { createRef } from 'react';
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { render, screen } from '../../../utils/testing-library-utils';
 import AuthFormInput from './AuthFormInput';
 
 test('render authform input', () => {
@@ -15,7 +14,7 @@ test('render authform input', () => {
     >
       testvalue
     </AuthFormInput>,
-    { wrapper: BrowserRouter }
+    {}
   );
 
   const authButtonInput = screen.getByLabelText('testvalue');
