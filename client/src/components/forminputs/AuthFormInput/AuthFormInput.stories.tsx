@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import AuthFormInput from './AuthFormInput';
 
 export default {
-  title: 'Example/AuthFormInput',
+  title: 'Components/AuthFormInput',
   component: AuthFormInput,
   argTypes: {
     backgroundColor: { control: 'color' },
