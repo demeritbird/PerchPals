@@ -67,6 +67,8 @@ function LoginForm() {
     const inputEmail: string = emailInputRef.current.value.trim();
     const inputPassword: string = passwordInputRef.current.value.trim();
 
+    passwordInputRef.current.value = '';
+
     // Client Validation
     if (!loginInputIsValid(inputEmail, inputPassword)) {
       const validationError = {
@@ -96,7 +98,7 @@ function LoginForm() {
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
         <AuthFormInput
           id='email'
-          inputType='text'
+          inputType='email'
           inputRef={emailInputRef}
           onChangeHandler={() => setError(null)}
         >
