@@ -31,8 +31,8 @@ function createSendToken(
   };
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
-  res.cookie('jwt', token, cookieOptions);
   (user.password as unknown) = undefined;
+  res.cookie('jwt', token, cookieOptions);
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -80,3 +80,51 @@ exports.login = catchAsync(
     createSendToken(user, 200, req, res);
   }
 );
+
+interface AuthUserRequest extends Request {
+  user: UserDocument;
+}
+interface JWTPayload {
+  id: string;
+  iat: number;
+  exp: number;
+}
+exports.protect = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    // Get JSON Web Token and check if it's there.
+    let token;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
+    }
+
+    if (!token) {
+      return next(new AppError('You are not logged in! Please log in to get access.', 401));
+    }
+
+    // Verification of token
+    const decoded: JWTPayload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
+
+    // Check if user still exists
+    const freshUser: UserDocument | null = await User.findById(decoded.id);
+    if (!freshUser) {
+      return next(new AppError('Your token has expired! Please log in to get access.', 401));
+    }
+
+    // TODO:
+    // Check if user changed password after the JWT was issued.
+
+    // Grant Access to Protected Route
+    req.user = freshUser;
+    res.locals.user = freshUser;
+    next();
+  }
+);
+
+// TODO: remove me
+exports.testProtect = (req: Request, res: Response, next: NextFunction) => {
+  res.status(200).json({
+    foo: 'bar',
+  });
+};
