@@ -1,2 +1,2 @@
-export { axiosPublic, getJWTHeader } from './axiosInstance';
+export { axiosPublic, axiosPrivate } from './axiosInstance';
 export { logValidity } from './logHelper';

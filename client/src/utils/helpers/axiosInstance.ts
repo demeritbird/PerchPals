@@ -1,13 +1,12 @@
-import Axios from 'axios';
-import { User } from '../types';
+import axios from 'axios';
 
-export const axiosPublic = Axios.create({
+export const axiosPublic = axios.create({
   baseURL: import.meta.env.VITE_LINK,
   headers: { 'Content-Type': 'application/json' },
 });
 
-export function getJWTHeader(user: User): Record<string, string> {
-  if (!user) throw new Error('User not defined!');
-
-  return { Authorization: `Bearer ${user.token}` };
-}
+export const axiosPrivate = axios.create({
+  baseURL: import.meta.env.VITE_LINK,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
+});
