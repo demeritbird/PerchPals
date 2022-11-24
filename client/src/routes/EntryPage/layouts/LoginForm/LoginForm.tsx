@@ -4,7 +4,7 @@ import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
-
+import { useNavigate } from 'react-router-dom';
 import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
 import AuthButton from '../../../../components/buttons/AuthButton';
 
@@ -19,6 +19,7 @@ function loginInputIsValid(email: string, password: string): boolean {
 
 const TAG = '** Login Form';
 function LoginForm() {
+  const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
   const {
     response: authResponse,
@@ -55,10 +56,11 @@ function LoginForm() {
         role: authResponse.data.user.role,
         token: authResponse.token,
       });
-
+      
+      navigate(`/landingpage`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
-  }, [authResponse, authError, setAuthUser]);
+  }, [authResponse, authError, setAuthUser, navigate]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -87,7 +89,7 @@ function LoginForm() {
     };
     authRequest({
       method: 'post',
-      url: '/api/v1/users/login',
+      url: 'api/v1/users/login',
       requestBody,
     });
   }

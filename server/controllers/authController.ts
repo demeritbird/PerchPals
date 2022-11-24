@@ -17,6 +17,7 @@ interface CookieOptions {
   expires: Date;
   httpOnly: boolean;
   secure?: boolean;
+  sameSite: 'none' | 'lax' | 'strict' | boolean | undefined;
 }
 
 function signToken(id: string, tokenSecret: string, expiresIn: string): string {
@@ -60,8 +61,9 @@ function createSendToken(
   const cookieOptions: CookieOptions = {
     expires: new Date(Date.now() + jwtExpiryTime * 24 * 60 * 60 * 1000),
     httpOnly: true,
+    secure: true,
+    sameSite: 'none',
   };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   (user.password as unknown) = undefined;
   res.cookie('jwt', refreshToken, cookieOptions);

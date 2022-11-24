@@ -3,9 +3,9 @@ import React, { Fragment, Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import useAxios from './hooks/useAxios';
+import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
 
-import { axiosPublic } from './utils/helpers';
 import { Roles } from './utils/types';
 
 import EntryPage from './routes/EntryPage';
@@ -13,30 +13,23 @@ const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {
   const { response: testdata, error, loading, axiosRequest: getData } = useAxios();
+  const refresh = useRefreshToken();
 
-  // async function getTestData() {
-  //   await fetch(`${import.meta.env.VITE_LINK}/testdata`, {})
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // }
-
-  function getTestData() {
-    getData({
-      axiosInstance: axiosPublic,
-      method: 'get',
-      url: '/testdata',
-    });
-
+  useEffect(() => {
     console.log(testdata);
-  }
+  }, [testdata]);
 
-  // useEffect(() => {
-  //   getTestData();
-  // }, []);
+  async function getTestData() {
+    getData({
+      method: 'get',
+      url: 'api/v1/users/test',
+    });
+  }
 
   return (
     <Fragment>
       <button onClick={getTestData}>test me</button>
+      <button onClick={refresh}>refresh</button>
       <Routes>
         <Route path='/' element={<EntryPage />} />
         <Route path='/login' element={<EntryPage />} />

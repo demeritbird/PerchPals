@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
@@ -32,6 +33,7 @@ function signupInputIsValid(
 
 const TAG = '** Signup Form';
 function SignupForm() {
+  const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
   const {
     response: authResponse,
@@ -73,8 +75,9 @@ function SignupForm() {
       });
 
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
+      navigate(`/landingpage`);
     }
-  }, [authResponse, authError, setAuthUser]);
+  }, [authResponse, authError, setAuthUser, navigate]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -113,6 +116,7 @@ function SignupForm() {
       passwordConfirm: inputConfirmPassword,
     };
     authRequest({
+      // axiosInstance: axiosPrivate,
       method: 'post',
       url: '/api/v1/users/signup',
       requestBody,

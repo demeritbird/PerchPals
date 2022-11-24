@@ -10,8 +10,7 @@ import { AppError } from './utils/helpers';
 
 const app: Express = express();
 
-app.use(cors());
-app.options('*', cors());
+app.use(cors({ credentials: true, origin: 'http://127.0.0.1:3000' }));
 
 // Development Logging
 if (process.env.NODE_ENV === 'development') {

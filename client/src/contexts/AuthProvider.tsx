@@ -3,7 +3,7 @@ import { CurrentUser } from '../utils/types';
 
 interface AuthContextOptions {
   authUser: CurrentUser;
-  setAuthUser: (prevUser: CurrentUser) => void;
+  setAuthUser: (prevUser: CurrentUser | ((prevUser: CurrentUser) => CurrentUser)) => void;
 }
 const AuthContext = createContext<AuthContextOptions>({
   authUser: null,
@@ -21,7 +21,9 @@ export function AuthProvider(props: Props) {
     setAuthUser: setAuth,
   };
 
-  return <AuthContext.Provider value={authContextValue}>{props.children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authContextValue}>{props.children}</AuthContext.Provider>
+  );
 }
 
 export default AuthContext;

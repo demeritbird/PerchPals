@@ -1,2 +1,2 @@
-export { axiosPublic, axiosPrivate } from './axiosInstance';
+export { axiosInstance } from './axiosInstance';
 export { logValidity } from './logHelper';
