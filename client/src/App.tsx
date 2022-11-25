@@ -3,6 +3,7 @@ import React, { Fragment, Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import useAxios from './hooks/useAxios';
+import useLocalStorage from './hooks/useLocalStorage';
 import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
 
@@ -14,10 +15,19 @@ const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 function App() {
   const { response: testdata, error, loading, axiosRequest: getData } = useAxios();
   const refresh = useRefreshToken();
+  const [store, setStore] = useLocalStorage('key', {
+    name: 'foo',
+  });
 
   useEffect(() => {
     console.log(testdata);
   }, [testdata]);
+
+  useEffect(() => {
+    setStore({
+      name: 'bar',
+    });
+  }, []);
 
   async function getTestData() {
     getData({
@@ -28,6 +38,7 @@ function App() {
 
   return (
     <Fragment>
+      <h1>{store.name}</h1>
       <button onClick={getTestData}>test me</button>
       <button onClick={refresh}>refresh</button>
       <Routes>
