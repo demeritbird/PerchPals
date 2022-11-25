@@ -34,7 +34,7 @@ function signupInputIsValid(
 const TAG = '** Signup Form';
 function SignupForm() {
   const navigate = useNavigate();
-  const { authUser, setAuthUser } = useAuth();
+  const { authUser, setAuthUser, setPersist } = useAuth();
   const {
     response: authResponse,
     error: authError,
@@ -73,11 +73,12 @@ function SignupForm() {
         role: authResponse.data.user.role,
         token: authResponse.token,
       });
+      setPersist('true');
 
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
       navigate(`/landingpage`);
     }
-  }, [authResponse, authError, setAuthUser, navigate]);
+  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();

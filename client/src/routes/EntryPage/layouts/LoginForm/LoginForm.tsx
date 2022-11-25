@@ -20,7 +20,7 @@ function loginInputIsValid(email: string, password: string): boolean {
 const TAG = '** Login Form';
 function LoginForm() {
   const navigate = useNavigate();
-  const { authUser, setAuthUser } = useAuth();
+  const { authUser, setAuthUser, setPersist } = useAuth();
   const {
     response: authResponse,
     error: authError,
@@ -56,11 +56,12 @@ function LoginForm() {
         role: authResponse.data.user.role,
         token: authResponse.token,
       });
-      
+      setPersist('true');
+
       navigate(`/landingpage`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
-  }, [authResponse, authError, setAuthUser, navigate]);
+  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();

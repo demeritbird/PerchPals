@@ -19,12 +19,12 @@ type SetStorage<T> = React.Dispatch<React.SetStateAction<T>>;
 function useLocalStorage<T>(key: string, initialValue: T | null = null): [T, SetStorage<T>] {
   const [state, setState] = useState<T>(() => {
     try {
-      const item = window.localStorage.getItem(key);
+      const item = localStorage.getItem(key);
 
       if (item) {
         return JSON.parse(item);
       } else if (initialValue) {
-        window.localStorage.setItem(key, JSON.stringify(initialValue));
+        localStorage.setItem(key, JSON.stringify(initialValue));
         return initialValue;
       }
     } catch {
@@ -37,7 +37,11 @@ function useLocalStorage<T>(key: string, initialValue: T | null = null): [T, Set
       setState(newState);
       window.localStorage.setItem(key, JSON.stringify(newState));
 
-      logValidity(TAG, Validity.PASS, `key: '${key}' is stored in localStorage!`);
+      logValidity(
+        TAG,
+        Validity.PASS,
+        `key: '${key}', value: '${JSON.stringify(newState)}' is stored in localStorage!`
+      );
     } catch {
       logValidity(
         TAG,

@@ -16,7 +16,7 @@ function useRefreshToken() {
       return null;
     });
     if (!response) {
-      logValidity(TAG, Validity.FAIL, 'There are no current users!');
+      logValidity(TAG, Validity.FAIL, 'There is no current user!');
       return null;
     }
 

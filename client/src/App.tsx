@@ -6,6 +6,7 @@ import useAxios from './hooks/useAxios';
 import useLocalStorage from './hooks/useLocalStorage';
 import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
+import PersistLogin from './routes/PersistLogin';
 
 import { Roles } from './utils/types';
 
@@ -53,11 +54,11 @@ function App() {
             </Suspense>
           }
         />
-
-        <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
-          <Route path='/landingpage' element={<LandingPage />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+            <Route path='/landingpage' element={<LandingPage />} />
+          </Route>
         </Route>
-
         <Route path='/*' element={<h4>error</h4>} />
       </Routes>
     </Fragment>
