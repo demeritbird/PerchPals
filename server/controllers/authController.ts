@@ -198,3 +198,11 @@ exports.refresh = catchAsync(async (req: Request, res: Response, next: NextFunct
     },
   });
 });
+
+exports.logout = (req: Request, res: Response) => {
+  res.clearCookie('jwt');
+
+  res.status(204).json({
+    status: 'success',
+  });
+};
