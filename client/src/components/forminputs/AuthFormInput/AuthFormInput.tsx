@@ -3,7 +3,7 @@ import React, { Fragment, ChangeEventHandler } from 'react';
 interface AuthFormInputProps {
   children: string;
   id: string;
-  inputType: 'text' | 'password';
+  inputType: 'text' | 'email' | 'password';
   inputRef: React.RefObject<HTMLInputElement>;
   onChangeHandler: ChangeEventHandler<HTMLInputElement>;
 }

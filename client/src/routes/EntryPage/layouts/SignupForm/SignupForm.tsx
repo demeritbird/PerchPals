@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
@@ -32,7 +33,8 @@ function signupInputIsValid(
 
 const TAG = '** Signup Form';
 function SignupForm() {
-  const { authUser, setAuthUser } = useAuth();
+  const navigate = useNavigate();
+  const { authUser, setAuthUser, setPersist } = useAuth();
   const {
     response: authResponse,
     error: authError,
@@ -71,10 +73,12 @@ function SignupForm() {
         role: authResponse.data.user.role,
         token: authResponse.token,
       });
+      setPersist('true');
 
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
+      navigate(`/landingpage`);
     }
-  }, [authResponse, authError, setAuthUser]);
+  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -90,6 +94,9 @@ function SignupForm() {
     const inputEmail: string = emailInputRef.current.value.trim();
     const inputPassword: string = passwordInputRef.current.value.trim();
     const inputConfirmPassword: string = confirmPasswordInputRef.current.value.trim();
+
+    passwordInputRef.current.value = '';
+    confirmPasswordInputRef.current.value = '';
 
     // Client Validation
     if (!signupInputIsValid(inputUsername, inputEmail, inputPassword, inputConfirmPassword)) {
@@ -110,6 +117,7 @@ function SignupForm() {
       passwordConfirm: inputConfirmPassword,
     };
     authRequest({
+      // axiosInstance: axiosPrivate,
       method: 'post',
       url: '/api/v1/users/signup',
       requestBody,
@@ -130,7 +138,7 @@ function SignupForm() {
         </AuthFormInput>
         <AuthFormInput
           id='email'
-          inputType='text'
+          inputType='email'
           inputRef={emailInputRef}
           onChangeHandler={() => setError(null)}
         >

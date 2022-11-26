@@ -4,7 +4,7 @@ import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
-
+import { useNavigate } from 'react-router-dom';
 import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
 import AuthButton from '../../../../components/buttons/AuthButton';
 
@@ -14,12 +14,13 @@ interface LoginRequest {
 }
 
 function loginInputIsValid(email: string, password: string): boolean {
-  return email.includes('@') || password.length >= 8;
+  return email.includes('@') && password.length >= 8;
 }
 
 const TAG = '** Login Form';
 function LoginForm() {
-  const { authUser, setAuthUser } = useAuth();
+  const navigate = useNavigate();
+  const { authUser, setAuthUser, setPersist } = useAuth();
   const {
     response: authResponse,
     error: authError,
@@ -55,10 +56,12 @@ function LoginForm() {
         role: authResponse.data.user.role,
         token: authResponse.token,
       });
+      setPersist('true');
 
+      navigate(`/landingpage`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
-  }, [authResponse, authError, setAuthUser]);
+  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -66,6 +69,8 @@ function LoginForm() {
 
     const inputEmail: string = emailInputRef.current.value.trim();
     const inputPassword: string = passwordInputRef.current.value.trim();
+
+    passwordInputRef.current.value = '';
 
     // Client Validation
     if (!loginInputIsValid(inputEmail, inputPassword)) {
@@ -85,7 +90,7 @@ function LoginForm() {
     };
     authRequest({
       method: 'post',
-      url: '/api/v1/users/login',
+      url: 'api/v1/users/login',
       requestBody,
     });
   }
@@ -96,7 +101,7 @@ function LoginForm() {
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
         <AuthFormInput
           id='email'
-          inputType='text'
+          inputType='email'
           inputRef={emailInputRef}
           onChangeHandler={() => setError(null)}
         >
