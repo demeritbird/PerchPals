@@ -10,17 +10,11 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "start": "lerna run --parallel start",
-    "client": "npm --prefix ./packages/client run start",
-    "server": "npm --prefix ./packages/server run start",
-    "storybook": "npm --prefix ./packages/client run storybook"
+    "start:client": "npm --prefix ./client run start",
+    "test:client": "npm --prefix ./client run test",
+    "start:server": "npm --prefix ./server run start",
+    "test:server": "npm --prefix ./server run test",
+    "storybook": "npm --prefix ./client run storybook"
   },
-  "license": "ISC",
-  "workspaces": [
-    "packages/*"
-  ],
-  "devDependencies": {
-    "lerna": "^5.6.2",
-    "nx": "^14.8.3"
-  }
+  "license": "ISC"
 }

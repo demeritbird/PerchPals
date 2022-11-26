@@ -1,0 +1,94 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "serve": "vite preview",
+    "build": "tsc --project ./tsconfig.build.json && vite build",
+    "test": "vitest",
+    "test:watch": "vitest watch",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "testing-library",
+      "jest-dom"
+    ],
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:testing-library/react",
+      "plugin:jest-dom/recommended"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@fvilers/disable-react-devtools": "^1.3.0",
+    "@types/jest": "^29.1.2",
+    "@types/node": "^18.8.5",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^2.2.0",
+    "axios": "^1.1.3",
+    "jsdom": "^16.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.2",
+    "react-router-dom": "^6.4.2",
+    "sass": "^1.55.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.2.2",
+    "vite-plugin-svgr": "^2.2.2",
+    "vite-tsconfig-paths": "^3.5.2",
+    "vitest": "^0.24.5"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-interactions": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/builder-vite": "^0.2.5",
+    "@storybook/manager-webpack5": "^6.5.13",
+    "@storybook/node-logger": "^6.5.13",
+    "@storybook/react": "^6.5.13",
+    "@storybook/testing-library": "^0.0.13",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "eslint": "^8.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-jest-dom": "^4.0.2",
+    "eslint-plugin-testing-library": "^5.9.1",
+    "prop-types": "^15.8.1",
+    "react-test-renderer": "^18.2.0"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom"
+  }
+}

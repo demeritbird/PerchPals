@@ -1,0 +1,22 @@
+@use '../abstracts/variables' as *;
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  background-color: $color-white;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /* 1 rem --> 10px */
+}
+
+::selection {
+  background-color: $color-primary;
+}
