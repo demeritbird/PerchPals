@@ -120,21 +120,26 @@ exports.protect = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     // Get JSON Web Token and check if it's there.
     let accessToken;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
       accessToken = req.headers.authorization.split(' ')[1];
-    }
-
     if (!accessToken) {
       return next(new AppError('You are not logged in! Please log in to get access.', 401));
     }
 
     // 1) Verification of Access Token
-    const decoded: JWTPayload = verifyToken(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET!);
+    let decoded: JWTPayload;
+    try {
+      decoded = verifyToken(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET!);
+    } catch {
+      return next(new AppError('Your access token has expired!', 403));
+    }
 
     // 2) Check if user still exists
     const currentUser: UserDocument | null = await User.findById(decoded.id);
     if (!currentUser) {
-      return next(new AppError('Your token has expired! Please log in to get access.', 401));
+      return next(
+        new AppError('No user with that id was found! Please log in to get access.', 401)
+      );
     }
 
     // TODO:
@@ -156,21 +161,26 @@ exports.testProtect = (req: Request, res: Response) => {
 
 exports.refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
-  if (req.cookies.jwt) {
-    refreshToken = req.cookies.jwt;
-  }
-
+  if (req.cookies.jwt) refreshToken = req.cookies.jwt;
   if (!refreshToken) {
-    return next(new AppError('You are not logged in! Please log in to get accesss.', 401));
+    return next(new AppError('User was not detected! Please log in to get access.', 401));
   }
 
   // 1) Verification of Refresh Token
-  const decoded: JWTPayload = verifyToken(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET!);
+
+  let decoded: JWTPayload;
+  try {
+    decoded = verifyToken(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET!);
+  } catch {
+    return next(new AppError('Your session has expired! Please log in to get access.', 401));
+  }
 
   // 2) Check if user still exists
   const currentUser: UserDocument | null = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(new AppError('Your token has expired! Please log in to get access.', 401));
+    return next(
+      new AppError('No user with that id was found! Please log in to get access.', 401)
+    );
   }
 
   // 3) Pass in new Access Token to useContext

@@ -14,7 +14,7 @@ interface LoginRequest {
 }
 
 function loginInputIsValid(email: string, password: string): boolean {
-  return email.includes('@') || password.length >= 8;
+  return email.includes('@') && password.length >= 8;
 }
 
 const TAG = '** Login Form';

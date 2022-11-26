@@ -18,7 +18,7 @@ interface ResponseAxios {
 
 function useAxios() {
   const [response, setResponse] = useState<ResponseAxios | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
 
@@ -30,6 +30,8 @@ function useAxios() {
 
     try {
       setLoading(true);
+      setError(null);
+
       const controller: AbortController = new AbortController();
       setController(controller);
 
@@ -80,7 +82,9 @@ function useAxios() {
       (response) => response,
       async (error) => {
         let prevRequest = error?.config;
-        if (!prevRequest.sent) {
+        let errResponse = error?.response;
+
+        if (errResponse.status === 403 && !prevRequest.sent) {
           error.config.sent = true;
 
           const newAccessToken: string | null = await refresh();
