@@ -41,7 +41,7 @@ const userSchema = new Schema<UserDocument, UserModel>({
   },
 });
 
-//// Middlwares ////
+//// Middlewares ////
 /**
  * Before creating User Document in database,
  * hash user's password and remove passwordConfirm field.

@@ -46,7 +46,7 @@ const handleJWTError = (): AppError => {
 
 const handleJWTExpiredTokenError = (): AppError => {
   const message: string = `Token has expired. Please log in again!`;
-  return new AppError(message, 401);
+  return new AppError(message, 403);
 };
 
 type JSONEndpoint = Response<string, Record<string, string>>;
