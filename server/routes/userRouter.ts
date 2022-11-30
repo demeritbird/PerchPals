@@ -1,5 +1,6 @@
 import express from 'express';
 import { authController, userController } from '../controllers';
+import { Roles } from '../utils/types';
 
 const router = express.Router();
 
@@ -8,11 +9,17 @@ router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
 router.get('/refresh', authController.refresh);
-router.get('/test', authController.protect, authController.testProtect);
 router.post('/logout', authController.logout);
 
-//// User Information ////
-// TODO: Restrict to Admin-Only operations
+//// User-Restricted Information ////
+router.use(authController.protect);
+
+router.get('/test', authController.testProtect); // TODO: remove me
+// TODO: Add 'getMe' Route
+
+//// Admin-Restricted Information ////
+router.use(authController.restrictTo(Roles.ADMIN, Roles.MASTER));
+
 router.route('/').get(userController.getAllUsers);
 router
   .route('/:id')
