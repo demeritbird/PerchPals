@@ -6,7 +6,7 @@ import { Query } from 'mongoose';
 
 class APIFeatures {
   constructor(
-    private query: Query<unknown, unknown, {}, unknown>,
+    public query: Query<unknown[], unknown, {}, unknown>,
     private readonly queryString: Record<string, string>
   ) {
     this.query = query;
