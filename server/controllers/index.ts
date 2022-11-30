@@ -1,4 +1,4 @@
 import * as authController from './authController';
-const userController = require('./userController');
+import * as userController from './userController';
 const globalErrorHandler = require('./errorController');
 export { authController, userController, globalErrorHandler };

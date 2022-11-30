@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { Model, PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
+import { UserModel } from '../utils/types';
 
-exports.createOne = (Model: Model<unknown>) =>
+type AllModels = UserModel;
+
+export const createOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response) => {
     const doc = await Model.create(req.body);
 
@@ -16,7 +19,7 @@ exports.createOne = (Model: Model<unknown>) =>
 
 // NOTE: change to 'any' if 'PopulatedDoc<any>' does not work,
 // Also, try to remove the explicit 'any' in popOptions typing.
-exports.getOne = (Model: Model<unknown>, popOptions: PopulatedDoc<any> = null) =>
+export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -35,7 +38,7 @@ exports.getOne = (Model: Model<unknown>, popOptions: PopulatedDoc<any> = null) =
 interface QueryRequest extends Request {
   query: Record<string, string>;
 }
-exports.getAll = (Model: Model<unknown>) =>
+export const getAll = (Model: AllModels) =>
   catchAsync(async (req: QueryRequest, res: Response, next: NextFunction) => {
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
@@ -58,7 +61,7 @@ exports.getAll = (Model: Model<unknown>) =>
     });
   });
 
-exports.updateOne = (Model: Model<unknown>) =>
+export const updateOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -74,7 +77,7 @@ exports.updateOne = (Model: Model<unknown>) =>
     });
   });
 
-exports.deleteOne = (Model: Model<unknown>) =>
+export const deleteOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const doc = await Model.findByIdAndDelete(req.params.id);
     if (!doc) return next(new AppError('No document found with that ID', 404));

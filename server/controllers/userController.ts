@@ -1,8 +1,8 @@
-const factory = require('./handlerFactory');
+import * as factory from './handlerFactory';
 import { User } from './../models';
 
-exports.getAllUsers = factory.getAll(User);
-exports.getUser = factory.getOne(User);
+export const getAllUsers = factory.getAll(User);
+export const getUser = factory.getOne(User);
 
-exports.updateUser = factory.updateOne(User);
-exports.deleteUser = factory.deleteOne(User);
+export const updateUser = factory.updateOne(User);
+export const deleteUser = factory.deleteOne(User);
