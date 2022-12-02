@@ -1,0 +1,256 @@
+@use './../../../sass/main' as *;
+
+$large-scale: 'large';
+$medium-scale: 'medium';
+$small-scale: 'small';
+
+$circle-initial-colour: aqua;
+$circle-final-colour: green;
+$shadow-colour: rgba(220, 91, 81, 0.5);
+
+$animation-delay: 0.1s;
+
+//// SMALL DIMENSIONS ////
+$container-height-small: 3rem;
+$container-width-small: 10rem;
+$element-displacement-small: 2rem;
+
+$circle-radius-small: 0.8rem;
+$circle-highest-small: 1.2rem;
+$circle-lowest-small: 2.4rem;
+$circle-resting-small: 2.2rem;
+
+$shadow-height-small: 0.1rem;
+$shadow-width-small: 1rem;
+$shadow-resting-small: 2.5rem;
+
+//// MEDIUM DIMENSIONS  ////
+$medium-mulitplier: 1.5;
+$container-height-medium: multiply($container-height-small, $medium-mulitplier);
+$container-width-medium: multiply($container-width-small, $medium-mulitplier);
+$element-displacement-medium: multiply($element-displacement-small, $medium-mulitplier);
+
+$circle-radius-medium: multiply($circle-radius-small, $medium-mulitplier);
+$circle-highest-medium: multiply($circle-highest-small, $medium-mulitplier);
+$circle-lowest-medium: multiply($circle-lowest-small, $medium-mulitplier);
+$circle-resting-medium: multiply($circle-resting-small, $medium-mulitplier);
+
+$shadow-height-medium: multiply($shadow-height-small, $medium-mulitplier);
+$shadow-width-medium: multiply($shadow-width-small, $medium-mulitplier);
+$shadow-resting-medium: multiply($shadow-resting-small, $medium-mulitplier);
+
+//// LARGE DIMENSIONS  ////
+$large-mulitplier: 2;
+$container-height-large: multiply($container-height-small, $large-mulitplier);
+$container-width-large: multiply($container-width-small, $large-mulitplier);
+$element-displacement-large: multiply($element-displacement-small, $large-mulitplier);
+
+$circle-radius-large: multiply($circle-radius-small, $large-mulitplier);
+$circle-highest-large: multiply($circle-highest-small, $large-mulitplier);
+$circle-lowest-large: multiply($circle-lowest-small, $large-mulitplier);
+$circle-resting-large: multiply($circle-resting-small, $large-mulitplier);
+
+$shadow-height-large: multiply($shadow-height-small, $large-mulitplier);
+$shadow-width-large: multiply($shadow-width-small, $large-mulitplier);
+$shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
+
+/// @param {$large-scale | $medium-scale | $small-scale} $scale
+/// Allows circle to bounce up and down shadow
+/// - circle is at lowest @ 0%, and highest @ 100%
+/// - add a transition colour @ 40% if necessary
+@mixin circle-bounce-animation($scale: $small-scale) {
+  animation: bounce-#{$scale} 0.5s alternate infinite ease;
+
+  @keyframes bounce-small {
+    0% {
+      top: $circle-lowest-small;
+      height: divide($circle-radius-small, 4);
+      background-color: $circle-final-colour;
+      border-radius: 50px 50px 25px 25px;
+      transform: translate(-50%, -50%) scaleX(1.7);
+    }
+    40% {
+      height: $circle-radius-small;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scaleX(1);
+    }
+    100% {
+      top: $circle-highest-small;
+    }
+  }
+  @keyframes bounce-medium {
+    0% {
+      top: $circle-lowest-medium;
+      height: divide($circle-radius-medium, 4);
+      background-color: $circle-final-colour;
+      border-radius: 50px 50px 25px 25px;
+      transform: translate(-50%, -50%) scaleX(1.7);
+    }
+    40% {
+      height: $circle-radius-medium;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scaleX(1);
+    }
+    100% {
+      top: $circle-highest-medium;
+    }
+  }
+  @keyframes bounce-large {
+    0% {
+      top: $circle-lowest-large;
+      height: divide($circle-radius-large, 4);
+      background-color: $circle-final-colour;
+      border-radius: 50px 50px 25px 25px;
+      transform: translate(-50%, -50%) scaleX(1.7);
+    }
+    40% {
+      height: $circle-radius-large;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scaleX(1);
+    }
+    100% {
+      top: $circle-highest-large;
+    }
+  }
+}
+
+/// @param {$large-scale | $medium-scale | $small-scale} $scale
+/// Allows shadow to be cast below circle
+/// - shadow is widest @ 0%, and thinnest @ 100%
+@mixin shadow-bounce-animation($scale: $small-scale) {
+  animation: shadow 0.5s alternate infinite ease;
+
+  @keyframes shadow {
+    0% {
+      transform: translate(-50%, -50%) scaleX(1.5);
+    }
+    40% {
+      transform: translate(-50%, -50%) scaleX(1);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(-50%, -50%) scaleX(0.2);
+      opacity: 0.4;
+    }
+  }
+}
+
+/// @param {number} $firstchild
+/// @param {number} $secondchild
+/// @param {$large-scale | $medium-scale | $small-scale} $size
+/// Shifts elements to the left and right of original child.
+@mixin displace-elements($firstchild, $secondchild, $size) {
+  $width: 0;
+  $displacement: 0;
+  @if $size == $small-scale {
+    $width: $container-width-small;
+    $displacement: $element-displacement-small;
+  } @else if $size == $medium-scale {
+    $width: $container-width-medium;
+    $displacement: $element-displacement-medium;
+  } @else if $size == $large-scale {
+    $width: $container-width-large;
+    $displacement: $element-displacement-large;
+  }
+
+  left: calc($width / 2 - $displacement);
+  &:nth-child(#{$firstchild}) {
+    left: calc($width / 2);
+  }
+  &:nth-child(#{$secondchild}) {
+    left: calc($width / 2 + $displacement);
+  }
+}
+
+/// @param {number} $firstchild
+/// @param {number} $secondchild
+/// Adds animation delay to elements
+@mixin delay-elements($firstchild, $secondchild) {
+  animation-delay: $animation-delay;
+  &:nth-child(#{$firstchild}) {
+    animation-delay: multiply($animation-delay, 2);
+  }
+  &:nth-child(#{$secondchild}) {
+    animation-delay: multiply($animation-delay, 3);
+  }
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+  transform-origin: center;
+
+  &--small {
+    height: $container-height-small;
+    width: $container-width-small;
+  }
+  &--medium {
+    height: $container-height-medium;
+    width: $container-width-medium;
+  }
+  &--large {
+    height: $container-height-large;
+    width: $container-width-large;
+  }
+}
+
+.circle {
+  @include abs-center;
+  z-index: 2;
+  border-radius: 50%;
+  background-color: $circle-initial-colour;
+  @include delay-elements(1, 2);
+
+  &--small {
+    top: $circle-resting-small;
+    height: $circle-radius-small;
+    width: $circle-radius-small;
+    @include circle-bounce-animation($small-scale);
+    @include displace-elements(1, 2, $small-scale);
+  }
+  &--medium {
+    top: $circle-resting-medium;
+    height: $circle-radius-medium;
+    width: $circle-radius-medium;
+    @include circle-bounce-animation($medium-scale);
+    @include displace-elements(1, 2, $medium-scale);
+  }
+  &--large {
+    top: $circle-resting-large;
+    height: $circle-radius-large;
+    width: $circle-radius-large;
+    @include circle-bounce-animation($large-scale);
+    @include displace-elements(1, 2, $large-scale);
+  }
+}
+
+.shadow {
+  @include abs-center;
+  z-index: 1;
+  background-color: $shadow-colour;
+  border-radius: 50%;
+  filter: blur(1px);
+  @include delay-elements(5, 6);
+
+  &--small {
+    top: $shadow-resting-small;
+    height: $shadow-height-small;
+    width: $shadow-width-small;
+    @include shadow-bounce-animation($small-scale);
+    @include displace-elements(5, 6, $small-scale);
+  }
+  &--medium {
+    top: $shadow-resting-medium;
+    height: $shadow-height-medium;
+    width: $shadow-width-medium;
+    @include shadow-bounce-animation($medium-scale);
+    @include displace-elements(5, 6, $medium-scale);
+  }
+  &--large {
+    top: $shadow-resting-large;
+    height: $shadow-height-large;
+    width: $shadow-width-large;
+    @include shadow-bounce-animation($large-scale);
+    @include displace-elements(5, 6, $large-scale);
+  }
+}
