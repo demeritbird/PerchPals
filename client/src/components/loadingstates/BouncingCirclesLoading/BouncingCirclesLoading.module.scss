@@ -6,26 +6,26 @@ $small-scale: 'small';
 
 $circle-initial-colour: aqua;
 $circle-final-colour: green;
-$shadow-colour: rgba(220, 91, 81, 0.5);
+$shadow-colour: black;
 
 $animation-delay: 0.1s;
 
 //// SMALL DIMENSIONS ////
-$container-height-small: 3rem;
-$container-width-small: 10rem;
-$element-displacement-small: 2rem;
+$container-height-small: 1.2rem;
+$container-width-small: 6rem;
+$element-displacement-small: 2.4rem;
 
-$circle-radius-small: 0.8rem;
-$circle-highest-small: 1.2rem;
-$circle-lowest-small: 2.4rem;
-$circle-resting-small: 2.2rem;
+$circle-radius-small: 1rem;
+$circle-highest-small: 0.4rem;
+$circle-lowest-small: 1.6rem;
+$circle-resting-small: 1.2rem;
 
 $shadow-height-small: 0.1rem;
 $shadow-width-small: 1rem;
-$shadow-resting-small: 2.5rem;
+$shadow-resting-small: 1.7rem;
 
 //// MEDIUM DIMENSIONS  ////
-$medium-mulitplier: 1.5;
+$medium-mulitplier: 2;
 $container-height-medium: multiply($container-height-small, $medium-mulitplier);
 $container-width-medium: multiply($container-width-small, $medium-mulitplier);
 $element-displacement-medium: multiply($element-displacement-small, $medium-mulitplier);
@@ -40,7 +40,7 @@ $shadow-width-medium: multiply($shadow-width-small, $medium-mulitplier);
 $shadow-resting-medium: multiply($shadow-resting-small, $medium-mulitplier);
 
 //// LARGE DIMENSIONS  ////
-$large-mulitplier: 2;
+$large-mulitplier: 4;
 $container-height-large: multiply($container-height-small, $large-mulitplier);
 $container-width-large: multiply($container-width-small, $large-mulitplier);
 $element-displacement-large: multiply($element-displacement-small, $large-mulitplier);
