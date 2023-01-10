@@ -1,14 +1,8 @@
 import { Fragment } from 'react';
 import styles from './IconWrapper.module.scss';
 
-export enum IconSize {
-  SMALL = 'small',
-  MEDIUM = 'medium',
-}
-export enum IconStyle {
-  FILL = 'fill',
-  OUTLINE = 'outline',
-}
+export type IconSize = 'SMALL' | 'MEDIUM';
+export type IconStyle = 'FILL' | 'OUTLINE';
 export type IconColour = 'black' | 'blue';
 
 export interface IconProps {
@@ -50,8 +44,8 @@ function IconWrapper(props: IconWrapperProps) {
   );
 
   const IconState = {
-    fill: fillIcon,
-    outline: outlineIcon,
+    FILL: fillIcon,
+    OUTLINE: outlineIcon,
   };
 
   return <Fragment>{IconState[type]}</Fragment>;
