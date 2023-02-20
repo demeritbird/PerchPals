@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
-
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
 
@@ -161,7 +160,9 @@ function SignupForm() {
           Confirm Password:
         </AuthFormInput>
 
-        <AuthButton>Sign Up</AuthButton>
+        <AuthButton isLoading={authLoading} isError={error != null}>
+          Sign Up
+        </AuthButton>
       </form>
 
       <h1>{error ? error.message : 'no error currently'}</h1>

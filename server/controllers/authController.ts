@@ -6,7 +6,7 @@ import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
 import { AppError, catchAsync } from '../utils/helpers';
 
 interface AuthUserRequest extends Request {
-  user: UserDocument;
+  user?: UserDocument;
 }
 interface JWTPayload {
   id: string;
@@ -77,7 +77,7 @@ function createSendToken(
 }
 
 type SignupRequest = Omit<InputUser, 'refreshToken'>;
-exports.signup = catchAsync(
+export const signup = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const inputUser: SignupRequest = {
       name: req.body.name,
@@ -97,7 +97,7 @@ interface LoginRequest {
   email: string;
   password: string;
 }
-exports.login = catchAsync(
+export const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password }: LoginRequest = req.body;
 
@@ -116,7 +116,17 @@ exports.login = catchAsync(
   }
 );
 
-exports.protect = catchAsync(
+export const restrictTo = (...roles: Roles[]) => {
+  return (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    if (!roles.includes(req.user!.role)) {
+      return next(new AppError('You do not have permission to perform this action!', 403));
+    }
+
+    next();
+  };
+};
+
+export const protect = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     // Get JSON Web Token and check if it's there.
     let accessToken;
@@ -153,13 +163,13 @@ exports.protect = catchAsync(
 );
 
 // TODO: remove me
-exports.testProtect = (req: Request, res: Response) => {
+export const testProtect = (req: Request, res: Response) => {
   res.status(200).json({
     foo: 'bar',
   });
 };
 
-exports.refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
   if (req.cookies.jwt) refreshToken = req.cookies.jwt;
   if (!refreshToken) {
@@ -199,7 +209,7 @@ exports.refresh = catchAsync(async (req: Request, res: Response, next: NextFunct
   });
 });
 
-exports.logout = (req: Request, res: Response) => {
+export const logout = (req: Request, res: Response) => {
   res.clearCookie('jwt');
 
   res.status(204).json({

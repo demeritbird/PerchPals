@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
-import { useNavigate } from 'react-router-dom';
+
 import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
 import AuthButton from '../../../../components/buttons/AuthButton';
 
@@ -115,7 +116,9 @@ function LoginForm() {
         >
           Password:
         </AuthFormInput>
-        <AuthButton>Log In</AuthButton>
+        <AuthButton isLoading={authLoading} isError={error != null}>
+          Log In
+        </AuthButton>
       </form>
 
       <h1>{error ? error.message : 'no error currently'}</h1>

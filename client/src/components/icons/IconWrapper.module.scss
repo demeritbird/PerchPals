@@ -1,0 +1,32 @@
+@use './../../sass/main' as *;
+
+.icon {
+  /// Size ///
+  &--small {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  &--medium {
+    height: 3.2rem;
+    width: 3.2rem;
+  }
+
+  /// Colour ///
+  &--black {
+    color: black;
+  }
+  &--blue {
+    color: blue;
+  }
+
+  /// interactive ///
+  &--interact {
+    transition: all 0.2s;
+
+    &:hover {
+      color: #444;
+      cursor: pointer;
+    }
+  }
+}
