@@ -1,6 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { IconSize, IconStyle } from '../IconWrapper';
-
 import KeyIcon from './KeyIcon';
 
 export default {
@@ -12,7 +10,7 @@ const Template: ComponentStory<typeof KeyIcon> = (args) => <KeyIcon {...args} />
 
 export const Component = Template.bind({});
 Component.args = {
-  size: IconSize.SMALL,
-  type: IconStyle.FILL,
+  size: 'small',
+  type: 'fill',
   colour: 'black',
 };

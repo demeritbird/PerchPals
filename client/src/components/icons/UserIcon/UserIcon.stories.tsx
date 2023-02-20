@@ -1,5 +1,4 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { IconSize, IconStyle } from '../IconWrapper';
 
 import UserIcon from './UserIcon';
 
@@ -12,7 +11,7 @@ const Template: ComponentStory<typeof UserIcon> = (args) => <UserIcon {...args} 
 
 export const Component = Template.bind({});
 Component.args = {
-  size: IconSize.SMALL,
-  type: IconStyle.FILL,
+  size: 'small',
+  type: 'fill',
   colour: 'black',
 };

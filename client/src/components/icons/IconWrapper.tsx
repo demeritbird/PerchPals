@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import styles from './IconWrapper.module.scss';
 
-export type IconSize = 'SMALL' | 'MEDIUM';
-export type IconStyle = 'FILL' | 'OUTLINE';
+export type IconSize = 'small' | 'medium';
+export type IconStyle = 'fill' | 'outline';
 export type IconColour = 'black' | 'blue';
 
 export interface IconProps {
@@ -25,7 +25,7 @@ function IconWrapper(props: IconWrapperProps) {
       viewBox='0 0 24 24'
       fill='currentColor'
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon--${size}`]} ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
     >
       <path fillRule='evenodd' clipRule='evenodd' d={pathName.fillPath} />
     </svg>
@@ -37,17 +37,18 @@ function IconWrapper(props: IconWrapperProps) {
       stroke='currentColor'
       strokeWidth={1.6}
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon--${size}`]} ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
     >
       <path strokeLinecap='round' strokeLinejoin='round' d={pathName.outlinePath} />
     </svg>
   );
 
   const IconState = {
-    FILL: fillIcon,
-    OUTLINE: outlineIcon,
+    fill: fillIcon,
+    outline: outlineIcon,
   };
 
   return <Fragment>{IconState[type]}</Fragment>;
 }
+
 export default IconWrapper;
