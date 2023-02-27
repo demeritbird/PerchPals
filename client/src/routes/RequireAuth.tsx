@@ -13,7 +13,7 @@ function RequireAuth(props: AllowedRolesProps) {
   return authUser && allowedRoles.includes(authUser.role) ? (
     <Outlet />
   ) : (
-    <Navigate to='/login' state={{ from: location }} replace />
+    <Navigate to='/auth' state={{ from: location }} replace />
   );
 }
 

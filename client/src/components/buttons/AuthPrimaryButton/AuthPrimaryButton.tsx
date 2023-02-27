@@ -1,14 +1,14 @@
 import { Fragment, MouseEventHandler } from 'react';
 import BouncingCirclesLoading from '../../loadingstates/BouncingCirclesLoading';
-import styles from './AuthButton.module.scss';
+import styles from './AuthPrimaryButton.module.scss';
 
-interface AuthButtonProps {
+interface AuthPrimaryButtonProps {
   children: string;
   isLoading?: boolean;
   isError?: boolean;
   onClickHandler?: MouseEventHandler<HTMLButtonElement>;
 };
-function AuthButton(props: AuthButtonProps) {
+function AuthPrimaryButton(props: AuthPrimaryButtonProps) {
   const { children, isLoading, isError, onClickHandler } = props;
 
   const currentState = (): JSX.Element => {
@@ -31,4 +31,4 @@ function AuthButton(props: AuthButtonProps) {
   );
 }
 
-export default AuthButton;
+export default AuthPrimaryButton;
