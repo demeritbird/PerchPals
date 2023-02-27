@@ -17,6 +17,6 @@ test('render authform input', () => {
     {}
   );
 
-  const authButtonInput = screen.getByLabelText('testvalue');
-  expect(authButtonInput).toBeInTheDocument();
+  const authPrimaryButtonInput = screen.getByLabelText('testvalue');
+  expect(authPrimaryButtonInput).toBeInTheDocument();
 });

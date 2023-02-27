@@ -1,8 +1,8 @@
 import { render, screen } from '../../utils/testing-library-utils';
-import EntryPage from './EntryPage';
+import AuthPage from './AuthPage';
 
 test('render label names for login and signup', () => {
-  render(<EntryPage />);
+  render(<AuthPage />);
 
   const loginTestText = screen.getByText(/log in/i);
   expect(loginTestText).toBeInTheDocument();

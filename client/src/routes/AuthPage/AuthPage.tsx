@@ -1,7 +1,7 @@
 import LoginForm from './layouts/LoginForm';
 import SignupForm from './layouts/SignupForm';
 
-function EntryPage() {
+function AuthPage() {
   return (
     <section>
       <LoginForm />
@@ -10,4 +10,4 @@ function EntryPage() {
   );
 }
 
-export default EntryPage;
+export default AuthPage;

@@ -7,7 +7,7 @@ import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
 
 import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
-import AuthButton from '../../../../components/buttons/AuthButton';
+import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 interface LoginRequest {
   email: string;
@@ -116,9 +116,9 @@ function LoginForm() {
         >
           Password:
         </AuthFormInput>
-        <AuthButton isLoading={authLoading} isError={error != null}>
+        <AuthPrimaryButton isLoading={authLoading} isError={error != null}>
           Log In
-        </AuthButton>
+        </AuthPrimaryButton>
       </form>
 
       <h1>{error ? error.message : 'no error currently'}</h1>

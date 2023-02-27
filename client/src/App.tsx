@@ -10,7 +10,7 @@ import PersistLogin from './routes/PersistLogin';
 
 import { Roles } from './utils/types';
 
-import EntryPage from './routes/EntryPage';
+import AuthPage from './routes/AuthPage';
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {
@@ -43,8 +43,8 @@ function App() {
       <button onClick={getTestData}>test me</button>
       <button onClick={refresh}>refresh</button>
       <Routes>
-        <Route path='/' element={<EntryPage />} />
-        <Route path='/login' element={<EntryPage />} />
+        <Route path='/' element={<AuthPage />} />
+        <Route path='/auth' element={<AuthPage />} />
 
         <Route
           path='/publicpage'
