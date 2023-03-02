@@ -43,26 +43,28 @@ function App() {
       <h1>{store.name}</h1>
       <button onClick={getTestData}>test me</button>
       <button onClick={refresh}>refresh</button>
-      <Routes>
-        <Route path='/' element={<AuthPage />} />
-        <Route path='/auth' element={<AuthPage />} />
+      <Suspense fallback={<div>Suspense Loading...</div>}>
+        <Routes>
+          <Route path='/' element={<AuthPage />} />
+          <Route path='/auth' element={<AuthPage />} />
 
-        <Route
-          path='/publicpage'
-          element={
-            <Suspense fallback={<div>loading...</div>}>
-              <LandingPage />
-            </Suspense>
-          }
-        />
-        <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
-            <Route path='/landingpage' element={<LandingPage />} />
-            <Route path='/profilepage' element={<ProfilePage />} />
+          <Route
+            path='/publicpage'
+            element={
+              <Suspense fallback={<div>loading...</div>}>
+                <LandingPage />
+              </Suspense>
+            }
+          />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+              <Route path='/landingpage' element={<LandingPage />} />
+              <Route path='/profilepage' element={<ProfilePage />} />
+            </Route>
           </Route>
-        </Route>
-        <Route path='/*' element={<h4>error</h4>} />
-      </Routes>
+          <Route path='/*' element={<h4>error</h4>} />
+        </Routes>
+      </Suspense>
     </Fragment>
   );
 }

@@ -11,11 +11,13 @@ router.post('/login', authController.login);
 router.get('/refresh', authController.refresh);
 router.post('/logout', authController.logout);
 
+
+
 //// User-Restricted Information ////
 router.use(authController.protect);
 
 router.get('/test', authController.testProtect); // TODO: remove me
-// TODO: Add 'getMe' Route
+router.get('/me', userController.getMe, userController.getUser);
 
 //// Admin-Restricted Information ////
 router.use(authController.restrictTo(Roles.ADMIN, Roles.MASTER));

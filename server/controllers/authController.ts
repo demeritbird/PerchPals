@@ -2,12 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 import { User } from './../models';
-import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
+import { InputUser, UserDocument, UserRequest, Roles, StatusCode } from './../utils/types';
 import { AppError, catchAsync } from '../utils/helpers';
 
-interface AuthUserRequest extends Request {
-  user?: UserDocument;
-}
 interface JWTPayload {
   id: string;
   iat: number;
@@ -117,7 +114,7 @@ export const login = catchAsync(
 );
 
 export const restrictTo = (...roles: Roles[]) => {
-  return (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  return (req: UserRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user!.role)) {
       return next(new AppError('You do not have permission to perform this action!', 403));
     }
@@ -127,7 +124,7 @@ export const restrictTo = (...roles: Roles[]) => {
 };
 
 export const protect = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     // Get JSON Web Token and check if it's there.
     let accessToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
