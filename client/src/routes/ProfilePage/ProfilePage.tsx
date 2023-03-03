@@ -3,7 +3,7 @@ import useAxios from '../../hooks/useAxios';
 import styles from './ProfilePage.module.scss';
 
 function ProfilePage() {
-  const { response, error, loading, axiosRequest, axiosWrapper } = useAxios();
+  const { response, axiosRequest, axiosWrapper } = useAxios();
   async function getProfileData() {
     axiosRequest({
       method: 'get',

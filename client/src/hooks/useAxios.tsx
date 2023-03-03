@@ -12,30 +12,20 @@ interface AxiosRequest {
     [key: string]: any;
   };
 }
-
 interface AxiosWrapper {
-  blankComp?: JSX.Element;
   loadingComp?: JSX.Element;
   errorComp?: JSX.Element;
   successComp?: JSX.Element;
 }
-
 interface AxiosResponse {
   [key: string]: any;
-}
-enum AxiosResponseState {
-  BLANK = 'blank',
-  ERROR = 'error',
-  LOADING = 'loading',
-  SUCCESS = 'success',
 }
 
 function useAxios() {
   const [response, setResponse] = useState<AxiosResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
-  const stateRef = useRef<AxiosResponseState>(AxiosResponseState.BLANK);
 
   const { authUser } = useAuth();
   const refresh = useRefreshToken();
@@ -44,9 +34,8 @@ function useAxios() {
     const { method, url, requestBody = {} } = requestObj;
 
     try {
-      stateRef.current = AxiosResponseState.LOADING;
+      setError('');
       setLoading(true);
-      setError(null);
 
       const controller: AbortController = new AbortController();
       setController(controller);
@@ -57,7 +46,6 @@ function useAxios() {
         signal: controller.signal,
       });
 
-      stateRef.current = AxiosResponseState.SUCCESS;
       setResponse(res.data);
     } catch (error) {
       let message;
@@ -69,7 +57,6 @@ function useAxios() {
         message = String(error);
       }
 
-      stateRef.current = AxiosResponseState.ERROR;
       setError(message);
     } finally {
       setLoading(false);
@@ -77,22 +64,22 @@ function useAxios() {
   }
 
   function axiosWrapper(wrapperObj: AxiosWrapper): JSX.Element {
-    const { blankComp, errorComp, loadingComp, successComp } = wrapperObj;
+    const { errorComp, loadingComp, successComp } = wrapperObj;
 
-    const curComponent = {
-      blank: blankComp || <Fragment />,
-      error: errorComp || <Fragment />,
-      loading: loadingComp || <Fragment />,
-      success: successComp || <Fragment />,
+    const blankComponent = <Fragment />;
+    const allComponents = {
+      error: errorComp,
+      loading: loadingComp,
+      success: successComp,
     };
-
-    if (!response && stateRef.current === AxiosResponseState.SUCCESS) {
-      if (error) stateRef.current = AxiosResponseState.ERROR;
-      else if (loading) stateRef.current = AxiosResponseState.LOADING;
-      else stateRef.current = AxiosResponseState.BLANK;
+    let selComponent: keyof typeof allComponents = 'success';
+    if (!response || error) {
+      if (error && allComponents['error']) selComponent = 'error';
+      else if (loading && allComponents['loading']) selComponent = 'loading';
+      else return blankComponent;
     }
 
-    return <Fragment>{curComponent[stateRef.current]}</Fragment>;
+    return <Fragment>{allComponents[selComponent]}</Fragment>;
   }
 
   useEffect(() => {
@@ -147,7 +134,8 @@ function useAxios() {
   return {
     response,
     error,
-    loading,
+    isError: error as unknown as boolean,
+    isLoading: loading,
     axiosRequest,
     axiosWrapper,
   };

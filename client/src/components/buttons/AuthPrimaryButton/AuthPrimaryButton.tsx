@@ -7,7 +7,7 @@ interface AuthPrimaryButtonProps {
   isLoading?: boolean;
   isError?: boolean;
   onClickHandler?: MouseEventHandler<HTMLButtonElement>;
-};
+}
 function AuthPrimaryButton(props: AuthPrimaryButtonProps) {
   const { children, isLoading, isError, onClickHandler } = props;
 
