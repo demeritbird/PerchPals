@@ -5,7 +5,7 @@ import { axiosInstance } from '../utils/helpers';
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
 
-interface ConfigAxios {
+interface AxiosRequest {
   method: 'get' | 'post' | 'patch' | 'delete';
   url: string;
   requestBody?: {
@@ -20,7 +20,7 @@ interface AxiosWrapper {
   successComp?: JSX.Element;
 }
 
-interface ResponseAxios {
+interface AxiosResponse {
   [key: string]: any;
 }
 enum AxiosResponseState {
@@ -31,7 +31,7 @@ enum AxiosResponseState {
 }
 
 function useAxios() {
-  const [response, setResponse] = useState<ResponseAxios | null>(null);
+  const [response, setResponse] = useState<AxiosResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
@@ -40,8 +40,8 @@ function useAxios() {
   const { authUser } = useAuth();
   const refresh = useRefreshToken();
 
-  async function axiosRequest(configObj: ConfigAxios): Promise<void> {
-    const { method, url, requestBody = {} } = configObj;
+  async function axiosRequest(requestObj: AxiosRequest): Promise<void> {
+    const { method, url, requestBody = {} } = requestObj;
 
     try {
       stateRef.current = AxiosResponseState.LOADING;
