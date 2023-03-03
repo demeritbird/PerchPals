@@ -2,30 +2,27 @@ import { useEffect, Fragment } from 'react';
 import useAxios from '../../hooks/useAxios';
 import styles from './ProfilePage.module.scss';
 
-interface ProfileDataType {
-  email: string;
-  name: string;
-}
-
 function ProfilePage() {
-  const { response, error, loading, axiosRequest } = useAxios();
+  const { response, error, loading, axiosRequest, axiosWrapper } = useAxios();
   async function getProfileData() {
     axiosRequest({
       method: 'get',
       url: 'api/v1/users/me',
     });
   }
+  const profileData = axiosWrapper({
+    loadingComp: <div>loading</div>,
+    errorComp: <div>error</div>,
+    successComp: <div>{response?.data.data.name}</div>,
+  });
 
   useEffect(() => {
     getProfileData();
   }, []);
-
-  const profileData: ProfileDataType = response ? response!.data.data : null;
-
   return (
     <Fragment>
       <h2>Profile Page</h2>
-      <div>{response ? profileData.name : 'no profile'}</div>
+      <div className=''>{profileData}</div>
     </Fragment>
   );
 }

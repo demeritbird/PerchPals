@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { AxiosError } from 'axios';
 import { axiosInstance } from '../utils/helpers';
 
@@ -12,8 +12,22 @@ interface ConfigAxios {
     [key: string]: any;
   };
 }
+
+interface AxiosWrapper {
+  blankComp?: JSX.Element;
+  loadingComp?: JSX.Element;
+  errorComp?: JSX.Element;
+  successComp?: JSX.Element;
+}
+
 interface ResponseAxios {
   [key: string]: any;
+}
+enum AxiosResponseState {
+  BLANK = 'blank',
+  ERROR = 'error',
+  LOADING = 'loading',
+  SUCCESS = 'success',
 }
 
 function useAxios() {
@@ -21,6 +35,7 @@ function useAxios() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
+  const stateRef = useRef<AxiosResponseState>(AxiosResponseState.BLANK);
 
   const { authUser } = useAuth();
   const refresh = useRefreshToken();
@@ -29,6 +44,7 @@ function useAxios() {
     const { method, url, requestBody = {} } = configObj;
 
     try {
+      stateRef.current = AxiosResponseState.LOADING;
       setLoading(true);
       setError(null);
 
@@ -41,6 +57,7 @@ function useAxios() {
         signal: controller.signal,
       });
 
+      stateRef.current = AxiosResponseState.SUCCESS;
       setResponse(res.data);
     } catch (error) {
       let message;
@@ -52,10 +69,30 @@ function useAxios() {
         message = String(error);
       }
 
+      stateRef.current = AxiosResponseState.ERROR;
       setError(message);
     } finally {
       setLoading(false);
     }
+  }
+
+  function axiosWrapper(wrapperObj: AxiosWrapper): JSX.Element {
+    const { blankComp, errorComp, loadingComp, successComp } = wrapperObj;
+
+    const curComponent = {
+      blank: blankComp || <Fragment />,
+      error: errorComp || <Fragment />,
+      loading: loadingComp || <Fragment />,
+      success: successComp || <Fragment />,
+    };
+
+    if (!response && stateRef.current === AxiosResponseState.SUCCESS) {
+      if (error) stateRef.current = AxiosResponseState.ERROR;
+      else if (loading) stateRef.current = AxiosResponseState.LOADING;
+      else stateRef.current = AxiosResponseState.BLANK;
+    }
+
+    return <Fragment>{curComponent[stateRef.current]}</Fragment>;
   }
 
   useEffect(() => {
@@ -107,7 +144,13 @@ function useAxios() {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return { response, error, loading, axiosRequest };
+  return {
+    response,
+    error,
+    loading,
+    axiosRequest,
+    axiosWrapper,
+  };
 }
 
 export default useAxios;
