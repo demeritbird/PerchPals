@@ -16,5 +16,9 @@
     "test:server": "npm --prefix ./server run test",
     "storybook": "npm --prefix ./client run storybook"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/html-to-text": "^9.0.0",
+    "@types/pug": "^2.0.6"
+  }
 }
