@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { User } from './../models';
 import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
-import { AppError, catchAsync } from '../utils/helpers';
+import { AppError, catchAsync, EmailService } from '../utils/helpers';
 
 interface AuthUserRequest extends Request {
   user?: UserDocument;
@@ -168,6 +168,22 @@ export const testProtect = (req: Request, res: Response) => {
     foo: 'bar',
   });
 };
+export const testEmail = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const user: UserDocument | null = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError('There is no user with email address.', 404));
+    }
+    await new EmailService(
+      user,
+      `${req.protocol}://${req.get('host')}/api/v1/users/me`
+    ).sendWelcomeEmail();
+
+    res.status(204).json({
+      status: 'success',
+    });
+  }
+);
 
 export const refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
