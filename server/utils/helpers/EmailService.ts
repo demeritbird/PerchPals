@@ -39,8 +39,12 @@ class EmailService {
     } as TransportOptions);
   }
 
-  async sendEmail(subject: string, template: string = ''): Promise<void> {
-    const html = '<div>test email without pug</div>'; // TODO: change me back to pug templates
+  async sendEmail(template: string, subject: string): Promise<void> {
+    const html = pug.renderFile(`${__dirname}` + `/../../views/email/${template}.pug`, {
+      name: this.name,
+      url: this.url,
+      subject,
+    });
 
     const mailOptions = {
       from: this.from,
@@ -54,7 +58,7 @@ class EmailService {
   }
 
   async sendWelcomeEmail(): Promise<void> {
-    await this.sendEmail('You have signed up!');
+    await this.sendEmail('welcomeEmail', 'You have signed up!');
   }
 
   // // TODO: change password
