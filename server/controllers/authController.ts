@@ -232,3 +232,21 @@ export const logout = (req: Request, res: Response) => {
     status: 'success',
   });
 };
+
+export const forgetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user: UserDocument | null = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError('There is no user with email address.', 404));
+    }
+
+    // TODO: Forget Password Functionality
+    // NOTE: This should bring you to a new webpage/space to execute new resetPassword fn.
+    // 1. Generate random reset token
+    // 2. Send it to user's email
+    // 3. (on error?) undefine user.passwordResetToken & user.passwordResetExpires
+    //   3.1 how to change user stuff if passwordResetExpires has expired?
+
+    next();
+  }
+);

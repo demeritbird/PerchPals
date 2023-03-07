@@ -16,6 +16,7 @@ router.use(authController.protect);
 
 router.get('/test', authController.testProtect); // TODO: remove me
 router.get('/email', authController.testEmail);
+router.post('/forgetPassword', authController.forgetPassword);
 // TODO: Add 'getMe' Route
 
 //// Admin-Restricted Information ////
