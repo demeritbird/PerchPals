@@ -20,25 +20,45 @@ interface CookieOptions {
   sameSite: 'none' | 'lax' | 'strict' | boolean | undefined;
 }
 
+/**
+ * Sign user's _id payload as a JWT token.
+ *
+ * @param id          UserDocument's _id
+ * @param tokenSecret JWT secret string
+ * @param expiresIn   time before this token expires (in seconds) as a string
+ * @returns a JWT-signed token as a string
+ */
 function signToken(id: string, tokenSecret: string, expiresIn: string): string {
   return jwt.sign({ id }, tokenSecret, { expiresIn });
 }
+/**
+ * Verifies JWT token against JWT secret.
+ * - If valid, returns decoded string.
+ * - Otherwise, return an error.
+ *
+ * @param token       JWT-signed token
+ * @param tokenSecret JWT secret string
+ * @returns decoded _id previously signed.
+ */
 function verifyToken(token: string, tokenSecret: string): JWTPayload {
+  // FIXME: should catch error here if validation fails instead of at parent middleware.
   return jwt.verify(token, tokenSecret) as JWTPayload;
 }
 
 /**
- * Creates 2 tokens upon successful Authentication:
- * - Access Token --> short-lived token for processing user requests via protect route.
- * - Refresh Token --> long-lived token used to refresh accesstokens upon new access in client.
+ * Returns two tokens and user information upon successful Authentication:
+ * - Access Token  --> short-lived token for processing auth requests via protect route,
+ *                     saved in memory
+ * - Refresh Token --> long-lived token used to refresh accesstokens upon new access in client,
+ *                     saved in JWT cookie.
  *
  * Then removes password field from response.
- * - By this time, confirmPassword field should have already been remove.
+ * - By this time, confirmPassword field should have already been removed.
  *
- * @param user Authenticated User Document from Model
+ * @param user       Authenticated User Document from Model
  * @param statusCode Success HTTP code to send to browser
- * @param req passed on Request from controller.
- * @param res passed on Response from controller.
+ * @param req        passed on Request from controller.
+ * @param res        passed on Response from controller.
  */
 function createSendToken(
   user: UserDocument,
@@ -49,12 +69,12 @@ function createSendToken(
   const accessToken: string = signToken(
     user._id.toString(),
     process.env.JWT_ACCESS_TOKEN_SECRET!,
-    process.env.JWT_ACCESS_TOKEN_EXPIRES_IN! // 15s
+    process.env.JWT_ACCESS_TOKEN_EXPIRES_IN!
   );
   const refreshToken: string = signToken(
     user._id.toString(),
     process.env.JWT_REFRESH_TOKEN_SECRET!,
-    process.env.JWT_REFRESH_TOKEN_EXPIRES_IN! // 1d
+    process.env.JWT_REFRESH_TOKEN_EXPIRES_IN!
   );
 
   const jwtExpiryTime: number = +process.env.JWT_COOKIE_EXPIRES_IN!;
@@ -101,13 +121,11 @@ export const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password }: LoginRequest = req.body;
 
-    // 1) Check if email and password field exist
     if (!email || !password) {
       return next(new AppError('Please provide email and password!', 400));
     }
-    // 2) Check if user exists && password is correct
-    const user: UserDocument | null = await User.findOne({ email }).select('+password');
 
+    const user: UserDocument | null = await User.findOne({ email }).select('+password');
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
     }
@@ -128,7 +146,6 @@ export const restrictTo = (...roles: Roles[]) => {
 
 export const protect = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    // Get JSON Web Token and check if it's there.
     let accessToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
       accessToken = req.headers.authorization.split(' ')[1];
@@ -136,15 +153,12 @@ export const protect = catchAsync(
       return next(new AppError('You are not logged in! Please log in to get access.', 401));
     }
 
-    // 1) Verification of Access Token
     let decoded: JWTPayload;
     try {
       decoded = verifyToken(accessToken, process.env.JWT_ACCESS_TOKEN_SECRET!);
     } catch {
       return next(new AppError('Your access token has expired!', 403));
     }
-
-    // 2) Check if user still exists
     const currentUser: UserDocument | null = await User.findById(decoded.id);
     if (!currentUser) {
       return next(
@@ -152,10 +166,9 @@ export const protect = catchAsync(
       );
     }
 
-    // TODO:
-    // Check if user changed password after the JWT was issued.
+    // TODO: Check if user changed password after the JWT was issued.
 
-    // 3) Grant Access to Protected Route
+    // Make available user information to next middleware
     req.user = currentUser;
     res.locals.user = currentUser;
     next();
@@ -169,16 +182,12 @@ export const refresh = catchAsync(async (req: Request, res: Response, next: Next
     return next(new AppError('User was not detected! Please log in to get access.', 401));
   }
 
-  // 1) Verification of Refresh Token
-
   let decoded: JWTPayload;
   try {
     decoded = verifyToken(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET!);
   } catch {
     return next(new AppError('Your session has expired! Please log in to get access.', 401));
   }
-
-  // 2) Check if user still exists
   const currentUser: UserDocument | null = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
@@ -186,7 +195,6 @@ export const refresh = catchAsync(async (req: Request, res: Response, next: Next
     );
   }
 
-  // 3) Pass in new Access Token to useContext
   const accessToken: string = signToken(
     currentUser._id.toString(),
     process.env.JWT_ACCESS_TOKEN_SECRET!,
