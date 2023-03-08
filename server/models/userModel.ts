@@ -1,6 +1,7 @@
 import mongoose, { Schema, SchemaValidator } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 import { InputUser, UserDocument, UserModel, Roles } from './../utils/types';
 
@@ -39,6 +40,8 @@ const userSchema = new Schema<UserDocument, UserModel>({
       message: 'Passwords are not the same!',
     },
   },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 });
 
 //// Middlewares ////
@@ -67,6 +70,21 @@ userSchema.methods.correctPassword = async function (
   userPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+/**
+ * Creates a hashed token,
+ * then update User's passwordReset-related fields accordingly.
+ *
+ * @returns {string} hashed string token for future authentication.
+ */
+userSchema.methods.createPasswordResetToken = function (): string {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
 };
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);

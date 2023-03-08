@@ -1,4 +1,4 @@
-import { Types, Model } from 'mongoose';
+import { Types, Model, Document } from 'mongoose';
 
 export type StatusCode =
   // Success Responses
@@ -21,11 +21,15 @@ export interface InputUser {
   role: Roles;
   password: string;
   passwordConfirm: string;
+
+  passwordResetToken?: string;
+  passwordResetExpires?: Date;
 }
 // User Document & Instance Methods
 export interface UserDocument extends InputUser, Document {
   _id: Types.ObjectId;
   correctPassword: (candidatePassword: string, userPassword: string) => Promise<boolean>;
+  createPasswordResetToken: () => string;
 }
 // User Static Methods
 export interface UserModel extends Model<UserDocument> {

@@ -61,10 +61,13 @@ class EmailService {
     await this.sendEmail('welcomeEmail', 'You have signed up!');
   }
 
-  // // TODO: change password
-  // async sendPasswordResetEmail() {
-  //   await this.send('passwordReset', 'Your password reset token (valid for only 10 minutes)');
-  // }
+  // TODO: change password
+  async sendPasswordResetEmail() {
+    await this.sendEmail(
+      'passwordReset',
+      'Your password reset token (valid for only 10 minutes)'
+    );
+  }
 }
 
 export default EmailService;

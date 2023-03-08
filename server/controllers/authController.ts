@@ -240,13 +240,25 @@ export const forgetPassword = catchAsync(
       return next(new AppError('There is no user with email address.', 404));
     }
 
-    // TODO: Forget Password Functionality
-    // NOTE: This should bring you to a new webpage/space to execute new resetPassword fn.
-    // 1. Generate random reset token
-    // 2. Send it to user's email
-    // 3. (on error?) undefine user.passwordResetToken & user.passwordResetExpires
-    //   3.1 how to change user stuff if passwordResetExpires has expired?
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
 
-    next();
+    try {
+      const resetURL = `${req.protocol}://${req.get(
+        'host'
+      )}/api/v1/users/resetPassword/${resetToken}`;
+      await new EmailService(user, resetURL).sendPasswordResetEmail();
+
+      res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!',
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError('There was an error sending the email. Try again later!', 500));
+    }
   }
 );
