@@ -162,29 +162,6 @@ export const protect = catchAsync(
   }
 );
 
-// TODO: remove me
-export const testProtect = (req: Request, res: Response) => {
-  res.status(200).json({
-    foo: 'bar',
-  });
-};
-export const testEmail = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const user: UserDocument | null = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return next(new AppError('There is no user with email address.', 404));
-    }
-    await new EmailService(
-      user,
-      `${req.protocol}://${req.get('host')}/api/v1/users/me`
-    ).sendWelcomeEmail();
-
-    res.status(204).json({
-      status: 'success',
-    });
-  }
-);
-
 export const refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
   if (req.cookies.jwt) refreshToken = req.cookies.jwt;
