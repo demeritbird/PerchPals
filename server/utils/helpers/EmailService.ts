@@ -4,12 +4,24 @@ import { htmlToText } from 'html-to-text';
 
 import { UserDocument } from '../types';
 
+/**
+ * Renders email's message using Pug template,
+ * then sends email to selected user using SendGrid/Mailtrap depending on NODE_ENV.
+ *
+ * @example
+ * await new EmailService(Document, `${req.protocol}://${req.get('host')}/api/v1/(...)`).sendSomeEmailFn();
+ */
 class EmailService {
   private to: string;
   private name: string;
   private url: string;
   private from: string;
 
+  /**
+   * @param user - Selected UserDocument
+   * @param url  - FIXME: optional --> set default param
+   *               link to be rendered in email for user to click
+   */
   constructor(user: UserDocument, url: string) {
     this.from = `${process.env.USER_FROM} <${process.env.EMAIL_FROM}>`;
     this.to = user.email;
@@ -18,6 +30,8 @@ class EmailService {
   }
 
   newTransport(): nodemailer.Transporter<unknown> {
+    // Uses SendGrid to send prod email
+    // - Link: https://app.sendgrid.com/
     if (process.env.NODE_ENV === 'production') {
       return nodemailer.createTransport({
         service: 'SendGrid',
@@ -29,6 +43,8 @@ class EmailService {
       } as TransportOptions);
     }
 
+    // Uses MailTrap to dev inbox
+    // - Link: https://mailtrap.io/inboxes/1892064/messages
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
@@ -39,6 +55,10 @@ class EmailService {
     } as TransportOptions);
   }
 
+  /**
+   * @param template - a filename (in string) from views/email folder
+   * @param subject  - email subject shown when mail is sent
+   */
   async sendEmail(template: string, subject: string): Promise<void> {
     const html = pug.renderFile(`${__dirname}` + `/../../views/email/${template}.pug`, {
       name: this.name,
@@ -57,6 +77,7 @@ class EmailService {
     await this.newTransport().sendMail(mailOptions);
   }
 
+  //// Email Templates ////
   async sendWelcomeEmail(): Promise<void> {
     await this.sendEmail('welcomeEmail', 'You have signed up!');
   }
