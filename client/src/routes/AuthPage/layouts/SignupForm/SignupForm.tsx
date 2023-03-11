@@ -6,7 +6,7 @@ import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
 
-import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
+import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 interface SignupRequest {
