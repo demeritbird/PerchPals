@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import crypto, { createHmac } from 'crypto';
 
 import { User } from './../models';
 import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
@@ -244,6 +245,7 @@ export const forgetPassword = catchAsync(
     await user.save({ validateBeforeSave: false });
 
     try {
+      // Hashed token sent as a link to user
       const resetURL = `${req.protocol}://${req.get(
         'host'
       )}/api/v1/users/resetPassword/${resetToken}`;
@@ -254,11 +256,46 @@ export const forgetPassword = catchAsync(
         message: 'Token sent to email!',
       });
     } catch (err) {
+      // Cancel request entirely if error
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;
       await user.save({ validateBeforeSave: false });
 
       return next(new AppError('There was an error sending the email. Try again later!', 500));
     }
+  }
+);
+
+/**
+ * Requires user to go through /forgotpassword route first before being able to use this.
+ * // TODO: Is there any way to undefine unwanted fields if request is ignored?
+ */
+export const resetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // req.params.token is a 64 character long random string.
+    // param from email sent from /forgotpassword route inside a link,
+    const hashedToken: string = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
+
+    const user: UserDocument | null = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() }, // fail request if token is expired
+    });
+    if (!user) {
+      return next(new AppError('Password Reset Token is invalid or has expired', 400));
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    // We will need to remove unnecessary fields as well.
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(204).json({
+      status: 'success',
+    });
   }
 );

@@ -63,7 +63,7 @@ userSchema.pre('save', async function (next) {
  *
  * @param candidatePassword Incoming password from user during authentication.
  * @param userPassword User's currently saved password in database.
- * @returns a Promise<boolean> whether both hashed passwords are the same.
+ * @returns {Promise<boolean>} whether both hashed passwords are the same.
  */
 userSchema.methods.correctPassword = async function (
   candidatePassword: string,
@@ -73,16 +73,16 @@ userSchema.methods.correctPassword = async function (
 };
 
 /**
- * Creates a hashed token,
+ * Creates a 64 chars long hashed token,
  * then update User's passwordReset-related fields accordingly.
  *
  * @returns {string} hashed string token for future authentication.
  */
 userSchema.methods.createPasswordResetToken = function (): string {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken: string = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10mins
 
   return resetToken;
 };
