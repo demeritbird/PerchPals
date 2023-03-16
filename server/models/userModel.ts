@@ -42,6 +42,11 @@ const userSchema = new Schema<UserDocument, UserModel>({
   },
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  activationToken: String,
 });
 
 //// Middlewares ////
@@ -70,6 +75,20 @@ userSchema.methods.correctPassword = async function (
   userPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+/**
+ * Creates a 6 chars long hashed token,
+ * then update User's activation-related fields accordingly.
+ *
+ * @returns {string} hashed string token for user activation.
+ */
+userSchema.methods.createActivationToken = function (): string {
+  const activationToken: string = crypto.randomBytes(3).toString('hex');
+
+  this.activationToken = crypto.createHash('sha256').update(activationToken).digest('hex');
+
+  return activationToken;
 };
 
 /**

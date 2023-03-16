@@ -79,7 +79,7 @@ function createSendToken(
 
 type SignupRequest = Omit<InputUser, 'refreshToken'>;
 export const signup = catchAsync(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
     const inputUser: SignupRequest = {
       name: req.body.name,
       email: req.body.email,
@@ -87,10 +87,61 @@ export const signup = catchAsync(
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
+      active: false,
     };
     const newUser: UserDocument = await User.create(inputUser);
 
-    createSendToken(newUser, 201, req, res);
+    // pass user information into sendActivate route
+    req.user = newUser;
+    res.locals.user = newUser;
+    next();
+  }
+);
+
+export const sendActivate = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
+    const user = req.user!;
+
+    const activationToken: string = user.createActivationToken();
+    await user.save({ validateBeforeSave: false });
+
+    try {
+      await new EmailService(
+        user,
+        `${req.protocol}://${req.get('host')}/api/v1/newUsers/activate/${user._id}`
+      ).sendWelcomeEmail(activationToken);
+
+      res.status(204).json({
+        status: 'success',
+      });
+    } catch (err) {
+      // Cancel request entirely if error
+      user.activationToken = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError('There was an error sending the email. Try again later!', 500));
+    }
+  }
+);
+
+export const confirmActivate = catchAsync(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const hashedToken: string = crypto
+      .createHash('sha256')
+      .update(req.body.token)
+      .digest('hex');
+
+    const user: UserDocument | null = await User.findOne({
+      activationToken: hashedToken,
+    });
+    if (!user) {
+      return next(new AppError('There is no user with email address.', 404));
+    }
+
+    user.active = true;
+    user.activationToken = undefined;
+    await user.save({ validateBeforeSave: false });
+    createSendToken(user, 200, req, res);
   }
 );
 
@@ -108,9 +159,12 @@ export const login = catchAsync(
     }
     // 2) Check if user exists && password is correct
     const user: UserDocument | null = await User.findOne({ email }).select('+password');
-
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
+    }
+    // User needs to activate account before logging in.
+    if (!user.active) {
+      return next(new AppError('Account has not been activated!', 401));
     }
 
     createSendToken(user, 200, req, res);
@@ -170,7 +224,7 @@ export const testProtect = (req: Request, res: Response) => {
   });
 };
 export const testEmail = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const user: UserDocument | null = await User.findOne({ email: req.body.email });
     if (!user) {
       return next(new AppError('There is no user with email address.', 404));
@@ -178,7 +232,7 @@ export const testEmail = catchAsync(
     await new EmailService(
       user,
       `${req.protocol}://${req.get('host')}/api/v1/users/me`
-    ).sendWelcomeEmail();
+    ).sendWelcomeEmail('test');
 
     res.status(204).json({
       status: 'success',

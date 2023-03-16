@@ -24,11 +24,15 @@ export interface InputUser {
 
   passwordResetToken?: string;
   passwordResetExpires?: Date;
+
+  active: boolean;
+  activationToken?: string;
 }
 // User Document & Instance Methods
 export interface UserDocument extends InputUser, Document {
   _id: Types.ObjectId;
   correctPassword: (candidatePassword: string, userPassword: string) => Promise<boolean>;
+  createActivationToken: () => string;
   createPasswordResetToken: () => string;
 }
 // User Static Methods
