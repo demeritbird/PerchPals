@@ -1,10 +1,15 @@
 /// <reference types='vitest' />
 /// <reference types='vite/client' />
 
-import { defineConfig } from 'vite';
+import { UserConfig, defineConfig } from 'vite';
+import type { InlineConfig } from 'vitest';
 import react from '@vitejs/plugin-react';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import svgrPlugin from 'vite-plugin-svgr';
+
+interface VitestConfigExport extends UserConfig {
+  test: InlineConfig;
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,4 +30,4 @@ export default defineConfig({
       external: [/src\/.*\.(test|stories)\.(ts|tsx)/, /src.setupTests.ts/],
     },
   },
-});
+} as VitestConfigExport);
