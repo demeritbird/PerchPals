@@ -10,6 +10,6 @@ export default {
   },
 } as ComponentMeta<typeof LogoutButton>;
 
-const Template: ComponentStory<typeof LogoutButton> = (args) => <LogoutButton {...args} />;
+const Template: ComponentStory<typeof LogoutButton> = () => <LogoutButton />;
 
 export const Component = Template.bind({});
