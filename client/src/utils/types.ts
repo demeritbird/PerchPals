@@ -10,6 +10,7 @@ export type User = {
   name: string;
   role: Roles;
   token: string;
+  isActivated: boolean;
 };
 export type CurrentUser = User | null;
 

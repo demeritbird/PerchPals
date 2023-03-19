@@ -167,10 +167,6 @@ export const login = catchAsync(
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
     }
-    // User needs to activate account before logging in.
-    if (!user.active) {
-      return next(new AppError('Account has not been activated!', 401));
-    }
 
     createSendToken(user, 200, req, res);
   }

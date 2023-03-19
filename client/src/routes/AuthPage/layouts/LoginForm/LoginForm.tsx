@@ -50,16 +50,18 @@ function LoginForm() {
     }
 
     if (authResponse != null) {
-      setAuthUser({
+      const inputUser = {
         id: authResponse.data.user._id,
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
+        isActivated: authResponse.data.user.active,
         token: authResponse.token,
-      });
-      setPersist('true');
+      };
 
-      navigate(`/landingpage`);
+      setAuthUser(inputUser);
+      setPersist('true');
+      inputUser.isActivated ? navigate(`/landingpage`) : navigate(`/activate`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
   }, [authResponse, authError, setAuthUser, navigate, setPersist]);
