@@ -55,7 +55,7 @@ function LoginForm() {
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
-        isActivated: authResponse.data.user.active,
+        isActivated: authResponse.data.user.isActivated,
         token: authResponse.token,
       };
 

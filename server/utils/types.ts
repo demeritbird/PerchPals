@@ -21,11 +21,12 @@ export interface InputUser {
   role: Roles;
   password: string;
   passwordConfirm: string;
+  active: boolean;
 
   passwordResetToken?: string;
   passwordResetExpires?: Date;
 
-  active: boolean;
+  isActivated?: boolean;
   activationToken?: string;
 }
 // User Document & Instance Methods

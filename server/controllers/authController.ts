@@ -87,7 +87,7 @@ export const signup = catchAsync(
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
-      active: false,
+      active: true,
     };
     const newUser: UserDocument = await User.create(inputUser);
 
@@ -143,7 +143,7 @@ export const confirmActivate = catchAsync(
       return next(new AppError('There is no user with email address.', 404));
     }
 
-    user.active = true;
+    user.isActivated = true;
     user.activationToken = undefined;
     await user.save({ validateBeforeSave: false });
     createSendToken(user, 200, req, res);
