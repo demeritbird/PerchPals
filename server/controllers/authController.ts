@@ -100,7 +100,12 @@ export const signup = catchAsync(
 
 export const sendActivate = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
-    const user = req.user!;
+    // User is either from previous signup request or resent via a req.body
+    const user: UserDocument | null =
+      req.user ?? (await User.findOne({ email: req.body.email }));
+    if (!user) {
+      return next(new AppError('User not found', 404));
+    }
 
     const activationToken: string = user.createActivationToken();
     await user.save({ validateBeforeSave: false });
