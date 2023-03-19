@@ -133,7 +133,7 @@ export const confirmActivate = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const hashedToken: string = crypto
       .createHash('sha256')
-      .update(req.body.token)
+      .update(req.params.token)
       .digest('hex');
 
     const user: UserDocument | null = await User.findOne({
