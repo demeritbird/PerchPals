@@ -19,9 +19,6 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 //// User-Restricted Information ////
 router.use(authController.protect);
 
-router.get('/test', authController.testProtect); // TODO: remove me
-router.get('/email', authController.testEmail);
-
 // TODO: Add 'getMe' Route
 
 //// Admin-Restricted Information ////
