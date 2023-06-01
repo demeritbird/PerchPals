@@ -16,10 +16,10 @@ const AuthContext = createContext<AuthContextOptions>({
   setPersist: () => {},
 });
 
-interface Props {
+interface AuthProviderProps {
   children?: React.ReactNode;
 }
-export function AuthProvider(props: Props) {
+export function AuthProvider(props: AuthProviderProps) {
   const [auth, setAuth] = useState<CurrentUser>(null);
   const [persistStore, setPersistStore] = useLocalStorage<PersistType>('persist', 'false');
 
