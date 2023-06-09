@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import crypto, { createHmac } from 'crypto';
 
 import { User } from './../models';
-import { InputUser, UserDocument, UserRequest, Roles, StatusCode } from './../utils/types';
-import { AppError, catchAsync } from '../utils/helpers';
+import { InputUser, UserDocument, Roles, StatusCode, AccountStatus } from './../utils/types';
+import { AppError, catchAsync, EmailService } from '../utils/helpers';
 
+interface AuthUserRequest extends Request {
+  user?: UserDocument;
+}
 interface JWTPayload {
   id: string;
   iat: number;
@@ -75,7 +79,7 @@ function createSendToken(
 
 type SignupRequest = Omit<InputUser, 'refreshToken'>;
 export const signup = catchAsync(
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
     const inputUser: SignupRequest = {
       name: req.body.name,
       email: req.body.email,
@@ -83,10 +87,66 @@ export const signup = catchAsync(
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
+      active: AccountStatus.PENDING,
     };
     const newUser: UserDocument = await User.create(inputUser);
 
-    createSendToken(newUser, 201, req, res);
+    // pass user information into sendActivate route
+    req.user = newUser;
+    res.locals.user = newUser;
+    next();
+  }
+);
+
+export const sendActivate = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
+    // User is either from previous signup request or resent via a req.body
+    const user: UserDocument | null =
+      req.user ?? (await User.findOne({ email: req.body.email }));
+    if (!user) {
+      return next(new AppError('User not found', 404));
+    }
+
+    const activationToken: string = user.createActivationToken();
+    await user.save({ validateBeforeSave: false });
+
+    try {
+      await new EmailService(
+        user,
+        `${req.protocol}://${req.get('host')}/api/v1/newUsers/activate/${user._id}`
+      ).sendWelcomeEmail(activationToken);
+
+      res.status(204).json({
+        status: 'success',
+      });
+    } catch (err) {
+      // Cancel request entirely if error
+      user.activationToken = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError('There was an error sending the email. Try again later!', 500));
+    }
+  }
+);
+
+export const confirmActivate = catchAsync(
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    const hashedToken: string = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
+
+    const user: UserDocument | null = await User.findOne({
+      activationToken: hashedToken,
+    });
+    if (!user) {
+      return next(new AppError('There is no user with email address.', 404));
+    }
+
+    user.active = AccountStatus.ACTIVE;
+    user.activationToken = undefined;
+    await user.save({ validateBeforeSave: false });
+    createSendToken(user, 200, req, res);
   }
 );
 
@@ -104,7 +164,6 @@ export const login = catchAsync(
     }
     // 2) Check if user exists && password is correct
     const user: UserDocument | null = await User.findOne({ email }).select('+password');
-
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
     }
@@ -114,7 +173,7 @@ export const login = catchAsync(
 );
 
 export const restrictTo = (...roles: Roles[]) => {
-  return (req: UserRequest, res: Response, next: NextFunction) => {
+  return (req: AuthUserRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user!.role)) {
       return next(new AppError('You do not have permission to perform this action!', 403));
     }
@@ -124,7 +183,7 @@ export const restrictTo = (...roles: Roles[]) => {
 };
 
 export const protect = catchAsync(
-  async (req: UserRequest, res: Response, next: NextFunction) => {
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     // Get JSON Web Token and check if it's there.
     let accessToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
@@ -158,13 +217,6 @@ export const protect = catchAsync(
     next();
   }
 );
-
-// TODO: remove me
-export const testProtect = (req: Request, res: Response) => {
-  res.status(200).json({
-    foo: 'bar',
-  });
-};
 
 export const refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
@@ -213,3 +265,69 @@ export const logout = (req: Request, res: Response) => {
     status: 'success',
   });
 };
+
+export const forgetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user: UserDocument | null = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError('There is no user with email address.', 404));
+    }
+
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    try {
+      // Hashed token sent as a link to user
+      const resetURL = `${req.protocol}://${req.get(
+        'host'
+      )}/api/v1/users/resetPassword/${resetToken}`;
+      await new EmailService(user, resetURL).sendPasswordResetEmail();
+
+      res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!',
+      });
+    } catch (err) {
+      // Cancel request entirely if error
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      await user.save({ validateBeforeSave: false });
+
+      return next(new AppError('There was an error sending the email. Try again later!', 500));
+    }
+  }
+);
+
+/**
+ * Requires user to go through /forgotpassword route first before being able to use this.
+ * // TODO: Is there any way to undefine unwanted fields if request is ignored?
+ */
+export const resetPassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // req.params.token is a 64 character long random string.
+    // param from email sent from /forgotpassword route inside a link,
+    const hashedToken: string = crypto
+      .createHash('sha256')
+      .update(req.params.token)
+      .digest('hex');
+
+    const user: UserDocument | null = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() }, // fail request if token is expired
+    });
+    if (!user) {
+      return next(new AppError('Password Reset Token is invalid or has expired', 400));
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    // We will need to remove unnecessary fields as well.
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(204).json({
+      status: 'success',
+    });
+  }
+);

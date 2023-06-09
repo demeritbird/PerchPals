@@ -6,7 +6,7 @@ import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
 
-import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
+import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 interface SignupRequest {
@@ -65,19 +65,21 @@ function SignupForm() {
     }
 
     if (authResponse != null) {
-      setAuthUser({
+      const inputUser = {
         id: authResponse.data.user._id,
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
+        active: authResponse.data.user.active,
         token: authResponse.token,
-      });
-      setPersist('true');
+      };
 
+      setAuthUser(inputUser);
+      setPersist('true');
+      navigate(`/activate`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
-      navigate(`/landingpage`);
     }
-  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
+  }, [authResponse, authError]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();

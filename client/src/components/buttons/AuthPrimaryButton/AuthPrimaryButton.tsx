@@ -1,5 +1,5 @@
 import { Fragment, MouseEventHandler } from 'react';
-import BouncingCirclesLoading from '../../loadingstates/BouncingCirclesLoading';
+import BouncingCirclesLoading from '../../loading/BouncingCirclesLoading';
 import styles from './AuthPrimaryButton.module.scss';
 
 interface AuthPrimaryButtonProps {

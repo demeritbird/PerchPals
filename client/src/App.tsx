@@ -11,11 +11,12 @@ import PersistLogin from './routes/PersistLogin';
 import { Roles } from './utils/types';
 
 import AuthPage from './routes/AuthPage';
+const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
 
 function App() {
-  const { response: testdata, error, loading, axiosRequest: getData } = useAxios();
+  const { response: testdata, error, isLoading, axiosRequest: getData } = useAxios();
   const refresh = useRefreshToken();
   const [store, setStore] = useLocalStorage('key', {
     name: 'foo',
@@ -43,10 +44,11 @@ function App() {
       <h1>{store.name}</h1>
       <button onClick={getTestData}>test me</button>
       <button onClick={refresh}>refresh</button>
-      <Suspense fallback={<div>Suspense Loading...</div>}>
-        <Routes>
+      <Routes>
+        <Route element={<PersistLogin />}>
           <Route path='/' element={<AuthPage />} />
           <Route path='/auth' element={<AuthPage />} />
+          <Route path='/activate' element={<ActivatePage />} />
 
           <Route
             path='/publicpage'
@@ -62,9 +64,9 @@ function App() {
               <Route path='/profilepage' element={<ProfilePage />} />
             </Route>
           </Route>
-          <Route path='/*' element={<h4>error</h4>} />
-        </Routes>
-      </Suspense>
+        </Route>
+        <Route path='/*' element={<h4>error</h4>} />
+      </Routes>
     </Fragment>
   );
 }

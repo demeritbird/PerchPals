@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
-import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { AccountStatus, AuthErrorResponse, Validity } from '../../../../utils/types';
 
-import AuthFormInput from '../../../../components/forminputs/AuthFormInput';
+import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 interface LoginRequest {
@@ -51,19 +51,23 @@ function LoginForm() {
     }
 
     if (authResponse != null) {
-      setAuthUser({
+      const inputUser = {
         id: authResponse.data.user._id,
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
+        active: authResponse.data.user.active,
         token: authResponse.token,
-      });
-      setPersist('true');
+      };
 
-      navigate(`/landingpage`);
+      setAuthUser(inputUser);
+      setPersist('true');
+      inputUser.active === AccountStatus.PENDING
+        ? navigate(`/activate`)
+        : navigate(`/landingpage`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
-  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
+  }, [authResponse, authError]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
