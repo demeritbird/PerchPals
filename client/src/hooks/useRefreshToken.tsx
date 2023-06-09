@@ -20,13 +20,15 @@ function useRefreshToken() {
       return null;
     }
 
-    setAuthUser({
+    const refreshUser = {
       id: response.data.data.user.id,
       name: response.data.data.user.name,
       email: response.data.data.user.email,
       role: response.data.data.user.role,
+      active: response.data.data.user.active,
       token: response.data.token,
-    });
+    };
+    setAuthUser(refreshUser);
     logValidity(TAG, Validity.PASS, 'User detected. Your access token has been refreshed!');
     return response.data.token;
   }

@@ -11,6 +11,7 @@ import PersistLogin from './routes/PersistLogin';
 import { Roles } from './utils/types';
 
 import AuthPage from './routes/AuthPage';
+const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 
 function App() {
@@ -43,18 +44,20 @@ function App() {
       <button onClick={getTestData}>test me</button>
       <button onClick={refresh}>refresh</button>
       <Routes>
-        <Route path='/' element={<AuthPage />} />
-        <Route path='/auth' element={<AuthPage />} />
-
-        <Route
-          path='/publicpage'
-          element={
-            <Suspense fallback={<div>loading...</div>}>
-              <LandingPage />
-            </Suspense>
-          }
-        />
         <Route element={<PersistLogin />}>
+          <Route path='/' element={<AuthPage />} />
+          <Route path='/auth' element={<AuthPage />} />
+          <Route path='/activate' element={<ActivatePage />} />
+
+          <Route
+            path='/publicpage'
+            element={
+              <Suspense fallback={<div>loading...</div>}>
+                <LandingPage />
+              </Suspense>
+            }
+          />
+
           <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
             <Route path='/landingpage' element={<LandingPage />} />
           </Route>

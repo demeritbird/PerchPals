@@ -1,10 +1,10 @@
 [
   {
+    "_id": "637adbb1b0d29a9a93ef3630",
     "name": "John Smith4",
     "email": "johnsmith4@gmail.com",
     "role": "user",
     "password": "test1234",
-    "active": true,
-    "isActivated": true
+    "active": "active"
   }
 ]

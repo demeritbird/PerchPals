@@ -11,9 +11,7 @@ export const createOne = (Model: AllModels) =>
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -29,9 +27,7 @@ export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -55,9 +51,7 @@ export const getAll = (Model: AllModels) =>
     res.status(200).json({
       status: 'success',
       results: doc.length,
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 

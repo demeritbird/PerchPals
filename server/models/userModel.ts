@@ -1,8 +1,9 @@
 import mongoose, { Schema, SchemaValidator } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
-import { InputUser, UserDocument, UserModel, Roles } from './../utils/types';
+import { InputUser, UserDocument, UserModel, Roles, AccountStatus } from './../utils/types';
 
 //// Schema ////
 const userSchema = new Schema<UserDocument, UserModel>({
@@ -39,6 +40,14 @@ const userSchema = new Schema<UserDocument, UserModel>({
       message: 'Passwords are not the same!',
     },
   },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+  active: {
+    type: String,
+    enum: Object.values(AccountStatus),
+    default: AccountStatus.PENDING,
+  },
+  activationToken: String,
 });
 
 //// Middlewares ////
@@ -60,13 +69,42 @@ userSchema.pre('save', async function (next) {
  *
  * @param candidatePassword Incoming password from user during authentication.
  * @param userPassword User's currently saved password in database.
- * @returns a Promise<boolean> whether both hashed passwords are the same.
+ * @returns {Promise<boolean>} whether both hashed passwords are the same.
  */
 userSchema.methods.correctPassword = async function (
   candidatePassword: string,
   userPassword: string
 ): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+/**
+ * Creates a 6 chars long hashed token,
+ * then update User's activation-related fields accordingly.
+ *
+ * @returns {string} hashed string token for user activation.
+ */
+userSchema.methods.createActivationToken = function (): string {
+  const activationToken: string = crypto.randomBytes(3).toString('hex');
+
+  this.activationToken = crypto.createHash('sha256').update(activationToken).digest('hex');
+
+  return activationToken;
+};
+
+/**
+ * Creates a 64 chars long hashed token,
+ * then update User's passwordReset-related fields accordingly.
+ *
+ * @returns {string} hashed string token for future authentication.
+ */
+userSchema.methods.createPasswordResetToken = function (): string {
+  const resetToken: string = crypto.randomBytes(32).toString('hex');
+
+  this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10mins
+
+  return resetToken;
 };
 
 const User = mongoose.model<UserDocument, UserModel>('User', userSchema);
