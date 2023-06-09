@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
-import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { AccountStatus, AuthErrorResponse, Validity } from '../../../../utils/types';
 
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
@@ -55,13 +55,15 @@ function LoginForm() {
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
-        isActivated: authResponse.data.user.isActivated,
+        active: authResponse.data.user.active,
         token: authResponse.token,
       };
 
       setAuthUser(inputUser);
       setPersist('true');
-      inputUser.isActivated ? navigate(`/landingpage`) : navigate(`/activate`);
+      inputUser.active === AccountStatus.PENDING
+        ? navigate(`/activate`)
+        : navigate(`/landingpage`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
   }, [authResponse, authError, setAuthUser, navigate, setPersist]);

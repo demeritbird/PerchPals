@@ -70,7 +70,7 @@ function SignupForm() {
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
         role: authResponse.data.user.role,
-        isActivated: authResponse.data.user.isActivated,
+        active: authResponse.data.user.active,
         token: authResponse.token,
       };
 

@@ -25,7 +25,7 @@ function useRefreshToken() {
       name: response.data.data.user.name,
       email: response.data.data.user.email,
       role: response.data.data.user.role,
-      isActivated: response.data.data.user.isActivated,
+      active: response.data.data.user.active,
       token: response.data.token,
     };
     setAuthUser(refreshUser);

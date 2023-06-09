@@ -3,7 +3,7 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-import { InputUser, UserDocument, UserModel, Roles } from './../utils/types';
+import { InputUser, UserDocument, UserModel, Roles, AccountStatus } from './../utils/types';
 
 //// Schema ////
 const userSchema = new Schema<UserDocument, UserModel>({
@@ -43,8 +43,9 @@ const userSchema = new Schema<UserDocument, UserModel>({
   passwordResetToken: String,
   passwordResetExpires: Date,
   active: {
-    type: Boolean,
-    default: false,
+    type: String,
+    enum: Object.values(AccountStatus),
+    default: AccountStatus.PENDING,
   },
   activationToken: String,
 });

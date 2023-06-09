@@ -21,12 +21,11 @@ export interface InputUser {
   role: Roles;
   password: string;
   passwordConfirm: string;
-  active: boolean;
+  active: AccountStatus;
 
   passwordResetToken?: string;
   passwordResetExpires?: Date;
 
-  isActivated?: boolean;
   activationToken?: string;
 }
 // User Document & Instance Methods
@@ -45,4 +44,10 @@ export enum Roles {
   USER = 'user',
   ADMIN = 'admin',
   MASTER = 'master',
+}
+
+export enum AccountStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }

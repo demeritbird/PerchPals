@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import crypto, { createHmac } from 'crypto';
 
 import { User } from './../models';
-import { InputUser, UserDocument, Roles, StatusCode } from './../utils/types';
+import { InputUser, UserDocument, Roles, StatusCode, AccountStatus } from './../utils/types';
 import { AppError, catchAsync, EmailService } from '../utils/helpers';
 
 interface AuthUserRequest extends Request {
@@ -87,7 +87,7 @@ export const signup = catchAsync(
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
-      active: true,
+      active: AccountStatus.PENDING,
     };
     const newUser: UserDocument = await User.create(inputUser);
 
@@ -143,7 +143,7 @@ export const confirmActivate = catchAsync(
       return next(new AppError('There is no user with email address.', 404));
     }
 
-    user.isActivated = true;
+    user.active = AccountStatus.ACTIVE;
     user.activationToken = undefined;
     await user.save({ validateBeforeSave: false });
     createSendToken(user, 200, req, res);

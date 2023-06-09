@@ -10,7 +10,7 @@ export type User = {
   name: string;
   role: Roles;
   token: string;
-  isActivated: boolean;
+  active: AccountStatus;
 };
 export type CurrentUser = User | null;
 
@@ -18,6 +18,12 @@ export enum Roles {
   USER = 'user',
   ADMIN = 'admin',
   MASTER = 'master',
+}
+
+export enum AccountStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }
 
 //// Request & Responses ////
