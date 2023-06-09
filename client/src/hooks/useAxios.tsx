@@ -12,11 +12,6 @@ interface AxiosRequest {
     [key: string]: any;
   };
 }
-interface AxiosWrapper {
-  loadingComp?: JSX.Element;
-  errorComp?: JSX.Element;
-  successComp?: JSX.Element;
-}
 interface AxiosResponse {
   [key: string]: any;
 }
@@ -61,25 +56,6 @@ function useAxios() {
     } finally {
       setLoading(false);
     }
-  }
-
-  function axiosWrapper(wrapperObj: AxiosWrapper): JSX.Element {
-    const { errorComp, loadingComp, successComp } = wrapperObj;
-
-    const blankComponent = <Fragment />;
-    const allComponents = {
-      error: errorComp,
-      loading: loadingComp,
-      success: successComp,
-    };
-    let selComponent: keyof typeof allComponents = 'success';
-    if (!response || error) {
-      if (error && allComponents['error']) selComponent = 'error';
-      else if (loading && allComponents['loading']) selComponent = 'loading';
-      else return blankComponent;
-    }
-
-    return <Fragment>{allComponents[selComponent]}</Fragment>;
   }
 
   useEffect(() => {
@@ -137,7 +113,6 @@ function useAxios() {
     isError: error as unknown as boolean,
     isLoading: loading,
     axiosRequest,
-    axiosWrapper,
   };
 }
 
