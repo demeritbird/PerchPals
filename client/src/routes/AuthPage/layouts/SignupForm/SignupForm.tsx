@@ -79,7 +79,7 @@ function SignupForm() {
       navigate(`/activate`);
       logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
     }
-  }, [authResponse, authError, setAuthUser, navigate, setPersist]);
+  }, [authResponse, authError]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();

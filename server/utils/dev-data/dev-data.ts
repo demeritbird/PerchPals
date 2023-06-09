@@ -7,6 +7,7 @@ import User from './../../models/userModel';
 
 dotenv.config({ path: __dirname + './../../.env' });
 const DB: string = process.env.DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
+mongoose.set('strictQuery', true);
 mongoose.connect(DB).then((con) => {
   console.log('DB connection successful!');
 });

@@ -88,7 +88,7 @@
     "react-test-renderer": "^18.2.0"
   },
   "overrides": {
-    "react": "$react",
-    "react-dom": "$react-dom"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
