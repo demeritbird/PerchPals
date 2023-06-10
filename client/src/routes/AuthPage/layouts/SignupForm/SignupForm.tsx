@@ -37,7 +37,7 @@ function SignupForm() {
   const {
     response: authResponse,
     error: authError,
-    loading: authLoading,
+    isLoading: authLoading,
     axiosRequest: authRequest,
   } = useAxios();
 

@@ -19,7 +19,7 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 //// User-Restricted Information ////
 router.use(authController.protect);
 
-// TODO: Add 'getMe' Route
+router.get('/me', userController.getMe, userController.getUser);
 
 //// Admin-Restricted Information ////
 router.use(authController.restrictTo(Roles.ADMIN, Roles.MASTER));

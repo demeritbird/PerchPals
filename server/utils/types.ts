@@ -1,4 +1,5 @@
 import { Types, Model, Document } from 'mongoose';
+import { Request } from 'express';
 
 export type StatusCode =
   // Success Responses
@@ -38,6 +39,10 @@ export interface UserDocument extends InputUser, Document {
 // User Static Methods
 export interface UserModel extends Model<UserDocument> {
   //staticMethod: (variable: string) => Promise<UserDocument>;
+}
+
+export interface UserRequest extends Request {
+  user?: UserDocument;
 }
 
 export enum Roles {

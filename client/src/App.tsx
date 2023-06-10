@@ -13,9 +13,10 @@ import { Roles } from './utils/types';
 import AuthPage from './routes/AuthPage';
 const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
+const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
 
 function App() {
-  const { response: testdata, error, loading, axiosRequest: getData } = useAxios();
+  const { response: testdata, error, isLoading, axiosRequest: getData } = useAxios();
   const refresh = useRefreshToken();
   const [store, setStore] = useLocalStorage('key', {
     name: 'foo',
@@ -57,9 +58,11 @@ function App() {
               </Suspense>
             }
           />
-
-          <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
-            <Route path='/landingpage' element={<LandingPage />} />
+          <Route element={<PersistLogin />}>
+            <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+              <Route path='/landingpage' element={<LandingPage />} />
+              <Route path='/profilepage' element={<ProfilePage />} />
+            </Route>
           </Route>
         </Route>
         <Route path='/*' element={<h4>error</h4>} />

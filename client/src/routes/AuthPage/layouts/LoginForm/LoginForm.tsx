@@ -25,7 +25,8 @@ function LoginForm() {
   const {
     response: authResponse,
     error: authError,
-    loading: authLoading,
+    isError,
+    isLoading,
     axiosRequest: authRequest,
   } = useAxios();
 
@@ -39,7 +40,7 @@ function LoginForm() {
   }, []);
 
   useEffect(() => {
-    if (authError) {
+    if (isError) {
       setError({
         title: 'Authentication Error',
         message: authError,
@@ -120,7 +121,7 @@ function LoginForm() {
         >
           Password:
         </AuthFormInput>
-        <AuthPrimaryButton isLoading={authLoading} isError={error != null}>
+        <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
           Log In
         </AuthPrimaryButton>
       </form>
