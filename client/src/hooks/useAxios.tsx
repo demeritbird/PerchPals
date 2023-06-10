@@ -1,36 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { AxiosError } from 'axios';
 import { axiosInstance } from '../utils/helpers';
 
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
 
-interface ConfigAxios {
+interface AxiosRequest {
   method: 'get' | 'post' | 'patch' | 'delete';
   url: string;
   requestBody?: {
     [key: string]: any;
   };
 }
-interface ResponseAxios {
+interface AxiosResponse {
   [key: string]: any;
 }
 
 function useAxios() {
-  const [response, setResponse] = useState<ResponseAxios | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<AxiosResponse | null>(null);
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
 
   const { authUser } = useAuth();
   const refresh = useRefreshToken();
 
-  async function axiosRequest(configObj: ConfigAxios): Promise<void> {
-    const { method, url, requestBody = {} } = configObj;
+  async function axiosRequest(requestObj: AxiosRequest): Promise<void> {
+    const { method, url, requestBody = {} } = requestObj;
 
     try {
+      setError('');
       setLoading(true);
-      setError(null);
 
       const controller: AbortController = new AbortController();
       setController(controller);
@@ -107,7 +107,13 @@ function useAxios() {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return { response, error, loading, axiosRequest };
+  return {
+    response,
+    error,
+    isError: error as unknown as boolean,
+    isLoading: loading,
+    axiosRequest,
+  };
 }
 
 export default useAxios;

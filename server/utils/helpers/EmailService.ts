@@ -59,11 +59,12 @@ class EmailService {
    * @param template - a filename (in string) from views/email folder
    * @param subject  - email subject shown when mail is sent
    */
-  async sendEmail(template: string, subject: string): Promise<void> {
+  async sendEmail(template: string, subject: string, token?: string): Promise<void> {
     const html = pug.renderFile(`${__dirname}` + `/../../views/email/${template}.pug`, {
       name: this.name,
       url: this.url,
       subject,
+      token, // possibly undefined
     });
 
     const mailOptions = {
@@ -78,14 +79,20 @@ class EmailService {
   }
 
   //// Email Templates ////
-  async sendWelcomeEmail(): Promise<void> {
-    await this.sendEmail('welcomeEmail', 'You have signed up!');
+  /**
+   * @param token 6 char length token to be written into email.
+   */
+  async sendWelcomeEmail(token: string): Promise<void> {
+    await this.sendEmail('welcomeEmail', 'You have signed up!', token);
   }
 
-  // // TODO: change password
-  // async sendPasswordResetEmail() {
-  //   await this.send('passwordReset', 'Your password reset token (valid for only 10 minutes)');
-  // }
+  // TODO: change password
+  async sendPasswordResetEmail() {
+    await this.sendEmail(
+      'passwordReset',
+      'Your password reset token (valid for only 10 minutes)'
+    );
+  }
 }
 
 export default EmailService;
