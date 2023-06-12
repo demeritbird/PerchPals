@@ -3,12 +3,16 @@ import jwt from 'jsonwebtoken';
 import crypto, { createHmac } from 'crypto';
 
 import { User } from './../models';
-import { InputUser, UserDocument, Roles, StatusCode, AccountStatus } from './../utils/types';
+import {
+  UserRequest,
+  InputUser,
+  UserDocument,
+  Roles,
+  StatusCode,
+  AccountStatus,
+} from './../utils/types';
 import { AppError, catchAsync, EmailService } from '../utils/helpers';
 
-interface AuthUserRequest extends Request {
-  user?: UserDocument;
-}
 interface JWTPayload {
   id: string;
   iat: number;
@@ -99,7 +103,7 @@ function createSendToken(
 
 type SignupRequest = Omit<InputUser, 'refreshToken'>;
 export const signup = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
+  async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     const inputUser: SignupRequest = {
       name: req.body.name,
       email: req.body.email,
@@ -119,7 +123,7 @@ export const signup = catchAsync(
 );
 
 export const sendActivate = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction): Promise<void> => {
+  async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     // User is either from previous signup request or resent via a req.body
     const user: UserDocument | null =
       req.user ?? (await User.findOne({ email: req.body.email }));
@@ -181,7 +185,7 @@ export const login = catchAsync(
     if (!email || !password) {
       return next(new AppError('Please provide email and password!', 400));
     }
-    
+
     // 2) Check if user exists && password is correct
     const user: UserDocument | null = await User.findOne({ email }).select('+password');
     if (!user || !(await user.correctPassword(password, user.password))) {
@@ -193,7 +197,7 @@ export const login = catchAsync(
 );
 
 export const restrictTo = (...roles: Roles[]) => {
-  return (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  return (req: UserRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user!.role)) {
       return next(new AppError('You do not have permission to perform this action!', 403));
     }
@@ -203,7 +207,7 @@ export const restrictTo = (...roles: Roles[]) => {
 };
 
 export const protect = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     let accessToken;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer'))
       accessToken = req.headers.authorization.split(' ')[1];
