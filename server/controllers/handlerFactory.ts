@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Model, PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
 import { UserModel } from '../utils/types';
+import fs from 'fs';
 
 type AllModels = UserModel;
 
@@ -24,6 +25,14 @@ export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =
 
     const doc = await query;
     if (!doc) return next(new AppError('No document found with that ID', 404));
+
+    // Convert document's photo filepath into buffer64 for sending
+    const filePath = doc.photo;
+    const buffer = fs
+      .readFileSync(`${__dirname}/../storage/img/${filePath}`)
+      .toString('base64');
+
+    doc.photo = buffer;
 
     res.status(200).json({
       status: 'success',

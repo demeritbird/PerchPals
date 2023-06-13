@@ -34,7 +34,6 @@ const multerFilter = (req: Request, file: Express.Multer.File, callback: Functio
 const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
-  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
 export const uploadUserPhoto = upload.single('photo');
