@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, Fragment } from 'react';
-import axios, { AxiosError } from 'axios';
+import { useState, useEffect } from 'react';
+import { AxiosError } from 'axios';
 import { axiosInstance } from '../utils/helpers';
 
 import useAuth from './useAuth';
@@ -27,8 +27,8 @@ function useAxios() {
 
   async function axiosRequest(requestObj: AxiosRequest): Promise<void> {
     const { method, url, requestBody = {} } = requestObj;
-
     const isFormData = requestBody instanceof FormData;
+
     try {
       setError('');
       setLoading(true);
@@ -36,21 +36,18 @@ function useAxios() {
       const controller: AbortController = new AbortController();
       setController(controller);
 
-      if (isFormData) {
-        axiosInstance.defaults.headers['Content-Type'] = 'multipart/form-data';
-      } else {
-        axiosInstance.defaults.headers['Content-Type'] = 'application/json';
-      }
       axiosInstance.defaults.withCredentials = true;
 
       let res;
-      if (!isFormData) {
+      if (isFormData) {
+        axiosInstance.defaults.headers['Content-Type'] = 'multipart/form-data';
+        res = await axiosInstance[method](url, requestBody, { signal: controller.signal });
+      } else {
+        axiosInstance.defaults.headers['Content-Type'] = 'application/json';
         res = await axiosInstance[method](url, {
           ...requestBody,
           signal: controller.signal,
         });
-      } else {
-        res = await axiosInstance[method](url, requestBody);
       }
 
       setResponse(res.data);
