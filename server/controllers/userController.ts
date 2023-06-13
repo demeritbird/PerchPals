@@ -65,25 +65,20 @@ export const resizeUserPhoto = catchAsync(
 
 export const updateMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    console.log(req.file);
-    console.log(req.body);
-
+    // TODO: Fill in other user information for updating, e.g. name, email
     const filteredBody = filterObj(req.body);
     if (req.file) filteredBody.photo = req.file.filename;
 
-    console.log(filteredBody);
-
-    /* TODO: Change User Information 
     const updatedUser = await User.findByIdAndUpdate(req.user!.id, filteredBody, {
       new: true,
       runValidators: true,
     });
-    */
+
     res.status(200).json({
       status: 'success',
-      // data: {
-      //   user: updatedUser,
-      // },
+      data: {
+        user: updatedUser,
+      },
     });
   }
 );
