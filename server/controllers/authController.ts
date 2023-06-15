@@ -11,7 +11,7 @@ import {
   StatusCode,
   AccountStatus,
 } from './../utils/types';
-import { AppError, catchAsync, EmailService } from '../utils/helpers';
+import { AppError, bufferConvertToString, catchAsync, EmailService } from '../utils/helpers';
 
 interface JWTPayload {
   id: string;
@@ -90,6 +90,7 @@ function createSendToken(
     sameSite: 'none',
   };
 
+  user.photo = bufferConvertToString(user.photo);
   (user.password as unknown) = undefined;
   res.cookie('jwt', refreshToken, cookieOptions);
   res.status(statusCode).json({

@@ -7,8 +7,8 @@ import { User } from './../models';
 import { UserRequest } from './../utils/types';
 import { AppError, catchAsync } from '../utils/helpers';
 
-export const getAllUsers = factory.getAll(User);
-export const getUser = factory.getOne(User);
+export const getAllUsers = factory.getAll(User, { photoConvert: true });
+export const getUser = factory.getOne(User, { photoConvert: true });
 export const updateUser = factory.updateOne(User);
 export const deleteUser = factory.deleteOne(User);
 
@@ -22,7 +22,6 @@ export const getMe = catchAsync(
 );
 
 const multerStorage = multer.memoryStorage();
-
 const multerFilter = (req: Request, file: Express.Multer.File, callback: Function) => {
   if (file.mimetype.startsWith('image')) {
     callback(null, true);
@@ -30,7 +29,6 @@ const multerFilter = (req: Request, file: Express.Multer.File, callback: Functio
     callback(new AppError('Not an image! Please upload only images.', 400), false);
   }
 };
-
 const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
@@ -56,7 +54,7 @@ export const resizeUserPhoto = catchAsync(
       .resize(500, 500)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
-      .toFile(`storage/img/${req.file.filename}`);
+      .toFile(`public/img/${req.file.filename}`);
 
     next();
   }
