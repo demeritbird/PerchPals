@@ -14,7 +14,9 @@
     "test:client": "npm --prefix ./client run test",
     "start:server": "npm --prefix ./server run start",
     "test:server": "npm --prefix ./server run test",
-    "storybook": "npm --prefix ./client run storybook"
+    "storybook": "npm --prefix ./client run storybook",
+    "data:import": "npm --prefix ./server run data:import",
+    "data:delete": "npm --prefix ./server run data:delete"
   },
   "license": "ISC"
 }
