@@ -1,6 +1,8 @@
 import { useEffect, Fragment, FormEvent, useRef } from 'react';
 import useAxios from '../../hooks/useAxios';
 
+import ProfileImage from '../../components/images/ProfileImage';
+
 function ProfilePage() {
   const { response, isLoading, isError, axiosRequest } = useAxios();
   const { response: testdata, axiosRequest: uploadData } = useAxios();
@@ -44,7 +46,7 @@ function ProfilePage() {
 
         <button type='submit'>submit form</button>
       </form>
-      <img src={`data:image/png;base64, ${response?.data.photo}`} alt='imagee'></img>
+      <ProfileImage imageSrc={response?.data.photo} size='small' caption='hello' />
 
       <div className=''>
         {isLoading ? (
