@@ -1,6 +1,10 @@
 import { ErrorRequestHandler, Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/helpers';
 
+/**
+ * @file Handles different global errors that occur in MongoDB, and return relevant information as AppError
+ */
+
 interface CastError extends AppError {
   path: string;
   value: string;

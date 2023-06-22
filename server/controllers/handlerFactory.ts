@@ -3,6 +3,10 @@ import { Model, PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
 import { UserModel } from '../utils/types';
 
+/**
+ * @file Performs general CRUD operations for any documents
+ */
+
 type AllModels = UserModel;
 
 export const createOne = (Model: AllModels) =>
@@ -16,7 +20,7 @@ export const createOne = (Model: AllModels) =>
   });
 
 // NOTE: change to 'any' if 'PopulatedDoc<any>' does not work,
-// Also, try to remove the explicit 'any' in popOptions typing.
+//       also, try to remove the explicit 'any' in popOptions typing.
 export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
