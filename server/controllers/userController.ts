@@ -12,6 +12,10 @@ export const getUser = factory.getOne(User, { photoConvert: true });
 export const updateUser = factory.updateOne(User);
 export const deleteUser = factory.deleteOne(User);
 
+/**
+ * Get user's id from request's param,
+ * before sending it to getOne user middleware in handlerFactory
+ */
 export const getMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     if (!req.user) return next(new AppError('No document found with that ID', 404));

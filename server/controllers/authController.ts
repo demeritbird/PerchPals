@@ -102,6 +102,11 @@ function createSendToken(
   });
 }
 
+/**
+ * Signup user.
+ * While this creates the user, it does not give user access;
+ * Move into sendActivate middleware to send token for activation.
+ */
 type SignupRequest = Omit<InputUser, 'refreshToken'>;
 export const signup = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -123,6 +128,10 @@ export const signup = catchAsync(
   }
 );
 
+/**
+ * Send email to user's input email containing token.
+ * On client user uses token sent and calls confirmActivate middleware.
+ */
 export const sendActivate = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     // User is either from previous signup request or resent via a req.body
@@ -154,6 +163,11 @@ export const sendActivate = catchAsync(
   }
 );
 
+/**
+ * Cross checks token from User from sendActivate.
+ * If yes, change user status to active and allow access on future entry.
+ * Also, logs user in by assigning user access and refresh tokens.
+ */
 export const confirmActivate = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const hashedToken: string = crypto
@@ -161,6 +175,8 @@ export const confirmActivate = catchAsync(
       .update(req.params.token)
       .digest('hex');
 
+    // FIXME: Right now, it is possible that 2 users have the same token (even if unlikely).
+    //        So perhaps need to send in user information as well.
     const user: UserDocument | null = await User.findOne({
       activationToken: hashedToken,
     });
@@ -168,6 +184,7 @@ export const confirmActivate = catchAsync(
       return next(new AppError('There is no user with email address.', 404));
     }
 
+    // Change User status on activated
     user.active = AccountStatus.ACTIVE;
     user.activationToken = undefined;
     await user.save({ validateBeforeSave: false });
@@ -175,6 +192,9 @@ export const confirmActivate = catchAsync(
   }
 );
 
+/**
+ * Logs user in by assigning user access and refresh tokens.
+ */
 interface LoginRequest {
   email: string;
   password: string;
@@ -187,7 +207,6 @@ export const login = catchAsync(
       return next(new AppError('Please provide email and password!', 400));
     }
 
-    // 2) Check if user exists && password is correct
     const user: UserDocument | null = await User.findOne({ email }).select('+password');
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(new AppError('Incorrect email or password!', 401));
@@ -197,6 +216,10 @@ export const login = catchAsync(
   }
 );
 
+/**
+ * Checks if user is authorised to use route provided.
+ * @param roles user's role given to them in field.
+ */
 export const restrictTo = (...roles: Roles[]) => {
   return (req: UserRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user!.role)) {
@@ -207,6 +230,10 @@ export const restrictTo = (...roles: Roles[]) => {
   };
 };
 
+/**
+ * Checks if user is authenticated to use route provided.
+ * Does so by checking if token is valid and assigned to them.
+ */
 export const protect = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     let accessToken;
@@ -238,6 +265,9 @@ export const protect = catchAsync(
   }
 );
 
+/**
+ * Assigns user new access token.
+ */
 export const refresh = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   let refreshToken;
   if (req.cookies.jwt) refreshToken = req.cookies.jwt;
@@ -273,6 +303,9 @@ export const refresh = catchAsync(async (req: Request, res: Response, next: Next
   });
 });
 
+/**
+ * Logs user out by removing cookit
+ */
 export const logout = (req: Request, res: Response) => {
   res.clearCookie('jwt');
 
@@ -281,6 +314,10 @@ export const logout = (req: Request, res: Response) => {
   });
 };
 
+/**
+ * Sends an email to user, providing them with an URL to reset their password.
+ * Also assigns new reset token and expiry to user's field.
+ */
 export const forgetPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user: UserDocument | null = await User.findOne({ email: req.body.email });
@@ -288,6 +325,8 @@ export const forgetPassword = catchAsync(
       return next(new AppError('There is no user with email address.', 404));
     }
 
+    // Assign new reset token as user's information.
+    // NOTE: User's passwordResetToken and passwordResetExpires is changed in method.
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
