@@ -62,10 +62,11 @@ export const resizeUserPhoto = catchAsync(
 
 export const updateMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    // TODO: Fill in other user information for updating, e.g. name, email
-    const filteredBody = filterObj(req.body);
+    const filteredBody = filterObj(req.body, 'name', 'email');
     if (req.file) filteredBody.photo = req.file.filename;
 
+    // NOTE: If email is duplicate key, return error 500 in development, but 400 in production.
+    // TODO: Tell client when it is duplicate key error, or when it is not.
     const updatedUser = await User.findByIdAndUpdate(req.user!.id, filteredBody, {
       new: true,
       runValidators: true,
