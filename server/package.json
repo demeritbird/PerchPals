@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon ./server.ts",
     "test": "jest",
-    "build": "tsc --project ./tsconfig.build.json && etsc && node ./dist/server.js",
+    "build": "tsc --project ./tsconfig.build.json && copyfiles public/img/*.jpeg dist && etsc && node ./dist/server.js",
     "data:import": "ts-node utils/dev-data/dev-data.ts --import",
     "data:delete": "ts-node utils/dev-data/dev-data.ts --delete"
   },
@@ -28,6 +28,7 @@
     "@types/validator": "^13.7.10",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "esbuild": "^0.15.13",
