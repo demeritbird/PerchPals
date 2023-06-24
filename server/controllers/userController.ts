@@ -58,7 +58,7 @@ export const resizeUserPhoto = catchAsync(
       .resize(500, 500)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
-      .toFile(`public/img/${req.file.filename}`);
+      .toFile(`${__dirname}/../public/img/${req.file.filename}`);
 
     next();
   }
