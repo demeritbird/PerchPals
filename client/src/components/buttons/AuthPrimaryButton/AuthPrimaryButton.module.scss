@@ -1,0 +1,40 @@
+@use './../../../styles/main' as *;
+
+$button-colour: grey;
+
+.btn,
+.btn:link,
+.btn:visited {
+  width: 36rem;
+  height: 4.2rem;
+
+  display: inline-block;
+  background-color: $button-colour;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 8px;
+
+  transition: all 0.2s;
+  position: relative;
+  font-size: 1.6rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn--default {
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 1rem rgba($color-black, 0.2);
+    background-color: darken(grey, 2%);
+  }
+
+  &:active {
+    transform: translateY(-0.5px);
+    box-shadow: 0 0.1rem 0.75rem rgba($color-black, 0.2);
+    background-color: darken(grey, 2%);
+  }
+}
+
+.btn--action {
+  // TODO: add loading and error states
+}

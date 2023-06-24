@@ -10,6 +10,7 @@ import { AppError } from './utils/helpers';
 
 const app: Express = express();
 
+// https://stackoverflow.com/questions/24897801/enable-access-control-allow-origin-for-multiple-domains-in-node-js
 app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
 
 // Development Logging

@@ -5,41 +5,50 @@ import { axiosInstance } from '../utils/helpers';
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
 
-interface ConfigAxios {
+interface AxiosRequest {
   method: 'get' | 'post' | 'patch' | 'delete';
   url: string;
   requestBody?: {
     [key: string]: any;
   };
 }
-interface ResponseAxios {
+interface AxiosResponse {
   [key: string]: any;
 }
 
 function useAxios() {
-  const [response, setResponse] = useState<ResponseAxios | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<AxiosResponse | null>(null);
+  const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
 
   const { authUser } = useAuth();
   const refresh = useRefreshToken();
 
-  async function axiosRequest(configObj: ConfigAxios): Promise<void> {
-    const { method, url, requestBody = {} } = configObj;
+  async function axiosRequest(requestObj: AxiosRequest): Promise<void> {
+    const { method, url, requestBody = {} } = requestObj;
+    const isFormData = requestBody instanceof FormData;
 
     try {
+      setError('');
       setLoading(true);
-      setError(null);
 
       const controller: AbortController = new AbortController();
       setController(controller);
 
       axiosInstance.defaults.withCredentials = true;
-      const res = await axiosInstance[method](url, {
-        ...requestBody,
-        signal: controller.signal,
-      });
+
+      let res;
+      if (isFormData) {
+        axiosInstance.defaults.headers['Content-Type'] = 'multipart/form-data';
+        res = await axiosInstance[method](url, requestBody, { signal: controller.signal });
+      } else {
+        axiosInstance.defaults.headers['Content-Type'] = 'application/json';
+        res = await axiosInstance[method](url, {
+          ...requestBody,
+          signal: controller.signal,
+        });
+      }
 
       setResponse(res.data);
     } catch (error) {
@@ -107,7 +116,13 @@ function useAxios() {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return { response, error, loading, axiosRequest };
+  return {
+    response,
+    error,
+    isError: error as unknown as boolean,
+    isLoading: loading,
+    axiosRequest,
+  };
 }
 
 export default useAxios;

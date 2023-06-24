@@ -32,15 +32,15 @@ function useLocalStorage<T>(key: string, initialValue: T | null = null): [T, Set
     }
   });
 
-  function setLocalStorageState(newState: React.SetStateAction<T>): void {
+  function setLocalStorageState(newValue: React.SetStateAction<T>): void {
     try {
-      setState(newState);
-      window.localStorage.setItem(key, JSON.stringify(newState));
+      setState(newValue);
+      window.localStorage.setItem(key, JSON.stringify(newValue));
 
       logValidity(
         TAG,
         Validity.PASS,
-        `key: '${key}', value: '${JSON.stringify(newState)}' is stored in localStorage!`
+        `key: '${key}', value: '${JSON.stringify(newValue)}' is stored in localStorage!`
       );
     } catch {
       logValidity(
