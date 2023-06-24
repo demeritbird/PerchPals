@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { axiosInstance } from '../utils/helpers';
 
@@ -27,6 +27,7 @@ function useAxios() {
 
   async function axiosRequest(requestObj: AxiosRequest): Promise<void> {
     const { method, url, requestBody = {} } = requestObj;
+    const isFormData = requestBody instanceof FormData;
 
     try {
       setError('');
@@ -36,10 +37,18 @@ function useAxios() {
       setController(controller);
 
       axiosInstance.defaults.withCredentials = true;
-      const res = await axiosInstance[method](url, {
-        ...requestBody,
-        signal: controller.signal,
-      });
+
+      let res;
+      if (isFormData) {
+        axiosInstance.defaults.headers['Content-Type'] = 'multipart/form-data';
+        res = await axiosInstance[method](url, requestBody, { signal: controller.signal });
+      } else {
+        axiosInstance.defaults.headers['Content-Type'] = 'application/json';
+        res = await axiosInstance[method](url, {
+          ...requestBody,
+          signal: controller.signal,
+        });
+      }
 
       setResponse(res.data);
     } catch (error) {

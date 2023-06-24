@@ -19,6 +19,9 @@
   &--blue {
     color: blue;
   }
+  &--white {
+    color: $color-white;
+  }
 
   /// interactive ///
   &--interact {

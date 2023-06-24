@@ -3,7 +3,7 @@ import styles from './IconWrapper.module.scss';
 
 export type IconSize = 'small' | 'medium';
 export type IconStyle = 'fill' | 'outline';
-export type IconColour = 'black' | 'blue';
+export type IconColour = 'black' | 'blue' | 'white';
 
 export interface IconProps {
   size: IconSize;
@@ -13,8 +13,8 @@ export interface IconProps {
 }
 interface IconWrapperProps extends IconProps {
   children: {
-    fillPath: string;
-    outlinePath: string;
+    fillPathArr: string[];
+    outlinePathArr: string[];
   };
 }
 function IconWrapper(props: IconWrapperProps) {
@@ -27,7 +27,9 @@ function IconWrapper(props: IconWrapperProps) {
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
                   ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
     >
-      <path fillRule='evenodd' clipRule='evenodd' d={pathName.fillPath} />
+      {pathName.fillPathArr.map((curPath, idx) => (
+        <path key={idx} fillRule='evenodd' clipRule='evenodd' d={curPath} />
+      ))}
     </svg>
   );
   const outlineIcon = (
@@ -39,7 +41,9 @@ function IconWrapper(props: IconWrapperProps) {
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
                   ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
     >
-      <path strokeLinecap='round' strokeLinejoin='round' d={pathName.outlinePath} />
+      {pathName.outlinePathArr.map((curPath, idx) => (
+        <path key={idx} strokeLinecap='round' strokeLinejoin='round' d={curPath} />
+      ))}
     </svg>
   );
 

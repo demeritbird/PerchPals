@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
 import { InputUser, UserDocument, UserModel, Roles, AccountStatus } from './../utils/types';
+import { DEFAULT_USER_IMAGE } from '../utils/constants';
 
 //// Schema ////
 const userSchema = new Schema<UserDocument, UserModel>({
@@ -18,7 +19,10 @@ const userSchema = new Schema<UserDocument, UserModel>({
     lowercase: true,
     validate: [validator.isEmail, 'Please provide a valid email!'],
   },
-  photo: String,
+  photo: {
+    type: String,
+    default: DEFAULT_USER_IMAGE,
+  },
   role: {
     type: String,
     enum: [Roles.USER, Roles.ADMIN, Roles.MASTER],

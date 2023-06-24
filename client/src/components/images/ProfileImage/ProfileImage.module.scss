@@ -1,0 +1,67 @@
+@use './../../../styles/main' as *;
+
+.profile {
+  height: 17.5rem;
+  width: 17.5rem;
+  margin: 3.2rem;
+  &__border {
+    background-color: black;
+    border-radius: 50%;
+  }
+
+  &__shape {
+    height: 16rem;
+    width: 16rem;
+
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+  }
+
+  &__image {
+    height: 100%;
+
+    // Animation
+    transform: scale(1.1);
+    transition: all 0.5s;
+
+    backface-visibility: hidden;
+  }
+  &:hover &__image--blur {
+    // Zooming out Effect.
+    transform: scale(1.05);
+
+    // Blur and darken effect
+    filter: blur(3px) brightness(60%);
+  }
+
+  &__items {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+
+    color: $color-black;
+    opacity: 0;
+
+    transition: all 0.5s;
+    text-align: center;
+    backface-visibility: hidden;
+  }
+  &:hover &__items {
+    opacity: 1;
+    transform: translate(-50%, -40%);
+  }
+
+  &__caption {
+    &--white {
+      color: $color-white;
+    }
+  }
+}

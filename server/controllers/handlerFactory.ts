@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { Model, PopulatedDoc } from 'mongoose';
-import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
+import { PopulatedDoc } from 'mongoose';
+import { ApiFeatures, AppError, catchAsync, bufferConvertToString } from '../utils/helpers';
 import { UserModel } from '../utils/types';
 
 /**
@@ -8,6 +8,10 @@ import { UserModel } from '../utils/types';
  */
 
 type AllModels = UserModel;
+interface HandlerConfig {
+  popOptions?: PopulatedDoc<any>;
+  photoConvert?: boolean;
+}
 
 export const createOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response) => {
@@ -20,14 +24,19 @@ export const createOne = (Model: AllModels) =>
   });
 
 // NOTE: change to 'any' if 'PopulatedDoc<any>' does not work,
-//       also, try to remove the explicit 'any' in popOptions typing.
-export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =>
+// Also, try to remove the explicit 'any' in popOptions typing.
+export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = Model.findById(req.params.id);
-    if (popOptions) query = query.populate(popOptions);
+    if (config.popOptions) query = query.populate(config.popOptions);
 
     const doc = await query;
     if (!doc) return next(new AppError('No document found with that ID', 404));
+
+    // Convert User's photo filepath into buffer before sending
+    if (config.photoConvert) {
+      doc.photo = bufferConvertToString(doc.photo);
+    }
 
     res.status(200).json({
       status: 'success',
@@ -38,7 +47,7 @@ export const getOne = (Model: AllModels, popOptions: PopulatedDoc<any> = null) =
 interface QueryRequest extends Request {
   query: Record<string, string>;
 }
-export const getAll = (Model: AllModels) =>
+export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: QueryRequest, res: Response, next: NextFunction) => {
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
@@ -51,6 +60,13 @@ export const getAll = (Model: AllModels) =>
 
     const doc = await features.query;
     if (!doc) return next(new AppError('No document found with that ID', 404));
+
+    // Convert Users' photo filepath into buffer before sending
+    if (config.photoConvert) {
+      doc.forEach((cur: any) => {
+        cur.photo = bufferConvertToString(cur.photo);
+      });
+    }
 
     res.status(200).json({
       status: 'success',

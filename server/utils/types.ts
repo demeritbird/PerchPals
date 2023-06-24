@@ -18,7 +18,7 @@ export type StatusCode =
 export interface InputUser {
   name: string;
   email: string;
-  photo?: string;
+  photo: string;
   role: Roles;
   password: string;
   passwordConfirm: string;
