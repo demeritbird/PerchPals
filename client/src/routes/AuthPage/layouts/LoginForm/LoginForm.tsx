@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
-import { AccountStatus, AuthErrorResponse, Validity } from '../../../../utils/types';
+import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { AccountStatus } from '@backend';
 
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';

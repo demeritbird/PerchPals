@@ -6,6 +6,7 @@
 /server/.env
 
 /client/dist
+/client/storybook-static
 /server/dist
 
 .vscode
