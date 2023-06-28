@@ -8,7 +8,7 @@ import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
 import PersistLogin from './routes/PersistLogin';
 
-import { Roles } from './utils/types';
+import { Roles } from '@backend';
 
 import AuthPage from './routes/AuthPage';
 const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));

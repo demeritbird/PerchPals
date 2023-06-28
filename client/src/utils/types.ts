@@ -1,3 +1,5 @@
+import { AccountStatus, Roles } from '@backend';
+
 export enum Validity {
   PASS,
   FAIL,
@@ -13,18 +15,6 @@ export type User = {
   active: AccountStatus;
 };
 export type CurrentUser = User | null;
-
-export enum Roles {
-  USER = 'user',
-  ADMIN = 'admin',
-  MASTER = 'master',
-}
-
-export enum AccountStatus {
-  PENDING = 'pending',
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-}
 
 //// Request & Responses ////
 export interface AuthErrorResponse {
