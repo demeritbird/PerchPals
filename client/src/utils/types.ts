@@ -1,4 +1,4 @@
-import { AccountStatus, Roles } from '@backend';
+import { AccountStatus, Roles } from '@backend/types';
 
 export enum Validity {
   PASS,

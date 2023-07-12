@@ -5,7 +5,8 @@ import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
-import { AccountStatus } from '@backend';
+import { AccountStatus } from '@backend/types';
+import { TEST_STRING } from '@backend/constants';
 
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
@@ -104,6 +105,7 @@ function LoginForm() {
 
   return (
     <Fragment>
+      <h2>{TEST_STRING}</h2>
       <h1>Sign In</h1>
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
         <AuthFormInput
