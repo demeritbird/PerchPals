@@ -2,7 +2,10 @@
   "extends": "./../tsconfig",
   "compilerOptions": {
     "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
-    "paths": { "@backend": ["../server/utils/types/shared-types.ts"] }
+    "paths": {
+      "@backend/types": ["../server/utils/types/shared-types.ts"],
+      "@backend/constants": ["../server/utils/constants.ts"]
+    }
   },
   "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules", ".storybook"]

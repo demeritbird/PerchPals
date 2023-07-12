@@ -7,17 +7,17 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
   ],
+  core: {
+    // https://storybook.js.org/docs/html/builders/vite
+    builder: '@storybook/builder-vite',
+  },
 
   async viteFinal(config, { configType }) {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@backend': path.resolve(__dirname, '../../server/utils/types/shared-types.ts'),
+      '@backend/types': path.resolve(__dirname, '../../server/utils/types/shared-types.ts'),
+      '@backend/constants': path.resolve(__dirname, '../../server/utils/constants.ts'),
     };
     return config;
   },
-
-  core: {
-    builder: '@storybook/builder-vite',
-  },
-  // https://storybook.js.org/docs/html/builders/vite
 };
