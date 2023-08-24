@@ -150,9 +150,7 @@ export const sendActivate = catchAsync(
         `${req.protocol}://${req.get('host')}/api/v1/newUsers/activate/${user._id}`
       ).sendWelcomeEmail(activationToken);
 
-      res.status(204).json({
-        status: 'success',
-      });
+      createSendToken(user, 200, req, res);
     } catch (err) {
       // Cancel request entirely if error
       user.activationToken = undefined;

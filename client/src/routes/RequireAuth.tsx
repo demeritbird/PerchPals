@@ -14,7 +14,7 @@ function RequireAuth(props: AllowedRolesProps) {
   console.log(authUser);
 
   return authUser && authUser.active === AccountStatus.PENDING ? (
-    <Navigate to='/activate' state={{ from: location }} replace />
+    <Navigate to='/activate' />
   ) : authUser &&
     authUser.active === AccountStatus.ACTIVE &&
     allowedRoles.includes(authUser.role) &&
