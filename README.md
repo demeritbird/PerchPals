@@ -39,7 +39,8 @@ Runs Jest on test cases in server.
 ## Other Links
 
 ### Documentation
-
+- [Functional Requirements](https://docs.google.com/spreadsheets/d/1LSNtwzRROZDYNAvtLtSwmtV5sWqBCuB7PvJIsAePD40/edit?usp=sharing)
 - [Component Design](https://www.figma.com/file/0M5T7mLGFIhFC2DAjFzpva/Untitled?type=design&node-id=0%3A1&t=JvCpYQlrfTY7Wym2-1)
-- Data Models
-- API Documentation
+- [API Documentation](https://www.postman.com/pigeonpostmancafe/workspace/perchpals-platform/overview)
+- [Data Modelling](https://dbdiagram.io/d/64982cf902bd1c4a5e06f8aa)
+

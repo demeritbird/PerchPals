@@ -1,6 +1,6 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from './../hooks/useAuth';
-import { AccountStatus, Roles } from '../utils/types';
+import { AccountStatus, Roles } from '@backend/types';
 
 interface AllowedRolesProps {
   allowedRoles: Array<Roles>;

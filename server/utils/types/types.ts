@@ -1,5 +1,6 @@
 import { Types, Model, Document } from 'mongoose';
 import { Request } from 'express';
+import { AccountStatus, Roles } from './shared-types';
 
 export type StatusCode =
   // Success Responses
@@ -43,16 +44,4 @@ export interface UserModel extends Model<UserDocument> {
 
 export interface UserRequest extends Request {
   user?: UserDocument;
-}
-
-export enum Roles {
-  USER = 'user',
-  ADMIN = 'admin',
-  MASTER = 'master',
-}
-
-export enum AccountStatus {
-  PENDING = 'pending',
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
 }
