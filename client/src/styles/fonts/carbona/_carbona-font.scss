@@ -3,13 +3,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-ExtraLight.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-ExtraLight.otf") format("opentype");
 
   font-weight: 200;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-ExtraLightSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-ExtraLightSlanted.otf") format("opentype");
 
   font-weight: 200;
   font-style: italic;
@@ -17,13 +21,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-Light.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-Light.otf") format("opentype");
 
   font-weight: 300;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-LightSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-LightSlanted.otf") format("opentype");
 
   font-weight: 300;
   font-style: italic;
@@ -31,13 +39,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-Regular.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-Regular.otf") format("opentype");
 
   font-weight: 400;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-RegularSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-RegularSlanted.otf") format("opentype");
 
   font-weight: 400;
   font-style: italic;
@@ -45,13 +57,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-Medium.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-Medium.otf") format("opentype");
 
   font-weight: 500;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-MediumSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-MediumSlanted.otf") format("opentype");
 
   font-weight: 500;
   font-style: italic;
@@ -59,13 +75,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-SemiBold.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-SemiBold.otf") format("opentype");
 
   font-weight: 600;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-SemiBoldSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-SemiBoldSlanted.otf") format("opentype");
 
   font-weight: 600;
   font-style: italic;
@@ -73,13 +93,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-Bold.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-Bold.otf") format("opentype");
 
   font-weight: 700;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-BoldSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-BoldSlanted.otf") format("opentype");
 
   font-weight: 700;
   font-style: italic;
@@ -87,13 +111,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-ExtraBold.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-ExtraBold.otf") format("opentype");
 
   font-weight: 800;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-ExtraBoldSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-ExtraBoldSlanted.otf") format("opentype");
 
   font-weight: 800;
   font-style: italic;
@@ -101,13 +129,17 @@
 
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-Black.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-Black.otf") format("opentype");
 
   font-weight: 800;
 }
 @font-face {
   font-family: "Carbona";
-  src: local("Carbona"), url("./styles/fonts/carbona/CarbonaTest-BlackSlanted.otf");
+  src:
+    local("Carbona"),
+    url("./fonts/carbona/CarbonaTest-BlackSlanted.otf") format("opentype");
 
   font-weight: 800;
   font-style: italic;
