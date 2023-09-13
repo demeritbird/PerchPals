@@ -6,7 +6,6 @@ import useAxios from '../../../../hooks/useAxios';
 import { logValidity } from '../../../../utils/helpers';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
 import { AccountStatus } from '@backend/types';
-import { TEST_STRING } from '@backend/constants';
 
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
@@ -21,7 +20,7 @@ function loginInputIsValid(email: string, password: string): boolean {
 }
 
 const TAG = '** Login Form';
-function LoginForm() {
+function LoginPanel() {
   const navigate = useNavigate();
   const { authUser, setAuthUser, setPersist } = useAuth();
   const {
@@ -105,7 +104,6 @@ function LoginForm() {
 
   return (
     <Fragment>
-      <h2>{TEST_STRING}</h2>
       <h1>Sign In</h1>
       <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
         <AuthFormInput
@@ -135,4 +133,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default LoginPanel;

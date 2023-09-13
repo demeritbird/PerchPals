@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 
 import useAuth from '../../hooks/useAuth';
-import LoginForm from './layouts/LoginForm';
+import LoginPanel from './layouts/LoginPanel';
 import SignupForm from './layouts/SignupForm';
 import AuthedPanel from './layouts/AuthedPanel';
 
@@ -19,7 +19,7 @@ function AuthPage() {
     authUser ? RegistrationStatus.AUTHED : RegistrationStatus.LOGIN
   );
 
-  const loginPanel: JSX.Element = <LoginForm />;
+  const loginPanel: JSX.Element = <LoginPanel />;
   const signupPanel: JSX.Element = <SignupForm />;
   const authedPanel: JSX.Element = (
     <AuthedPanel
