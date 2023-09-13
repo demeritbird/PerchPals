@@ -1,1 +1,58 @@
 @use "./../../../../styles/main.scss" as *;
+
+.panel {
+  @include flex-top-down;
+  justify-content: space-between;
+
+  height: 100%;
+  padding: 5.2rem 2rem;
+  &__section {
+    @include flex-top-down;
+  }
+}
+
+.logo {
+  // TODO: to change
+  height: 23.2rem;
+  width: 28rem;
+  background-color: grey;
+}
+
+.form {
+  @include flex-top-down;
+
+  &__alt-text {
+    align-self: flex-end;
+
+    font-family: "Carbona", sans-serif;
+    font-size: 1.728rem;
+    font-weight: 400;
+    color: $color-grey-light;
+
+    margin-right: 1rem;
+  }
+}
+
+.prompt {
+  font-family: "Carbona", sans-serif;
+  font-size: 1.728rem;
+  font-weight: 300;
+
+  &__highlight {
+    cursor: pointer;
+
+    font-family: "Carbona", sans-serif;
+    font-size: 1.728rem;
+    font-weight: 700;
+    color: $color-primary-dark;
+    text-decoration: underline;
+
+    &:hover {
+      color: lighten($color-primary-dark, 12%);
+    }
+
+    &:active {
+      color: darken($color-primary-dark, 12%);
+    }
+  }
+}

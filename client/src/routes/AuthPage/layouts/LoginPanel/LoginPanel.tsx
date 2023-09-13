@@ -1,14 +1,17 @@
-import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
-import { logValidity } from '../../../../utils/helpers';
-import { AuthErrorResponse, Validity } from '../../../../utils/types';
-import { AccountStatus } from '@backend/types';
-
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
+
+import { RegistrationStatus } from '../../AuthPage';
+import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { AccountStatus } from '@backend/types';
+import { logValidity } from '../../../../utils/helpers';
+
+import styles from './LoginPanel.module.scss';
 
 interface LoginRequest {
   email: string;
@@ -19,16 +22,21 @@ function loginInputIsValid(email: string, password: string): boolean {
   return email.includes('@') && password.length >= 8;
 }
 
+interface LoginPanelProps {
+  setCurrentRegistrationHandler: React.Dispatch<React.SetStateAction<RegistrationStatus>>;
+}
+
 const TAG = '** Login Form';
-function LoginPanel() {
+function LoginPanel(props: LoginPanelProps) {
+  const { setCurrentRegistrationHandler: setCurrentRegistrationState } = props;
   const navigate = useNavigate();
   const { authUser, setAuthUser, setPersist } = useAuth();
   const {
-    response: authResponse,
-    error: authError,
+    response: loginResponse,
+    error: loginError,
     isError,
     isLoading,
-    axiosRequest: authRequest,
+    axiosRequest: loginRequest,
   } = useAxios();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -44,21 +52,21 @@ function LoginPanel() {
     if (isError) {
       setError({
         title: 'Authentication Error',
-        message: authError,
+        message: loginError,
       });
 
-      logValidity(TAG, Validity.FAIL, authError);
+      logValidity(TAG, Validity.FAIL, loginError);
       return;
     }
 
-    if (authResponse != null) {
+    if (loginResponse != null) {
       const inputUser = {
-        id: authResponse.data.user._id,
-        name: authResponse.data.user.name,
-        email: authResponse.data.user.email,
-        role: authResponse.data.user.role,
-        active: authResponse.data.user.active,
-        token: authResponse.token,
+        id: loginResponse.data.user._id,
+        name: loginResponse.data.user.name,
+        email: loginResponse.data.user.email,
+        role: loginResponse.data.user.role,
+        active: loginResponse.data.user.active,
+        token: loginResponse.token,
       };
 
       setAuthUser(inputUser);
@@ -66,9 +74,9 @@ function LoginPanel() {
       inputUser.active === AccountStatus.PENDING
         ? navigate(`/activate`)
         : navigate(`/landingpage`);
-      logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
+      logValidity(TAG, Validity.PASS, `Authenticated User: ${loginResponse.data.user.name}`);
     }
-  }, [authResponse, authError]);
+  }, [loginResponse, loginError]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -95,7 +103,7 @@ function LoginPanel() {
       email: inputEmail,
       password: inputPassword,
     };
-    authRequest({
+    loginRequest({
       method: 'post',
       url: 'api/v1/users/login',
       requestBody,
@@ -103,33 +111,60 @@ function LoginPanel() {
   }
 
   return (
-    <Fragment>
-      <h1>Sign In</h1>
-      <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-        <AuthFormInput
-          id='email'
-          inputType='email'
-          inputRef={emailInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Email:
-        </AuthFormInput>
-        <AuthFormInput
-          id='password'
-          inputType='password'
-          inputRef={passwordInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Password:
-        </AuthFormInput>
-        <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
-          Log In
-        </AuthPrimaryButton>
-      </form>
+    <div className={styles.panel}>
+      <div className={styles.panel__section}>
+        {/* TODO: to add in image component when done.*/}
+        <div className={styles.logo}></div>
+      </div>
+      <div className={styles.panel__section}>
+        <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
+          <div className={`${styles.form} u-margin-btm-medium`}>
+            <AuthFormInput
+              id='email'
+              inputType='email'
+              inputRef={emailInputRef}
+              onChangeHandler={() => setError(null)}
+            >
+              Email
+            </AuthFormInput>
+            <AuthFormInput
+              id='password'
+              inputType='password'
+              inputRef={passwordInputRef}
+              onChangeHandler={() => setError(null)}
+            >
+              Password
+            </AuthFormInput>
 
-      <h1>{error ? error.message : 'no error currently'}</h1>
-      <h1>{authUser ? authUser.name : 'no user currently'}</h1>
-    </Fragment>
+            <span
+              className={styles['form__alt-text']}
+              onClick={() => {
+                /* TODO: forget password page */
+              }}
+            >
+              Forgot your password?
+            </span>
+          </div>
+          <div className={`${styles.panel__section}`}>
+            <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
+              Log In
+            </AuthPrimaryButton>
+
+            <p className={styles.prompt}>
+              Not a member?{' '}
+              <span
+                className={styles.prompt__highlight}
+                onClick={() => {
+                  setCurrentRegistrationState(RegistrationStatus.SIGNUP);
+                }}
+              >
+                Sign Up
+              </span>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

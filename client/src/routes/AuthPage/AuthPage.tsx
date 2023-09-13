@@ -19,7 +19,9 @@ function AuthPage() {
     authUser ? RegistrationStatus.AUTHED : RegistrationStatus.LOGIN
   );
 
-  const loginPanel: JSX.Element = <LoginPanel />;
+  const loginPanel: JSX.Element = (
+    <LoginPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
+  );
   const signupPanel: JSX.Element = <SignupForm />;
   const authedPanel: JSX.Element = (
     <AuthedPanel

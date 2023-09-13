@@ -1,0 +1,49 @@
+@use "./../../../styles/main.scss" as *;
+
+$input-container-height: 6.4rem;
+$input-container-width: 43.2rem;
+
+$input-icon-height: 100%;
+$input-icon-width: 6rem;
+
+.container {
+  display: flex;
+  flex-direction: row;
+
+  height: $input-container-height;
+  width: $input-container-width;
+
+  transition: all 0.2s;
+
+  &--active {
+    border-bottom: 1px solid $color-black;
+  }
+  &--inactive {
+    border-bottom: 1px solid $color-grey-light;
+  }
+
+  &__icon {
+    @include flex-center;
+
+    height: $input-icon-height;
+    width: $input-icon-width;
+
+    margin: 0 2rem 0 1rem;
+  }
+
+  &__input {
+    height: 100%;
+    width: calc($input-container-width - $input-icon-width);
+  }
+}
+
+.input-text {
+  height: 100%;
+  width: 100%;
+  border: none;
+  outline: none;
+
+  font-family: "Open Sans", sans-serif;
+  font-size: 2.074rem;
+  font-weight: 300;
+}
