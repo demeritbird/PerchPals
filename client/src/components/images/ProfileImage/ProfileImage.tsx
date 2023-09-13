@@ -20,7 +20,7 @@ function ProfileImage(props: ProfileImageProps) {
   } = props;
 
   return (
-    <div className={`${styles.profile} ${hasBorder && styles.profile__border}`}>
+    <div className={`${styles[`profile--${size}`]} ${hasBorder && styles.profile__border}`}>
       <figure className={styles.profile__shape} data-testid='profileimage'>
         <img
           className={`${styles.profile__image} ${hasBlur && styles['profile__image--blur']}`}

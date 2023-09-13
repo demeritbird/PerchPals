@@ -23,10 +23,6 @@ function App() {
   });
 
   useEffect(() => {
-    console.log(testdata);
-  }, [testdata]);
-
-  useEffect(() => {
     setStore({
       name: 'bar',
     });
@@ -41,9 +37,6 @@ function App() {
 
   return (
     <Fragment>
-      <h1>{store.name}</h1>
-      <button onClick={getTestData}>test me</button>
-      <button onClick={refresh}>refresh</button>
       <Routes>
         <Route element={<PersistLogin />}>
           <Route path='/' element={<AuthPage />} />
