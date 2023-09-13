@@ -21,7 +21,7 @@ function useRefreshToken() {
     }
 
     const refreshUser = {
-      id: response.data.data.user.id,
+      id: response.data.data.user._id,
       name: response.data.data.user.name,
       email: response.data.data.user.email,
       role: response.data.data.user.role,
