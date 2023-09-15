@@ -149,7 +149,7 @@ function LoginPanel(props: LoginPanelProps) {
             <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
               Log In
             </AuthPrimaryButton>
-
+ 
             <p className={styles.prompt}>
               Not a member?{' '}
               <span

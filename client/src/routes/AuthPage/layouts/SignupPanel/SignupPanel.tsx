@@ -1,13 +1,16 @@
-import { useState, useRef, useEffect, Fragment, FormEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
-import { logValidity } from '../../../../utils/helpers';
-import { AuthErrorResponse, Validity } from '../../../../utils/types';
-
 import AuthFormInput from '../../../../components/inputs/AuthFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
+
+import { RegistrationStatus } from '../../AuthPage';
+import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { logValidity } from '../../../../utils/helpers';
+
+import styles from './SignupPanel.module.scss';
 
 interface SignupRequest {
   name: string;
@@ -30,8 +33,13 @@ function signupInputIsValid(
   return true;
 }
 
+interface SignupPanelProps {
+  setCurrentRegistrationHandler: React.Dispatch<React.SetStateAction<RegistrationStatus>>;
+}
+
 const TAG = '** Signup Panel';
-function SignupPanel() {
+function SignupPanel(props: SignupPanelProps) {
+  const { setCurrentRegistrationHandler: setCurrentRegistrationState } = props;
   const navigate = useNavigate();
   const { authUser, setAuthUser, setPersist } = useAuth();
   const {
@@ -126,50 +134,66 @@ function SignupPanel() {
   }
 
   return (
-    <Fragment>
-      <h1>Sign In</h1>
-      <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-        <AuthFormInput
-          id='username'
-          inputType='text'
-          inputRef={usernameInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Username:
-        </AuthFormInput>
-        <AuthFormInput
-          id='email'
-          inputType='email'
-          inputRef={emailInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Email:
-        </AuthFormInput>
-        <AuthFormInput
-          id='password'
-          inputType='password'
-          inputRef={passwordInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Password:
-        </AuthFormInput>
-        <AuthFormInput
-          id='password'
-          inputType='password'
-          inputRef={confirmPasswordInputRef}
-          onChangeHandler={() => setError(null)}
-        >
-          Confirm Password:
-        </AuthFormInput>
+    <div className={styles.panel}>
+      <div className={styles.panel__section}>
+        {/* TODO: to add in image component when done.*/}
+        <div className={styles.logo}></div>
+      </div>
+      <div className={styles.panel__section}>
+        <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
+          <AuthFormInput
+            id='username'
+            inputType='text'
+            inputRef={usernameInputRef}
+            onChangeHandler={() => setError(null)}
+          >
+            Username
+          </AuthFormInput>
+          <AuthFormInput
+            id='email'
+            inputType='email'
+            inputRef={emailInputRef}
+            onChangeHandler={() => setError(null)}
+          >
+            Email
+          </AuthFormInput>
+          <AuthFormInput
+            id='password'
+            inputType='password'
+            inputRef={passwordInputRef}
+            onChangeHandler={() => setError(null)}
+          >
+            Password
+          </AuthFormInput>
+          <AuthFormInput
+            id='password'
+            inputType='password'
+            inputRef={confirmPasswordInputRef}
+            onChangeHandler={() => setError(null)}
+          >
+            Confirm Password
+          </AuthFormInput>
 
-        <AuthPrimaryButton isLoading={authLoading} isError={error != null}>
-          Sign Up
-        </AuthPrimaryButton>
-      </form>
+          <div className={`${styles.panel__section}`}>
+            <AuthPrimaryButton isLoading={authLoading} isError={error != null}>
+              Sign Up
+            </AuthPrimaryButton>
 
-      <h1>{error ? error.message : 'no error currently'}</h1>
-      <h1>{authUser ? authUser.name : 'no user currently'}</h1>
-    </Fragment>
+            <p className={styles.prompt}>
+              Already a member?{' '}
+              <span
+                className={styles.prompt__highlight}
+                onClick={() => {
+                  setCurrentRegistrationState(RegistrationStatus.LOGIN);
+                }}
+              >
+                Sign In
+              </span>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

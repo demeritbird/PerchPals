@@ -22,7 +22,9 @@ function AuthPage() {
   const loginPanel: JSX.Element = (
     <LoginPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
   );
-  const signupPanel: JSX.Element = <SignupPanel />;
+  const signupPanel: JSX.Element = (
+    <SignupPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
+  );
   const authedPanel: JSX.Element = (
     <AuthedPanel
       currentUser={authUser}
