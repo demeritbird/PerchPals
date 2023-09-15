@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 
 import useAuth from '../../hooks/useAuth';
 import LoginPanel from './layouts/LoginPanel';
-import SignupForm from './layouts/SignupForm';
+import SignupPanel from './layouts/SignupPanel';
 import AuthedPanel from './layouts/AuthedPanel';
 
 import styles from './AuthPage.module.scss';
@@ -22,7 +22,7 @@ function AuthPage() {
   const loginPanel: JSX.Element = (
     <LoginPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
   );
-  const signupPanel: JSX.Element = <SignupForm />;
+  const signupPanel: JSX.Element = <SignupPanel />;
   const authedPanel: JSX.Element = (
     <AuthedPanel
       currentUser={authUser}

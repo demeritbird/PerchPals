@@ -1,15 +1,15 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import SignupForm from './SignupForm';
+import SignupPanel from './SignupPanel';
 
 export default {
   title: 'Layouts/LoginForm',
-  component: SignupForm,
+  component: SignupPanel,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof SignupForm>;
+} as ComponentMeta<typeof SignupPanel>;
 
-const Template: ComponentStory<typeof SignupForm> = (args) => <SignupForm />;
+const Template: ComponentStory<typeof SignupPanel> = (args) => <SignupPanel />;
 
 export const Component = Template.bind({});

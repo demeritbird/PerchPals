@@ -30,8 +30,8 @@ function signupInputIsValid(
   return true;
 }
 
-const TAG = '** Signup Form';
-function SignupForm() {
+const TAG = '** Signup Panel';
+function SignupPanel() {
   const navigate = useNavigate();
   const { authUser, setAuthUser, setPersist } = useAuth();
   const {
@@ -173,4 +173,4 @@ function SignupForm() {
   );
 }
 
-export default SignupForm;
+export default SignupPanel;
