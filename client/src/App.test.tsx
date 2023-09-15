@@ -5,6 +5,6 @@ import App from './App';
 
 test('sample render test', () => {
   render(<App />, { wrapper: BrowserRouter });
-  const textElement = screen.getByText(/username/i);
+  const textElement = screen.getByText(/Log In/i);
   expect(textElement).toBeInTheDocument();
 });

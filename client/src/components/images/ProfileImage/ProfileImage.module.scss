@@ -1,17 +1,23 @@
-@use './../../../styles/main' as *;
+@use "./../../../styles/main" as *;
 
 .profile {
   height: 17.5rem;
   width: 17.5rem;
   margin: 3.2rem;
+
+  &--medium {
+    height: 24rem;
+    width: 24rem;
+  }
+
   &__border {
     background-color: black;
     border-radius: 50%;
   }
 
   &__shape {
-    height: 16rem;
-    width: 16rem;
+    height: 100%;
+    width: 100%;
 
     position: relative;
     top: 50%;

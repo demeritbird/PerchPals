@@ -3,7 +3,7 @@ import styles from './IconWrapper.module.scss';
 
 export type IconSize = 'small' | 'medium';
 export type IconStyle = 'fill' | 'outline';
-export type IconColour = 'black' | 'blue' | 'white';
+export type IconColour = 'black' | 'blue' | 'white' | 'grey-dark' | 'grey-light';
 
 export interface IconProps {
   size: IconSize;
@@ -25,7 +25,8 @@ function IconWrapper(props: IconWrapperProps) {
       viewBox='0 0 24 24'
       fill='currentColor'
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
+                  ${styles[`icon--${colour}`]}`}
     >
       {pathName.fillPathArr.map((curPath, idx) => (
         <path key={idx} fillRule='evenodd' clipRule='evenodd' d={curPath} />
@@ -39,7 +40,8 @@ function IconWrapper(props: IconWrapperProps) {
       stroke='currentColor'
       strokeWidth={1.6}
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon--${size.toLowerCase()}`]} ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
+                  ${styles[`icon--${colour}`]}`}
     >
       {pathName.outlinePathArr.map((curPath, idx) => (
         <path key={idx} strokeLinecap='round' strokeLinejoin='round' d={curPath} />

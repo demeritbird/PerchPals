@@ -4,6 +4,7 @@ import AuthFormInput from './AuthFormInput';
 
 test('render authform input', () => {
   const testRef = createRef();
+  const TEST_VALUE = 'testvalue';
 
   render(
     <AuthFormInput
@@ -12,11 +13,10 @@ test('render authform input', () => {
       inputRef={testRef as React.RefObject<HTMLInputElement>}
       onChangeHandler={vitest.fn()}
     >
-      testvalue
-    </AuthFormInput>,
-    {}
+      {TEST_VALUE}
+    </AuthFormInput>
   );
 
-  const authPrimaryButtonInput = screen.getByLabelText('testvalue');
+  const authPrimaryButtonInput = screen.getByPlaceholderText(TEST_VALUE);
   expect(authPrimaryButtonInput).toBeInTheDocument();
 });

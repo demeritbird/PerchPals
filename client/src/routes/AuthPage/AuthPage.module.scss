@@ -1,0 +1,48 @@
+@use "./../../styles/main" as *;
+
+$color-background-gradient-1: #def9ff;
+$color-background-gradient-2: #d4eef7;
+$color-background-gradient-3: #49588e;
+
+$color-infographics-gradient-1: #c8f2ff;
+$color-infographics-gradient-2: #acaaff;
+
+.background {
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(
+    180deg,
+    $color-background-gradient-1 0%,
+    $color-background-gradient-2 28.99%,
+    $color-background-gradient-3 100%
+  );
+
+  @include flex-center;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+
+  height: 80rem;
+  width: 120rem;
+
+  background-color: $color-white;
+  border-radius: 1.2rem;
+  box-shadow: 0 2.4rem 4.8rem 0 rgba($color-black, 0.1);
+
+  overflow: hidden;
+
+  &__infographics {
+    @include flex-top-down;
+
+    width: 70rem;
+    background: linear-gradient(180deg, $color-infographics-gradient-1 36.28%, $color-infographics-gradient-2 100%);
+  }
+  &__auth-panel {
+    @include flex-top-down;
+
+    height: 100%;
+    width: 50rem;
+  }
+}

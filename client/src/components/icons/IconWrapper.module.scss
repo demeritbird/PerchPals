@@ -1,6 +1,8 @@
-@use './../../styles/main' as *;
+@use "./../../styles/main" as *;
 
 .icon {
+  transition: color 0.2s;
+
   /// Size ///
   &--small {
     height: 2.4rem;
@@ -8,8 +10,8 @@
   }
 
   &--medium {
-    height: 3.2rem;
-    width: 3.2rem;
+    height: 4rem;
+    width: 4rem;
   }
 
   /// Colour ///
@@ -21,6 +23,13 @@
   }
   &--white {
     color: $color-white;
+  }
+  &--grey-dark {
+    color: $color-grey-dark-2;
+  }
+
+  &--grey-light {
+    color: $color-grey-light;
   }
 
   /// interactive ///

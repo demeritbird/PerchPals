@@ -23,10 +23,6 @@ function App() {
   });
 
   useEffect(() => {
-    console.log(testdata);
-  }, [testdata]);
-
-  useEffect(() => {
     setStore({
       name: 'bar',
     });
@@ -41,14 +37,10 @@ function App() {
 
   return (
     <Fragment>
-      <h1>{store.name}</h1>
-      <button onClick={getTestData}>test me</button>
-      <button onClick={refresh}>refresh</button>
       <Routes>
         <Route element={<PersistLogin />}>
           <Route path='/' element={<AuthPage />} />
           <Route path='/auth' element={<AuthPage />} />
-          <Route path='/activate' element={<ActivatePage />} />
 
           <Route
             path='/publicpage'
@@ -60,6 +52,7 @@ function App() {
           />
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+              <Route path='/activate' element={<ActivatePage />} />
               <Route path='/landingpage' element={<LandingPage />} />
               <Route path='/profilepage' element={<ProfilePage />} />
             </Route>
