@@ -1,25 +1,30 @@
-import './App.scss';
-import React, { Fragment, Suspense, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import "./App.scss";
+import React, { Fragment, Suspense, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
-import useAxios from './hooks/useAxios';
-import useLocalStorage from './hooks/useLocalStorage';
-import useRefreshToken from './hooks/useRefreshToken';
-import RequireAuth from './routes/RequireAuth';
-import PersistLogin from './routes/PersistLogin';
+import useAxios from "./hooks/useAxios";
+import useLocalStorage from "./hooks/useLocalStorage";
+import useRefreshToken from "./hooks/useRefreshToken";
+import RequireAuth from "./routes/RequireAuth";
+import PersistLogin from "./routes/PersistLogin";
 
-import { Roles } from './utils/types';
+import { Roles } from "./utils/types";
 
-import AuthPage from './routes/AuthPage';
-const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
-const LandingPage = React.lazy(() => import('./routes/LandingPage'));
-const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
+import AuthPage from "./routes/AuthPage";
+const ActivatePage = React.lazy(() => import("./routes/ActivatePage"));
+const LandingPage = React.lazy(() => import("./routes/LandingPage"));
+const ProfilePage = React.lazy(() => import("./routes/ProfilePage"));
 
 function App() {
-  const { response: testdata, error, isLoading, axiosRequest: getData } = useAxios();
+  const {
+    response: testdata,
+    error,
+    isLoading,
+    axiosRequest: getData,
+  } = useAxios();
   const refresh = useRefreshToken();
-  const [store, setStore] = useLocalStorage('key', {
-    name: 'foo',
+  const [store, setStore] = useLocalStorage("key", {
+    name: "foo",
   });
 
   useEffect(() => {
@@ -28,14 +33,14 @@ function App() {
 
   useEffect(() => {
     setStore({
-      name: 'bar',
+      name: "bar",
     });
   }, []);
 
   async function getTestData() {
     getData({
-      method: 'get',
-      url: 'api/v1/users/test',
+      method: "get",
+      url: "api/v1/users/test",
     });
   }
 
@@ -46,11 +51,11 @@ function App() {
       <button onClick={refresh}>refresh</button>
       <Routes>
         <Route element={<PersistLogin />}>
-          <Route path='/' element={<AuthPage />} />
-          <Route path='/auth' element={<AuthPage />} />
+          <Route path="/" element={<AuthPage />} />
+          <Route path="/auth" element={<AuthPage />} />
 
           <Route
-            path='/publicpage'
+            path="/publicpage"
             element={
               <Suspense fallback={<div>loading...</div>}>
                 <LandingPage />
@@ -58,14 +63,16 @@ function App() {
             }
           />
           <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
-              <Route path='/activate' element={<ActivatePage />} />
-              <Route path='/landingpage' element={<LandingPage />} />
-              <Route path='/profilepage' element={<ProfilePage />} />
+            <Route
+              element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}
+            >
+              <Route path="/landingpage" element={<LandingPage />} />
+              <Route path="/profilepage" element={<ProfilePage />} />
             </Route>
+            <Route path="/activate" element={<ActivatePage />} />
           </Route>
         </Route>
-        <Route path='/*' element={<h4>error</h4>} />
+        <Route path="/*" element={<h4>error</h4>} />
       </Routes>
     </Fragment>
   );
