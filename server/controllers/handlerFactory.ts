@@ -28,7 +28,7 @@ export const createOne = (Model: AllModels) =>
 export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     let query = (Model as any).findById(req.params.id);
-    if (config.popOptions) query = query.populate(config.popOptions);
+    if (config.popOptions) query = query.populate({ path: config.popOptions });
 
     const doc = await query;
     if (!doc) return next(new AppError('No document found with that ID', 404));

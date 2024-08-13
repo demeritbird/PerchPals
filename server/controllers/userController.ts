@@ -8,7 +8,7 @@ import { UserRequest } from './../utils/types';
 import { AppError, catchAsync } from '../utils/helpers';
 
 export const getAllUsers = factory.getAll(User, { photoConvert: true });
-export const getUser = factory.getOne(User, { photoConvert: true });
+export const getUser = factory.getOne(User, { popOptions: 'Class', photoConvert: true });
 export const updateUser = factory.updateOne(User);
 export const deleteUser = factory.deleteOne(User);
 

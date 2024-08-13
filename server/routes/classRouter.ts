@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.get('/getAllClasses', classController.getAllClasses);
+router.get('/', classController.getAllClasses);
+router.get('/:id', classController.getClass);
 router.post('/createClass', classController.createClass);
 router.post('/assignClassToUser', classController.assignClassToUser);
 
