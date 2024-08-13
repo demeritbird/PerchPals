@@ -23,12 +23,11 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
 //// Middlewares ////
 /**
  * Populates user information in Class list of users.
- * TODO: find a way to add in photo field while converting them into bufferedString.
  */
 classSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'users',
-    select: '_id name',
+    select: '_id name photo',
   });
   next();
 });

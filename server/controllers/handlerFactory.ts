@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { PopulatedDoc } from 'mongoose';
-import { ApiFeatures, AppError, catchAsync, bufferConvertToString } from '../utils/helpers';
+import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
 import { UserModel, ClassModel } from '../utils/types';
 
 /**
@@ -10,7 +10,6 @@ import { UserModel, ClassModel } from '../utils/types';
 type AllModels = UserModel | ClassModel;
 interface HandlerConfig {
   popOptions?: PopulatedDoc<any>;
-  photoConvert?: boolean;
 }
 
 export const createOne = (Model: AllModels) =>
@@ -32,11 +31,6 @@ export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
 
     const doc = await query;
     if (!doc) return next(new AppError('No document found with that ID', 404));
-
-    // Convert User's photo filepath into buffer before sending
-    if (config.photoConvert) {
-      doc.photo = bufferConvertToString(doc.photo);
-    }
 
     res.status(200).json({
       status: 'success',
@@ -60,13 +54,6 @@ export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
 
     const doc = await features.query;
     if (!doc) return next(new AppError('No document found with that ID', 404));
-
-    // Convert Users' photo filepath into buffer before sending
-    if (config.photoConvert) {
-      doc.forEach((cur: any) => {
-        cur.photo = bufferConvertToString(cur.photo);
-      });
-    }
 
     res.status(200).json({
       status: 'success',

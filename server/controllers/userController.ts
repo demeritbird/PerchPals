@@ -5,10 +5,10 @@ import sharp from 'sharp';
 import * as factory from './handlerFactory';
 import { User } from './../models';
 import { UserRequest } from './../utils/types';
-import { AppError, catchAsync } from '../utils/helpers';
+import { AppError, bufferConvertToString, catchAsync } from '../utils/helpers';
 
-export const getAllUsers = factory.getAll(User, { photoConvert: true });
-export const getUser = factory.getOne(User, { popOptions: 'Class', photoConvert: true });
+export const getAllUsers = factory.getAll(User);
+export const getUser = factory.getOne(User, { popOptions: 'classes' });
 export const updateUser = factory.updateOne(User);
 export const deleteUser = factory.deleteOne(User);
 
@@ -67,7 +67,7 @@ export const resizeUserPhoto = catchAsync(
 export const updateMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     const filteredBody = filterObj(req.body, 'name', 'email');
-    if (req.file) filteredBody.photo = req.file.filename;
+    if (req.file) filteredBody.photo = bufferConvertToString(req.file.filename);
 
     // NOTE: If email is duplicate key, return error 500 in development, but 400 in production.
     // TODO: Tell client when it is duplicate key error, or when it is not.

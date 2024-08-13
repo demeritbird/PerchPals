@@ -5,6 +5,7 @@ import readlineSync from 'readline-sync';
 
 import User from './../../models/userModel';
 import Class from './../../models/classModel';
+import { bufferConvertToString } from '../helpers';
 
 dotenv.config({ path: __dirname + './../../.env' });
 const DB: string = process.env.DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
@@ -24,7 +25,14 @@ function createCmdPrompt(): boolean {
 }
 
 // Read JSON file
-const users = JSON.parse(fs.readFileSync(`${__dirname}` + `/collections/users.json`, 'utf-8'));
+const users = JSON.parse(
+  fs.readFileSync(`${__dirname}` + `/collections/users.json`, 'utf-8')
+).map((user: any) => {
+  if (user.photo) {
+    user.photo = bufferConvertToString(user.photo);
+  }
+  return user;
+});
 const classes = JSON.parse(
   fs.readFileSync(`${__dirname}` + `/collections/classes.json`, 'utf-8')
 );

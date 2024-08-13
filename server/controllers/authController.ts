@@ -90,7 +90,6 @@ function createSendToken(
     sameSite: 'none',
   };
 
-  user.photo = bufferConvertToString(user.photo);
   (user.password as unknown) = undefined;
   res.cookie('jwt', refreshToken, cookieOptions);
   res.status(statusCode).json({
@@ -113,7 +112,7 @@ export const signup = catchAsync(
     const inputUser: SignupRequest = {
       name: req.body.name,
       email: req.body.email,
-      photo: req.body.photo,
+      photo: bufferConvertToString('default_user.jpeg'),
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
