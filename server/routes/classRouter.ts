@@ -7,5 +7,6 @@ router.use(authController.protect);
 
 router.get('/getAllClasses', classController.getAllClasses);
 router.post('/createClass', classController.createClass);
+router.post('/assignClassToUser', classController.assignClassToUser);
 
 module.exports = router;
