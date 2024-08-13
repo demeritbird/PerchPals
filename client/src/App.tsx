@@ -53,8 +53,22 @@ function App() {
           <Route element={<PersistLogin />}>
             <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
               <Route path='/activate' element={<ActivatePage />} />
-              <Route path='/landingpage' element={<LandingPage />} />
-              <Route path='/profilepage' element={<ProfilePage />} />
+              <Route
+                path='/landingpage'
+                element={
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <LandingPage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='/profilepage'
+                element={
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <ProfilePage />
+                  </Suspense>
+                }
+              />
             </Route>
           </Route>
         </Route>
