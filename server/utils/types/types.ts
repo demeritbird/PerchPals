@@ -29,6 +29,7 @@ export interface InputUser {
   passwordResetExpires?: Date;
 
   activationToken?: string;
+  classes: Types.ObjectId[];
 }
 // User Document & Instance Methods
 export interface UserDocument extends InputUser, Document {
@@ -44,4 +45,18 @@ export interface UserModel extends Model<UserDocument> {
 
 export interface UserRequest extends Request {
   user?: UserDocument;
+}
+
+//// Class Related ////
+export interface InputClass {
+  name: string;
+  users: Types.ObjectId[];
+}
+export interface ClassDocument extends InputClass, Document {
+  _id: Types.ObjectId;
+}
+export interface ClassModel extends Model<ClassDocument> {}
+
+export interface ClassRequest extends Request {
+  class?: ClassDocument;
 }

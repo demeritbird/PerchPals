@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync, bufferConvertToString } from '../utils/helpers';
-import { UserModel } from '../utils/types';
+import { UserModel, ClassModel } from '../utils/types';
 
 /**
  * @file Performs general CRUD operations for any documents
  */
 
-type AllModels = UserModel;
+type AllModels = UserModel | ClassModel;
 interface HandlerConfig {
   popOptions?: PopulatedDoc<any>;
   photoConvert?: boolean;
@@ -15,7 +15,7 @@ interface HandlerConfig {
 
 export const createOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response) => {
-    const doc = await Model.create(req.body);
+    const doc = await (Model as any).create(req.body);
 
     res.status(201).json({
       status: 'success',
@@ -27,7 +27,7 @@ export const createOne = (Model: AllModels) =>
 // Also, try to remove the explicit 'any' in popOptions typing.
 export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    let query = Model.findById(req.params.id);
+    let query = (Model as any).findById(req.params.id);
     if (config.popOptions) query = query.populate(config.popOptions);
 
     const doc = await query;
@@ -52,7 +52,7 @@ export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
     let filter = {};
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
-    const features = new ApiFeatures(Model.find(filter), req.query)
+    const features = new ApiFeatures((Model as any).find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -77,7 +77,7 @@ export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
 
 export const updateOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    const doc = await (Model as any).findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
