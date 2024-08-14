@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
-import { UserModel, ClassModel } from '../utils/types';
+import { UserModel, ClassModel, AppraisalModel } from '../utils/types';
 
 /**
  * @file Performs general CRUD operations for any documents
  */
 
-type AllModels = UserModel | ClassModel;
+type AllModels = UserModel | ClassModel | AppraisalModel;
 interface HandlerConfig {
   popOptions?: PopulatedDoc<any>;
 }

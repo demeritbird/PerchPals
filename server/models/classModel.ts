@@ -21,6 +21,7 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
         users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       },
     ],
+    appraisals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appraisal' }],
   },
   {
     toJSON: {

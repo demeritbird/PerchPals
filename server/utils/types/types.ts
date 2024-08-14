@@ -29,6 +29,7 @@ export interface InputUser {
   passwordResetExpires?: Date;
 
   activationToken?: string;
+
   classes: Types.ObjectId[];
 }
 // User Document & Instance Methods
@@ -51,6 +52,7 @@ export interface UserRequest extends Request {
 export interface InputClass {
   name: string;
   groups: Types.ObjectId[];
+  appraisals: Types.ObjectId[];
 }
 export interface ClassDocument extends InputClass, Document {
   _id: Types.ObjectId;
@@ -59,4 +61,28 @@ export interface ClassModel extends Model<ClassDocument> {}
 
 export interface ClassRequest extends Request {
   class?: ClassDocument;
+}
+
+//// Appraisal Related ////
+export interface InputAppraisal {
+  title: string;
+  description: string;
+  questions: {
+    _id: Types.ObjectId;
+    name: string;
+    reviews: {
+      _id: Types.ObjectId;
+      review: string;
+      reviewer: Types.ObjectId;
+      reviewee: Types.ObjectId;
+    }[];
+  }[];
+}
+export interface AppraisalDocument extends InputAppraisal, Document {
+  _id: Types.ObjectId;
+}
+export interface AppraisalModel extends Model<AppraisalDocument> {}
+
+export interface AppraisalRequest extends Request {
+  appraisal?: AppraisalDocument;
 }

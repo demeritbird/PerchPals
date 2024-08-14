@@ -5,6 +5,7 @@ export { app };
 
 const userRouter = require('./routes/userRouter');
 const classRouter = require('./routes/classRouter');
+const appraisalRouter = require('./routes/appraisalRouter');
 import { globalErrorHandler } from './controllers';
 
 import { AppError } from './utils/helpers';
@@ -35,6 +36,7 @@ app.use(express.static(`${__dirname}/../../cilent/public`));
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/classes', classRouter);
+app.use('/api/v1/appraisal', appraisalRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

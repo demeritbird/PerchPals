@@ -1,4 +1,5 @@
 const userRouter = require('./userRouter');
 const classRouter = require('./classRouter');
+const appraisalRouter = require('./appraisalRouter');
 
-export { classRouter };
+export { userRouter, classRouter, appraisalRouter };
