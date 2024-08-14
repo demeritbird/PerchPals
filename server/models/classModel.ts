@@ -8,7 +8,19 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
       type: String,
       required: [true, 'Please provide the name of the class!'],
     },
-    users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    groups: [
+      {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          auto: true,
+        },
+        name: {
+          type: String,
+          required: [true, 'Please provide the name of the group!'],
+        },
+        users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      },
+    ],
   },
   {
     toJSON: {
@@ -26,7 +38,7 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
  */
 classSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'users',
+    path: 'groups.$.users',
     select: '_id name photo',
   });
   next();

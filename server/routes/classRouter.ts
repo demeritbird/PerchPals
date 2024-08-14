@@ -9,5 +9,6 @@ router.get('/', classController.getAllClasses);
 router.get('/:id', classController.getClass);
 router.post('/createClass', classController.createClass);
 router.post('/assignClassToUser', classController.assignClassToUser);
+router.post('/createGroup', classController.createGroupInClass);
 
 module.exports = router;

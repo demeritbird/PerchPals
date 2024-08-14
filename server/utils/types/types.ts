@@ -50,7 +50,7 @@ export interface UserRequest extends Request {
 //// Class Related ////
 export interface InputClass {
   name: string;
-  users: Types.ObjectId[];
+  groups: Types.ObjectId[];
 }
 export interface ClassDocument extends InputClass, Document {
   _id: Types.ObjectId;

@@ -12,12 +12,12 @@ export const updateClass = factory.updateOne(Class);
 export const deleteClass = factory.deleteOne(Class);
 
 /**
- * Adds Class to User's list of classes, then adds User under Class' list of users.
+ * Adds Class to User's list of classes, then adds User under Class' list of Groups.
  * NOTE: User and Class are linked together via two-way referencing.
  */
 export const assignClassToUser = catchAsync(
   async (req: ClassRequest, res: Response, next: NextFunction): Promise<void> => {
-    const { userId, classId } = req.body;
+    const { userId, classId, groupId } = req.body;
 
     const updateUser = await User.findOneAndUpdate(
       { _id: userId, classes: { $ne: classId } },
@@ -26,8 +26,13 @@ export const assignClassToUser = catchAsync(
     );
 
     const updateClass = await Class.findOneAndUpdate(
-      { _id: classId, users: { $ne: userId } },
-      { $push: { users: userId } },
+      {
+        _id: classId,
+        'groups._id': groupId,
+      },
+      {
+        $push: { 'groups.$.users': userId },
+      },
       { new: true, runValidators: true }
     );
 
@@ -39,6 +44,28 @@ export const assignClassToUser = catchAsync(
       status: 'success',
       data: {
         user: updateUser,
+        class: updateClass,
+      },
+    });
+  }
+);
+
+/**
+ * Creates a group in existing class which holds users that are assigned.
+ */
+export const createGroupInClass = catchAsync(
+  async (req: ClassRequest, res: Response, next: NextFunction): Promise<void> => {
+    const { classId, group } = req.body;
+
+    const updateClass = await Class.findOneAndUpdate(
+      { _id: classId },
+      { $push: { groups: { name: group.groupName } } },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      data: {
         class: updateClass,
       },
     });

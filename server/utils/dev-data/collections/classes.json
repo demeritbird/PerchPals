@@ -2,11 +2,11 @@
   {
     "_id": "66bb0cabde163c32e0a1c757",
     "name": "class1",
-    "users": ["637adbb1b0d29a9a93ef3630"]
+    "groups": []
   },
   {
     "_id": "66bb4873580c583b9a1b72ba",
     "name": "class2",
-    "users": []
+    "groups": []
   }
 ]
