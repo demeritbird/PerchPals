@@ -7,52 +7,63 @@ import { InputUser, UserDocument, UserModel, Roles, AccountStatus } from './../u
 import { DEFAULT_USER_IMAGE } from '../utils/constants';
 
 //// Schema ////
-const userSchema = new Schema<UserDocument, UserModel>({
-  name: {
-    type: String,
-    required: [true, 'Please provide your name!'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide your email!'],
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email!'],
-  },
-  photo: {
-    type: String,
-    default: DEFAULT_USER_IMAGE,
-  },
-  role: {
-    type: String,
-    enum: [Roles.USER, Roles.ADMIN, Roles.MASTER],
-    default: Roles.USER,
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password!'],
-    minLength: 8,
-    select: false,
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password!'],
-    validate: {
-      validator: function (el: string): boolean {
-        return el === (this as InputUser & SchemaValidator<string>).password;
-      },
-      message: 'Passwords are not the same!',
+const userSchema = new Schema<UserDocument, UserModel>(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please provide your name!'],
     },
+    email: {
+      type: String,
+      required: [true, 'Please provide your email!'],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, 'Please provide a valid email!'],
+    },
+    photo: {
+      type: String,
+      default: DEFAULT_USER_IMAGE,
+    },
+    role: {
+      type: String,
+      enum: [Roles.USER, Roles.ADMIN, Roles.MASTER],
+      default: Roles.USER,
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password!'],
+      minLength: 8,
+      select: false,
+    },
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password!'],
+      validate: {
+        validator: function (el: string): boolean {
+          return el === (this as InputUser & SchemaValidator<string>).password;
+        },
+        message: 'Passwords are not the same!',
+      },
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: String,
+      enum: Object.values(AccountStatus),
+      default: AccountStatus.PENDING,
+    },
+    activationToken: String,
+    classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }],
   },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  active: {
-    type: String,
-    enum: Object.values(AccountStatus),
-    default: AccountStatus.PENDING,
-  },
-  activationToken: String,
-});
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  }
+);
 
 //// Middlewares ////
 /**

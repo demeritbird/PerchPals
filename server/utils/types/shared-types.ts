@@ -9,3 +9,8 @@ export enum AccountStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
 }
+
+export enum UserClassStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+}

@@ -93,6 +93,10 @@ class EmailService {
       'Your password reset token (valid for only 10 minutes)'
     );
   }
+
+  async sendClassInvitationEmail() {
+    await this.sendEmail('classInvitationEmail', 'You have been added to a class!');
+  }
 }
 
 export default EmailService;
