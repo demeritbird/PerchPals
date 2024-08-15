@@ -27,6 +27,7 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
         },
         users: [
           {
+            _id: false,
             user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
             status: {
               type: String,
