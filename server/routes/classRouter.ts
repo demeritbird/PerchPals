@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.use(authController.protect);
 
-router.get('/', classController.getAllClasses);
+router.route('/').get(classController.getAllClasses).post(classController.createClass);
 router.get('/:id', classController.getClass);
-router.post('/createClass', classController.createClass);
-router.post('/createGroup', classController.createGroupInClass);
 
-router.patch('/assignClass', classController.assignUsersToClass);
-router.patch('/acceptClass', classController.userAcceptClassInvitation);
+router.patch('/:classId/assign', classController.assignUsersToClass);
+router.patch('/:classId/users/:userId/accept', classController.userAcceptClassInvitation);
+
+router.post('/group', classController.createGroupInClass);
 
 module.exports = router;

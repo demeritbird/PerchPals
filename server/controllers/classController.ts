@@ -18,7 +18,8 @@ export const deleteClass = factory.deleteOne(Class);
 export const assignUsersToClass = catchAsync(
   async (req: ClassRequest, res: Response, next: NextFunction): Promise<void> => {
     // usersToAdd -> { userId: string; groupId: string }
-    const { classId, usersInfo } = req.body;
+    const { classId } = req.params;
+    const { usersInfo } = req.body;
 
     // check if theres any users to add in first.
     if (usersInfo.length === 0) {
@@ -98,7 +99,8 @@ export const createGroupInClass = catchAsync(
  */
 export const userAcceptClassInvitation = catchAsync(
   async (req: ClassRequest, res: Response, next: NextFunction): Promise<void> => {
-    const { userId, classId, groupId } = req.body;
+    const { classId, userId } = req.params;
+    const { groupId } = req.body;
 
     // find class
     const classDoc = await Class.findOne({
