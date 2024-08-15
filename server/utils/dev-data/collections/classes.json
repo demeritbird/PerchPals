@@ -2,11 +2,28 @@
   {
     "_id": "66bb0cabde163c32e0a1c757",
     "name": "class1",
-    "groups": []
+    "groups": [
+      {
+        "_id": "66bd9d59c0b9a55688e6968a",
+        "name": "test group",
+        "users": [
+          {
+            "user": "6489ae95f606b55b0c2f51ca",
+            "status": "active"
+          },
+          {
+            "user": "637adbb1b0d29a9a93ef3630",
+            "status": "active"
+          }
+        ]
+      }
+    ],
+    "appraisals": ["66bdf6b58d39050abb1f24b9"]
   },
   {
     "_id": "66bb4873580c583b9a1b72ba",
     "name": "class2",
-    "groups": []
+    "groups": [],
+    "appraisals": []
   }
 ]

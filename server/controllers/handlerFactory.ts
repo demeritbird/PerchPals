@@ -43,8 +43,8 @@ interface QueryRequest extends Request {
 }
 export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: QueryRequest, res: Response, next: NextFunction) => {
-    let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    let filter: { [key: string]: string } = {};
+    if (req.params.classId) filter.class = req.params.classId;
 
     const features = new ApiFeatures((Model as any).find(filter), req.query)
       .filter()

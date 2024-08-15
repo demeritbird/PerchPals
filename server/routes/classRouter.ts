@@ -1,5 +1,6 @@
 import express from 'express';
 import { authController, classController } from '../controllers';
+import { appraisalRouter } from '.';
 
 const router = express.Router();
 
@@ -12,5 +13,7 @@ router.patch('/:classId/assign', classController.assignUsersToClass);
 router.patch('/:classId/users/:userId/accept', classController.userAcceptClassInvitation);
 
 router.post('/group', classController.createGroupInClass);
+
+router.use('/:classId/appraisals', appraisalRouter);
 
 module.exports = router;
