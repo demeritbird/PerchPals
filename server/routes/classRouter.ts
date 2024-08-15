@@ -8,7 +8,9 @@ router.use(authController.protect);
 router.get('/', classController.getAllClasses);
 router.get('/:id', classController.getClass);
 router.post('/createClass', classController.createClass);
-router.post('/assignClassToUser', classController.assignClassToUser);
 router.post('/createGroup', classController.createGroupInClass);
+
+router.patch('/assignClass', classController.assignUsersToClass);
+router.patch('/acceptClass', classController.userAcceptClassInvitation);
 
 module.exports = router;

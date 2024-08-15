@@ -1,6 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { InputClass, ClassDocument, ClassModel, Roles, AccountStatus } from './../utils/types';
+import {
+  InputClass,
+  ClassDocument,
+  ClassModel,
+  Roles,
+  AccountStatus,
+  UserClassStatus,
+} from './../utils/types';
 //// Schema ////
 const classSchema = new Schema<ClassDocument, ClassModel>(
   {
@@ -18,7 +25,16 @@ const classSchema = new Schema<ClassDocument, ClassModel>(
           type: String,
           required: [true, 'Please provide the name of the group!'],
         },
-        users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+        users: [
+          {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            status: {
+              type: String,
+              enum: [UserClassStatus.PENDING, UserClassStatus.ACTIVE],
+              default: UserClassStatus.PENDING,
+            },
+          },
+        ],
       },
     ],
     appraisals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Appraisal' }],
