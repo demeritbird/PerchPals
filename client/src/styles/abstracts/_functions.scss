@@ -1,7 +1,18 @@
+@use "sass:color";
+
 @function multiply($a, $b) {
   @return calc($a * $b);
 }
 
 @function divide($a, $b) {
   @return calc($a / $b);
+}
+
+// link: https://stackoverflow.com/questions/59281689/sass-color-lighten-darken-function
+@function color-lighten($color, $percentage) {
+  @return color.mix(#000, $color, $percentage);
+}
+
+@function color-darken($color, $percentage) {
+  @return color.mix(#fff, $color, $percentage);
 }
