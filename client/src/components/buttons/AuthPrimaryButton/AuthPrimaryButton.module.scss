@@ -28,13 +28,13 @@
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 0.25rem 1rem rgba($color-black, 0.2);
-    background-color: darken($color-primary, 2%);
+    background-color: color-darken($color-primary, 2%);
   }
 
   &:active {
     transform: translateY(-0.5px);
     box-shadow: 0 0.1rem 0.75rem rgba($color-black, 0.2);
-    background-color: darken($color-primary, 2%);
+    background-color: color-darken($color-primary, 2%);
   }
 }
 

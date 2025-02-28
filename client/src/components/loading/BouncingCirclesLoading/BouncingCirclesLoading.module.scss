@@ -1,8 +1,8 @@
-@use './../../../styles/main' as *;
+@use "./../../../styles/main" as *;
 
-$large-scale: 'large';
-$medium-scale: 'medium';
-$small-scale: 'small';
+$large-scale: "large";
+$medium-scale: "medium";
+$small-scale: "small";
 
 $circle-initial-colour: aqua;
 $circle-final-colour: green;
@@ -54,64 +54,64 @@ $shadow-height-large: multiply($shadow-height-small, $large-mulitplier);
 $shadow-width-large: multiply($shadow-width-small, $large-mulitplier);
 $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
 
+@keyframes bounce-small {
+  0% {
+    top: $circle-lowest-small;
+    height: divide($circle-radius-small, 4);
+    background-color: $circle-final-colour;
+    border-radius: 50px 50px 25px 25px;
+    transform: translate(-50%, -50%) scaleX(1.7);
+  }
+  40% {
+    height: $circle-radius-small;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scaleX(1);
+  }
+  100% {
+    top: $circle-highest-small;
+  }
+}
+@keyframes bounce-medium {
+  0% {
+    top: $circle-lowest-medium;
+    height: divide($circle-radius-medium, 4);
+    background-color: $circle-final-colour;
+    border-radius: 50px 50px 25px 25px;
+    transform: translate(-50%, -50%) scaleX(1.7);
+  }
+  40% {
+    height: $circle-radius-medium;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scaleX(1);
+  }
+  100% {
+    top: $circle-highest-medium;
+  }
+}
+@keyframes bounce-large {
+  0% {
+    top: $circle-lowest-large;
+    height: divide($circle-radius-large, 4);
+    background-color: $circle-final-colour;
+    border-radius: 50px 50px 25px 25px;
+    transform: translate(-50%, -50%) scaleX(1.7);
+  }
+  40% {
+    height: $circle-radius-large;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scaleX(1);
+  }
+  100% {
+    top: $circle-highest-large;
+  }
+}
+
 /// @param {$large-scale | $medium-scale | $small-scale} $scale
 /// Allows circle to bounce up and down shadow
 /// - circle is at lowest @ 0%, and highest @ 100%
 /// - add a transition colour @ 40% if necessary
 @mixin circle-bounce-animation($scale: $small-scale) {
   animation: bounce-#{$scale} 0.5s alternate infinite ease;
-
-  @keyframes bounce-small {
-    0% {
-      top: $circle-lowest-small;
-      height: divide($circle-radius-small, 4);
-      background-color: $circle-final-colour;
-      border-radius: 50px 50px 25px 25px;
-      transform: translate(-50%, -50%) scaleX(1.7);
-    }
-    40% {
-      height: $circle-radius-small;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scaleX(1);
-    }
-    100% {
-      top: $circle-highest-small;
-    }
-  }
-  @keyframes bounce-medium {
-    0% {
-      top: $circle-lowest-medium;
-      height: divide($circle-radius-medium, 4);
-      background-color: $circle-final-colour;
-      border-radius: 50px 50px 25px 25px;
-      transform: translate(-50%, -50%) scaleX(1.7);
-    }
-    40% {
-      height: $circle-radius-medium;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scaleX(1);
-    }
-    100% {
-      top: $circle-highest-medium;
-    }
-  }
-  @keyframes bounce-large {
-    0% {
-      top: $circle-lowest-large;
-      height: divide($circle-radius-large, 4);
-      background-color: $circle-final-colour;
-      border-radius: 50px 50px 25px 25px;
-      transform: translate(-50%, -50%) scaleX(1.7);
-    }
-    40% {
-      height: $circle-radius-large;
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scaleX(1);
-    }
-    100% {
-      top: $circle-highest-large;
-    }
-  }
 }
 
 /// @param {$large-scale | $medium-scale | $small-scale} $scale
@@ -142,6 +142,9 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
 @mixin displace-elements($firstchild, $secondchild, $size) {
   $width: 0;
   $displacement: 0;
+
+  // left: calc($width / 2 - $displacement);
+
   @if $size == $small-scale {
     $width: $container-width-small;
     $displacement: $element-displacement-small;
@@ -153,7 +156,9 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
     $displacement: $element-displacement-large;
   }
 
-  left: calc($width / 2 - $displacement);
+  & {
+    left: calc($width / 2 - $displacement);
+  }
   &:nth-child(#{$firstchild}) {
     left: calc($width / 2);
   }

@@ -18,6 +18,17 @@ module.exports = {
       '@backend/types': path.resolve(__dirname, '../../server/utils/types/shared-types.ts'),
       '@backend/constants': path.resolve(__dirname, '../../server/utils/constants.ts'),
     };
+
+    // link: https://sass-lang.com/d/legacy-js-api
+    config.css = {
+      ...config.css,
+      preprocessorOptions: {
+        scss: {
+          silenceDeprecations: ['legacy-js-api'],
+        },
+      },
+    };
+
     return config;
   },
 };
