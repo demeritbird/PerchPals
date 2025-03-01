@@ -1,16 +1,18 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import EmailIcon from './EmailIcon';
 
 export default {
   title: 'Icons/EmailIcon',
   component: EmailIcon,
-} as ComponentMeta<typeof EmailIcon>;
+} as Meta<typeof EmailIcon>;
 
-const Template: ComponentStory<typeof EmailIcon> = (args) => <EmailIcon {...args} />;
+type Story = StoryObj<typeof EmailIcon>;
 
-export const Component = Template.bind({});
-Component.args = {
-  size: 'small',
-  type: 'fill',
-  colour: 'black',
+export const Component: Story = {
+  args: {
+    size: 'small',
+    type: 'fill',
+    colour: 'black',
+  },
 };

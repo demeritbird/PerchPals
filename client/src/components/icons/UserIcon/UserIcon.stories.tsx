@@ -1,17 +1,18 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import UserIcon from './UserIcon';
 
 export default {
   title: 'Icons/UserIcon',
   component: UserIcon,
-} as ComponentMeta<typeof UserIcon>;
+} as Meta<typeof UserIcon>;
 
-const Template: ComponentStory<typeof UserIcon> = (args) => <UserIcon {...args} />;
+type Story = StoryObj<typeof UserIcon>;
 
-export const Component = Template.bind({});
-Component.args = {
-  size: 'small',
-  type: 'fill',
-  colour: 'black',
+export const Component: Story = {
+  args: {
+    size: 'small',
+    type: 'fill',
+    colour: 'black',
+  },
 };

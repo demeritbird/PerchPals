@@ -1,16 +1,15 @@
 const path = require('path');
 
 module.exports = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm',
+    '@chromatic-com/storybook'
   ],
-  core: {
-    // https://storybook.js.org/docs/html/builders/vite
-    builder: '@storybook/builder-vite',
-  },
 
   async viteFinal(config, { configType }) {
     config.resolve.alias = {
@@ -31,4 +30,17 @@ module.exports = {
 
     return config;
   },
+
+  framework: {
+    name: '@storybook/react-vite',
+    options: {}
+  },
+
+  docs: {
+    autodocs: true
+  },
+
+  typescript: {
+    reactDocgen: 'react-docgen-typescript'
+  }
 };

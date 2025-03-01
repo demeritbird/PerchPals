@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import ProfileImage from './ProfileImage';
 
@@ -8,21 +8,23 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof ProfileImage>;
+} as Meta<typeof ProfileImage>;
 
-const Template: ComponentStory<typeof ProfileImage> = (args) => <ProfileImage {...args} />;
+type Story = StoryObj<typeof ProfileImage>;
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
+export const small: Story = {
+  args: {
+    size: 'small',
+  },
 };
 
-export const Medium = Template.bind({});
-Medium.args = {
-  size: 'medium',
+export const medium: Story = {
+  args: {
+    size: 'medium',
+  },
 };
-
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
+export const large: Story = {
+  args: {
+    size: 'large',
+  },
 };

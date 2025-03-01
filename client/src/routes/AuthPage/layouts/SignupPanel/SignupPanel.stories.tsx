@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import SignupPanel from './SignupPanel';
 
@@ -8,8 +8,8 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof SignupPanel>;
+} as Meta<typeof SignupPanel>;
 
-const Template: ComponentStory<typeof SignupPanel> = (args) => <SignupPanel />;
+type Story = StoryObj<typeof SignupPanel>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

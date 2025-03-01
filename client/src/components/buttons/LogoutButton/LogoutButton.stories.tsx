@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import LogoutButton from './LogoutButton';
 
@@ -8,8 +8,8 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof LogoutButton>;
+} as Meta<typeof LogoutButton>;
 
-const Template: ComponentStory<typeof LogoutButton> = () => <LogoutButton />;
+type Story = StoryObj<typeof LogoutButton>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

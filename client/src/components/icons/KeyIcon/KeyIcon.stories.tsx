@@ -1,16 +1,18 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import KeyIcon from './KeyIcon';
 
 export default {
   title: 'Icons/KeyIcon',
   component: KeyIcon,
-} as ComponentMeta<typeof KeyIcon>;
+} as Meta<typeof KeyIcon>;
 
-const Template: ComponentStory<typeof KeyIcon> = (args) => <KeyIcon {...args} />;
+type Story = StoryObj<typeof KeyIcon>;
 
-export const Component = Template.bind({});
-Component.args = {
-  size: 'small',
-  type: 'fill',
-  colour: 'black',
+export const Component: Story = {
+  args: {
+    size: 'small',
+    type: 'fill',
+    colour: 'black',
+  },
 };

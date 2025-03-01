@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import AuthPrimaryButton from './AuthPrimaryButton';
 
@@ -8,10 +8,7 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof AuthPrimaryButton>;
+} as Meta<typeof AuthPrimaryButton>;
+type Story = StoryObj<typeof AuthPrimaryButton>;
 
-const Template: ComponentStory<typeof AuthPrimaryButton> = (args) => (
-  <AuthPrimaryButton {...args}>Test Value</AuthPrimaryButton>
-);
-
-export const Component = Template.bind({});
+export const Component: Story = {};

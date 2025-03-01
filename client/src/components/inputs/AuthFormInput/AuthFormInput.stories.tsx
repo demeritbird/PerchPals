@@ -1,5 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
+import type { Meta, StoryObj } from '@storybook/react';
 import AuthFormInput from './AuthFormInput';
 
 export default {
@@ -8,8 +7,8 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof AuthFormInput>;
+} as Meta<typeof AuthFormInput>;
 
-const Template: ComponentStory<typeof AuthFormInput> = (args) => <AuthFormInput {...args} />;
+type Story = StoryObj<typeof AuthFormInput>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

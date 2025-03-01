@@ -1,5 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-// import { withRouter } from 'storybook-addon-react-router-v6';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import LandingPage from './LandingPage';
 
@@ -9,8 +8,8 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof LandingPage>;
+} as Meta<typeof LandingPage>;
 
-const Template: ComponentStory<typeof LandingPage> = (args) => <LandingPage />;
+type Story = StoryObj<typeof LandingPage>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

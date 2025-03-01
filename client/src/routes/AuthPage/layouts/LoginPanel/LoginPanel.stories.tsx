@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import LoginPanel from './LoginPanel';
 
@@ -8,8 +8,8 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof LoginPanel>;
+} as Meta<typeof LoginPanel>;
 
-const Template: ComponentStory<typeof LoginPanel> = (args) => <LoginPanel />;
+type Story = StoryObj<typeof LoginPanel>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

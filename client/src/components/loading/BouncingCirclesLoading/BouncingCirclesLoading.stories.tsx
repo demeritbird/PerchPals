@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import BouncingCirclesLoading from './BouncingCirclesLoading';
 
@@ -8,23 +8,24 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof BouncingCirclesLoading>;
+} as Meta<typeof BouncingCirclesLoading>;
 
-const Template: ComponentStory<typeof BouncingCirclesLoading> = (args) => (
-  <BouncingCirclesLoading {...args} />
-);
+type Story = StoryObj<typeof BouncingCirclesLoading>;
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
+export const small: Story = {
+  args: {
+    size: 'small',
+  },
 };
 
-export const Medium = Template.bind({});
-Medium.args = {
-  size: 'medium',
+export const medium: Story = {
+  args: {
+    size: 'medium',
+  },
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
+export const large: Story = {
+  args: {
+    size: 'large',
+  },
 };

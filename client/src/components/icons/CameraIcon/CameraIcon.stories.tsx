@@ -1,16 +1,18 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
 import CameraIcon from './CameraIcon';
 
 export default {
   title: 'Icons/CameraIcon',
   component: CameraIcon,
-} as ComponentMeta<typeof CameraIcon>;
+} as Meta<typeof CameraIcon>;
 
-const Template: ComponentStory<typeof CameraIcon> = (args) => <CameraIcon {...args} />;
+type Story = StoryObj<typeof CameraIcon>;
 
-export const Component = Template.bind({});
-Component.args = {
-  size: 'small',
-  type: 'fill',
-  colour: 'black',
+export const Component: Story = {
+  args: {
+    size: 'small',
+    type: 'fill',
+    colour: 'black',
+  },
 };
