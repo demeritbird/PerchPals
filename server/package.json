@@ -1,8 +1,7 @@
 {
-  "name": "server",
-  "version": "0.1.0",
-  "description": "",
-  "main": "server.js",
+  "name": "perchpals-server",
+  "description": "perchpals server implemented using nodejs with express and typescript.",
+  "private": true,
   "scripts": {
     "start": "nodemon ./server.ts",
     "test": "mocha",
@@ -10,7 +9,6 @@
     "data:import": "ts-node utils/dev-data/dev-data.ts --import",
     "data:delete": "ts-node utils/dev-data/dev-data.ts --delete"
   },
-  "keywords": [],
   "license": "ISC",
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",

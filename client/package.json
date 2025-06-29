@@ -1,6 +1,6 @@
 {
-  "name": "client",
-  "version": "0.1.0",
+  "name": "perchpals-client",
+  "description": "perchpals client implemented using react with typescript",
   "private": true,
   "scripts": {
     "start": "vite",
@@ -9,7 +9,8 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "test:storybook": "test-storybook --ci --coverage",
+    "build:storybook": "storybook build"
   },
   "eslintConfig": {
     "plugins": [

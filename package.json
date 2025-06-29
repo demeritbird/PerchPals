@@ -1,20 +1,22 @@
 {
-  "name": "perchpals_platform",
+  "name": "perchpals",
   "version": "0.1.0",
+  "description": "A collaborative and customisable forum-platform that promotes active out-of-classroom participation.",
   "author": {
     "name": "demeritbird",
     "email": "demeritbird@gmail.com"
   },
   "private": true,
-  "description": "lorem ipsum description",
-  "keywords": [],
-  "main": "index.js",
   "scripts": {
     "start:client": "npm --prefix ./client run start",
     "test:client": "npm --prefix ./client run test",
+    "build:client": "npm --prefix ./client run build",
     "start:server": "npm --prefix ./server run start",
     "test:server": "npm --prefix ./server run test",
-    "storybook": "npm --prefix ./client run storybook",
+    "build:server": "npm --prefix ./client run build",
+    "start:storybook": "npm --prefix ./client run storybook",
+    "test:storybook": "npm --prefix ./client run test:storybook",
+    "build:storybook": "npm --prefix ./client run build:storybook",
     "data:import": "npm --prefix ./server run data:import",
     "data:delete": "npm --prefix ./server run data:delete"
   },
