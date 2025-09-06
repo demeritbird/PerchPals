@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PopulatedDoc } from 'mongoose';
+import { Model, PopulatedDoc } from 'mongoose';
 import { ApiFeatures, AppError, catchAsync } from '../utils/helpers';
 import { UserModel, ClassModel, AppraisalModel } from '../utils/types';
 
@@ -14,7 +14,7 @@ interface HandlerConfig {
 
 export const createOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response) => {
-    const doc = await (Model as any).create(req.body);
+    const doc = await (Model as Model<unknown>).create(req.body);
 
     res.status(201).json({
       status: 'success',
@@ -26,7 +26,7 @@ export const createOne = (Model: AllModels) =>
 // Also, try to remove the explicit 'any' in popOptions typing.
 export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    let query = (Model as any).findById(req.params.id);
+    let query = (Model as Model<unknown>).findById(req.params.id);
     if (config.popOptions) query = query.populate({ path: config.popOptions });
 
     const doc = await query;
@@ -41,12 +41,14 @@ export const getOne = (Model: AllModels, config: HandlerConfig = {}) =>
 interface QueryRequest extends Request {
   query: Record<string, string>;
 }
-export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
+export const getAll = (Model: AllModels, filterObj: Record<string, string> = {}) =>
   catchAsync(async (req: QueryRequest, res: Response, next: NextFunction) => {
-    let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    let filter: Record<string, string> = {};
+    for (const [key, value] of Object.entries(filterObj)) {
+      filter[key] = req.params[value];
+    }
 
-    const features = new ApiFeatures((Model as any).find(filter), req.query)
+    const features = new ApiFeatures((Model as Model<unknown>).find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -64,7 +66,7 @@ export const getAll = (Model: AllModels, config: HandlerConfig = {}) =>
 
 export const updateOne = (Model: AllModels) =>
   catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const doc = await (Model as any).findByIdAndUpdate(req.params.id, req.body, {
+    const doc = await (Model as Model<unknown>).findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
@@ -72,9 +74,7 @@ export const updateOne = (Model: AllModels) =>
 
     res.status(200).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
