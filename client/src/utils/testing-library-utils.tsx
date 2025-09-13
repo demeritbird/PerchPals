@@ -5,7 +5,12 @@ import { BrowserRouter } from 'react-router-dom';
 
 const nestedProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <AuthProvider>{children}</AuthProvider>
     </BrowserRouter>
   );
