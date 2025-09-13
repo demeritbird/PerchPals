@@ -1,4 +1,4 @@
-name: Client/Server Check Tests CI
+name: Build
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
       DATABASE: ${{ secrets.DATABASE }}
@@ -29,8 +29,8 @@ jobs:
       USER_FROM: ${{ secrets.USER_FROM }}
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
