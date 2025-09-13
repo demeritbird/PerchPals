@@ -4,6 +4,10 @@ import cookieParser from 'cookie-parser';
 export { app };
 
 const userRouter = require('./routes/userRouter');
+const moduleRouter = require('./routes/moduleRouter');
+const moduleUserRouter = require('./routes/moduleUserRouter');
+const invitationRouter = require('./routes/invitationRouter');
+
 import { globalErrorHandler } from './controllers';
 
 import { AppError } from './utils/helpers';
@@ -26,13 +30,12 @@ app.get('/', (req: Request, res: Response) => {
   res.status(200).send(`Hello from the server side ${process.env.NODE_ENV}!`);
 });
 
-app.get('/testdata', (req: Request, res: Response) => {
-  res.json({ foo: 'test' });
-});
-
 app.use(express.static(`${__dirname}/../../cilent/public`));
 
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/modules', moduleRouter);
+app.use('/api/v1/moduleUsers', moduleUserRouter);
+app.use('/api/v1/invitations', invitationRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

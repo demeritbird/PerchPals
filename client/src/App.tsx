@@ -8,7 +8,7 @@ import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
 import PersistLogin from './routes/PersistLogin';
 
-import { Roles } from '@backend/types';
+import { UserRoles } from '@backend/types';
 
 import AuthPage from './routes/AuthPage';
 const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
@@ -51,7 +51,7 @@ function App() {
             }
           />
           <Route element={<PersistLogin />}>
-            <Route element={<RequireAuth allowedRoles={[Roles.USER, Roles.ADMIN]} />}>
+            <Route element={<RequireAuth allowedRoles={[UserRoles.USER, UserRoles.ADMIN]} />}>
               <Route path='/activate' element={<ActivatePage />} />
               <Route
                 path='/landingpage'

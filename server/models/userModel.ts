@@ -3,10 +3,15 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 
-import { InputUser, UserDocument, UserModel, Roles, AccountStatus } from './../utils/types';
+import {
+  InputUser,
+  UserDocument,
+  UserModel,
+  UserRoles,
+  AccountStatus,
+} from './../utils/types';
 import { DEFAULT_USER_IMAGE } from '../utils/constants';
 
-//// Schema ////
 const userSchema = new Schema<UserDocument, UserModel>(
   {
     name: {
@@ -26,8 +31,8 @@ const userSchema = new Schema<UserDocument, UserModel>(
     },
     role: {
       type: String,
-      enum: [Roles.USER, Roles.ADMIN, Roles.MASTER],
-      default: Roles.USER,
+      enum: [UserRoles.USER, UserRoles.ADMIN],
+      default: UserRoles.USER,
     },
     password: {
       type: String,
@@ -55,12 +60,7 @@ const userSchema = new Schema<UserDocument, UserModel>(
     activationToken: String,
   },
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: {
-      virtuals: true,
-    },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
   }
 );
 

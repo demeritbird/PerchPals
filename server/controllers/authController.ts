@@ -7,7 +7,7 @@ import {
   UserRequest,
   InputUser,
   UserDocument,
-  Roles,
+  UserRoles,
   StatusCode,
   AccountStatus,
 } from './../utils/types';
@@ -115,7 +115,7 @@ export const signup = catchAsync(
       photo: bufferConvertToString('default_user.jpeg'),
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
-      role: Roles.USER,
+      role: UserRoles.USER,
       active: AccountStatus.PENDING,
     };
     const newUser: UserDocument = await User.create(inputUser);
@@ -217,7 +217,7 @@ export const login = catchAsync(
  * Checks if user is authorised to use route provided.
  * @param roles user's role given to them in field.
  */
-export const restrictTo = (...roles: Roles[]) => {
+export const restrictTo = (...roles: UserRoles[]) => {
   return (req: UserRequest, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user!.role)) {
       return next(new AppError('You do not have permission to perform this action!', 403));
