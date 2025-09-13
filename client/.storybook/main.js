@@ -8,13 +8,13 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/addon-mdx-gfm',
-    '@chromatic-com/storybook'
+    '@chromatic-com/storybook',
   ],
 
   async viteFinal(config, { configType }) {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@backend/types': path.resolve(__dirname, '../../server/utils/types/shared-types.ts'),
+      '@backend/types': path.resolve(__dirname, '../../server/utils/types/sharedTypes.ts'),
       '@backend/constants': path.resolve(__dirname, '../../server/utils/constants.ts'),
     };
 
@@ -33,14 +33,14 @@ module.exports = {
 
   framework: {
     name: '@storybook/react-vite',
-    options: {}
+    options: {},
   },
 
   docs: {
-    autodocs: true
+    autodocs: true,
   },
 
   typescript: {
-    reactDocgen: 'react-docgen-typescript'
-  }
+    reactDocgen: 'react-docgen-typescript',
+  },
 };

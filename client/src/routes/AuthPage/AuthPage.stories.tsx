@@ -1,15 +1,23 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import AuthPage from './AuthPage';
+import { MemoryRouter } from 'react-router-dom';
 
 export default {
   title: 'Routes/AuthPage',
   component: AuthPage,
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as ComponentMeta<typeof AuthPage>;
+} as Meta<typeof AuthPage>;
 
-const Template: ComponentStory<typeof AuthPage> = (args) => <AuthPage />;
+type Story = StoryObj<typeof AuthPage>;
 
-export const Component = Template.bind({});
+export const Component: Story = {};

@@ -1,9 +1,22 @@
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
 
-const meta: Meta<typeof ProfilePage> = {
+export default {
+  title: 'Routes/ProfilePage',
   component: ProfilePage,
-  decorators: [(Story) => <Story />],
-};
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+} as Meta<typeof ProfilePage>;
 
-export default meta;
+type Story = StoryObj<typeof ProfilePage>;
+
+export const Component: Story = {};
