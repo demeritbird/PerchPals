@@ -4,10 +4,12 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server.ts",
-    "test": "mocha",
+    "test": "npm run data:test:delete -- -y && npm run data:test:import -- -y && mocha",
     "build": "tsc --project ./tsconfig.build.json && copyfiles public/img/*.jpeg dist && etsc && node ./dist/server.js",
     "data:import": "ts-node utils/dev-data/dev-data.ts --import",
-    "data:delete": "ts-node utils/dev-data/dev-data.ts --delete"
+    "data:delete": "ts-node utils/dev-data/dev-data.ts --delete",
+    "data:test:import": "ts-node utils/dev-data/dev-data.ts --import --test",
+    "data:test:delete": "ts-node utils/dev-data/dev-data.ts --delete --test"
   },
   "license": "ISC",
   "dependencies": {

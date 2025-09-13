@@ -18,6 +18,10 @@ const server = app.listen(PORT, () => {
 process.on('unhandledRejection', (err: Error) => {
   console.log('Unhandled Rejection! Shutting down...');
   console.log(err.name, err.message);
+
+  mongoose.disconnect().then(() => {
+    console.log('DB connection closed!');
+  });
   server.close(() => {
     process.exit(1);
   });
@@ -25,6 +29,10 @@ process.on('unhandledRejection', (err: Error) => {
 
 process.on('SIGTERM', () => {
   console.log('Sigterm Received. Shutting down gracefully...');
+
+  mongoose.disconnect().then(() => {
+    console.log('DB connection closed!');
+  });
   server.close(() => {
     console.log('Process terminated!');
   });

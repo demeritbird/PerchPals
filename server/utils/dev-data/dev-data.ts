@@ -8,13 +8,22 @@ import { ModuleDocument, UserDocument } from '../types';
 import { bufferConvertToString } from '../helpers';
 
 dotenv.config({ path: __dirname + './../../.env' });
-const DB: string = process.env.DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
-mongoose.set('strictQuery', true);
-mongoose.connect(DB).then((con) => {
-  console.log('DB connection successful!');
-});
+
+function connectToDB(isTest: boolean = false): void {
+  const DB: string = process.env[isTest ? 'TEST_DATABASE' : 'DATABASE']!.replace(
+    '<PASSWORD>',
+    process.env.DATABASE_PASSWORD!
+  );
+
+  mongoose.set('strictQuery', true);
+  mongoose.connect(DB).then((con) => {
+    console.log(`${isTest ? '<TEST>' : ''} DB connection successful!`);
+  });
+}
 
 function createCmdPrompt(): boolean {
+  if (process.argv.includes('-y')) return true;
+
   const userInput: string = readlineSync
     .question('This action is irreversible! Proceed...? (y/n): ')
     .toLowerCase();
@@ -86,8 +95,10 @@ const deleteData = async (): Promise<void> => {
   }
 };
 
-if (process.argv[2] === '--import') {
+if (process.argv.includes('--import')) {
+  connectToDB(process.argv.includes('--test'));
   importData();
-} else if (process.argv[2] === '--delete') {
+} else if (process.argv.includes('--delete')) {
+  connectToDB(process.argv.includes('--test'));
   deleteData();
 }
