@@ -1,9 +1,9 @@
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import useAuth from './../hooks/useAuth';
-import { AccountStatus, Roles } from '@backend/types';
+import { AccountStatus, UserRoles } from '@backend/types';
 
 interface AllowedRolesProps {
-  allowedRoles: Array<Roles>;
+  allowedRoles: Array<UserRoles>;
 }
 function RequireAuth(props: AllowedRolesProps) {
   const { allowedRoles } = props;

@@ -1,7 +1,6 @@
-export enum Roles {
+export enum UserRoles {
   USER = 'user',
   ADMIN = 'admin',
-  MASTER = 'master',
 }
 
 export enum AccountStatus {
@@ -10,7 +9,8 @@ export enum AccountStatus {
   INACTIVE = 'inactive',
 }
 
-export enum UserClassStatus {
+export enum UserModuleStatus {
   PENDING = 'pending',
   ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }

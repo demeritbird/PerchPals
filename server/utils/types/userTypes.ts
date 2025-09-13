@@ -1,35 +1,20 @@
 import { Types, Model, Document } from 'mongoose';
 import { Request } from 'express';
-import { AccountStatus, Roles } from './shared-types';
+import { AccountStatus, UserRoles } from './sharedTypes';
 
-export type StatusCode =
-  // Success Responses
-  | 200 // OK
-  | 201 // CREATED
-  | 204 // NO_CONTENT
-
-  // Error Responses
-  | 400 // BAD_REQUEST
-  | 401 // UNAUTHORISED
-  | 403 // FORBIDDEN
-  | 404 // NOT_FOUND
-  | 500; // INTERNAL_SERVER_ERROR
-
-//// User Related ////
 export interface InputUser {
   name: string;
   email: string;
   photo: string;
-  role: Roles;
+  role: UserRoles;
   password: string;
   passwordConfirm: string;
-  active: AccountStatus;
-
   passwordResetToken?: string;
   passwordResetExpires?: Date;
-
+  active: AccountStatus;
   activationToken?: string;
 }
+
 // User Document & Instance Methods
 export interface UserDocument extends InputUser, Document {
   _id: Types.ObjectId;

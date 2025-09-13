@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"],
     "paths": {
-      "@backend/types": ["../server/utils/types/shared-types.ts"],
+      "@backend/types": ["../server/utils/types/sharedTypes.ts"],
       "@backend/constants": ["../server/utils/constants.ts"]
     }
   },

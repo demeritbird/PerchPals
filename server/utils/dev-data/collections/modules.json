@@ -1,0 +1,9 @@
+[
+  {
+    "_id": "7489ae95f606b55b0c2f51ca",
+    "name": "sample-module-1",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "photo": "default-module.png",
+    "moduleUsers": ["637adbb1b0d29a9a93ef3640"]
+  }
+]

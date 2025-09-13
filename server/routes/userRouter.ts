@@ -1,6 +1,6 @@
 import express from 'express';
 import { authController, userController } from '../controllers';
-import { Roles } from '../utils/types';
+import { UserRoles } from '../utils/types';
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.post(
 );
 
 //// Admin-Restricted Information ////
-router.use(authController.restrictTo(Roles.ADMIN, Roles.MASTER));
+router.use(authController.restrictTo(UserRoles.ADMIN));
 
 router.route('/').get(userController.getAllUsers);
 router
