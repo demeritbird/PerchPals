@@ -117,7 +117,6 @@ export const signup = catchAsync(
       passwordConfirm: req.body.passwordConfirm,
       role: Roles.USER,
       active: AccountStatus.PENDING,
-      classes: [],
     };
     const newUser: UserDocument = await User.create(inputUser);
 

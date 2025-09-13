@@ -6,8 +6,7 @@
     "role": "user",
     "password": "test1234",
     "photo": "user-637adbb1b0d29a9a93ef3630-1686627656954.jpeg",
-    "active": "active",
-    "classes": ["66bb0cabde163c32e0a1c757"]
+    "active": "active"
   },
   {
     "_id": "6489ae95f606b55b0c2f51ca",
@@ -16,7 +15,6 @@
     "role": "admin",
     "password": "test1234",
     "photo": "default_user.jpeg",
-    "active": "active",
-    "classes": []
+    "active": "active"
   }
 ]

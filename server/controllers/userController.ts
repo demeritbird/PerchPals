@@ -8,7 +8,7 @@ import { UserRequest } from './../utils/types';
 import { AppError, bufferConvertToString, catchAsync } from '../utils/helpers';
 
 export const getAllUsers = factory.getAll(User);
-export const getUser = factory.getOne(User, { popOptions: 'classes' });
+export const getUser = factory.getOne(User);
 export const updateUser = factory.updateOne(User);
 export const deleteUser = factory.deleteOne(User);
 

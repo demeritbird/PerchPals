@@ -53,7 +53,6 @@ const userSchema = new Schema<UserDocument, UserModel>(
       default: AccountStatus.PENDING,
     },
     activationToken: String,
-    classes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Class' }],
   },
   {
     toJSON: {

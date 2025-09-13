@@ -4,8 +4,6 @@ import dotenv from 'dotenv';
 import readlineSync from 'readline-sync';
 
 import User from './../../models/userModel';
-import Class from './../../models/classModel';
-import Appraisal from '../../models/appraisalModel';
 import { bufferConvertToString } from '../helpers';
 
 dotenv.config({ path: __dirname + './../../.env' });
@@ -34,12 +32,6 @@ const users = JSON.parse(
   }
   return user;
 });
-const classes = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/classes.json`, 'utf-8')
-);
-const appraisals = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/appraisals.json`, 'utf-8')
-);
 
 // Import Data into Collection
 const importData = async (): Promise<void> => {
@@ -48,8 +40,6 @@ const importData = async (): Promise<void> => {
     if (!selection) return;
 
     await User.create(users, { validateBeforeSave: false });
-    await Class.create(classes, { validateBeforeSave: false });
-    await Appraisal.create(appraisals, { validateBeforeSave: false });
     console.log('Data successfully imported!');
   } catch (err) {
     console.error(err);
@@ -65,8 +55,6 @@ const deleteData = async (): Promise<void> => {
     if (!selection) return;
 
     await User.deleteMany();
-    await Class.deleteMany();
-    await Appraisal.deleteMany();
     console.log('Data successfully deleted!');
   } catch (err) {
     console.error(err);
