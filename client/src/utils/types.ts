@@ -1,4 +1,4 @@
-import { AccountStatus, Roles } from '@backend/types';
+import { AccountStatus, UserRoles } from '@backend/types';
 
 export enum Validity {
   PASS,
@@ -10,7 +10,7 @@ export type User = {
   id: string;
   email: string;
   name: string;
-  role: Roles;
+  role: UserRoles;
   token: string;
   active: AccountStatus;
 };
