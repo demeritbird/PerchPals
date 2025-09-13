@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon ./server.ts",
     "test": "npm run data:test:delete -- -y && npm run data:test:import -- -y && mocha",
-    "build": "tsc --project ./tsconfig.build.json && copyfiles public/img/*.jpeg dist && etsc && node ./dist/server.js",
+    "build": "rimraf dist && tsc --project ./tsconfig.build.json && copyfiles public/**/* dist && etsc",
     "data:import": "ts-node utils/dev-data/dev-data.ts --import",
     "data:delete": "ts-node utils/dev-data/dev-data.ts --delete",
     "data:test:import": "ts-node utils/dev-data/dev-data.ts --import --test",
@@ -41,6 +41,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.10.0",
     "pug": "^3.0.3",
+    "rimraf": "^6.0.1",
     "sharp": "^0.32.6",
     "typescript": "^4.9.5",
     "validator": "^13.12.0"

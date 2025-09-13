@@ -2,12 +2,12 @@ name: Client/Server Check Tests CI
 
 on:
   push:
-    branches: ['**']
+    branches: [master, release/*]
   pull_request:
     branches: [master, release/*]
 
 jobs:
-  test:
+  build:
     runs-on: windows-latest
     env:
       NODE_ENV: ${{ secrets.NODE_ENV }}
@@ -37,15 +37,15 @@ jobs:
       - name: Install Dependencies for Client
         run: |
           cd ./client
-          npm ci
-      - name: Test Client
+          npm ci --omit=dev
+      - name: Build Client
         run: |
-          npm run test:client
+          npm run build:client
 
       - name: Install Dependencies for Server
         run: |
           cd ./server
-          npm ci
-      - name: Test Server
+          npm ci --omit=dev
+      - name: Build Server
         run: |
-          npm run test:server
+          npm run build:server

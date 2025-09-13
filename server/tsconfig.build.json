@@ -1,4 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["**/*.test.ts", "./utils/dev-data"] // FIXME: this doesn't exactly remove files from build.
+  "exclude": ["tests/**/*", "**/*.test.ts", "utils/dev-data"]
 }

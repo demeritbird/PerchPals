@@ -13,7 +13,7 @@
     "build:client": "npm --prefix ./client run build",
     "start:server": "npm --prefix ./server run start",
     "test:server": "npm --prefix ./server run test",
-    "build:server": "npm --prefix ./client run build",
+    "build:server": "npm --prefix ./server run build",
     "start:storybook": "npm --prefix ./client run storybook",
     "test:storybook": "npm --prefix ./client run test:storybook",
     "build:storybook": "npm --prefix ./client run build:storybook",
