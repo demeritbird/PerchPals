@@ -1,0 +1,51 @@
+name: Client/Server Check Tests CI
+
+on:
+  push:
+    branches: [master, release/*]
+  pull_request:
+    branches: [master, release/*]
+
+jobs:
+  run_test:
+    runs-on: windows-latest
+    env:
+      NODE_ENV: ${{ secrets.NODE_ENV }}
+      DATABASE: ${{ secrets.DATABASE }}
+      TEST_DATABASE: ${{ secrets.TEST_DATABASE }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+      EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      JWT_ACCESS_TOKEN_SECRET: ${{ secrets.JWT_ACCESS_TOKEN_SECRET }}
+      JWT_ACCESS_TOKEN_EXPIRES_IN: ${{ secrets.JWT_ACCESS_TOKEN_EXPIRES_IN }}
+      JWT_REFRESH_TOKEN_SECRET: ${{ secrets.JWT_REFRESH_TOKEN_SECRET }}
+      JWT_REFRESH_TOKEN_EXPIRES_IN: ${{ secrets.JWT_REFRESH_TOKEN_EXPIRES_IN }}
+      JWT_COOKIE_EXPIRES_IN: ${{ secrets.JWT_COOKIE_EXPIRES_IN }}
+      SENDGRID_USERNAME: ${{ secrets.SENDGRID_USERNAME }}
+      SENDGRID_PASSWORD: ${{ secrets.SENDGRID_PASSWORD }}
+      USER_FROM: ${{ secrets.USER_FROM }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 20
+
+      - name: Install Dependencies for Client
+        run: |
+          cd ./client
+          npm ci
+      - name: Test Client
+        run: |
+          npm run test:client
+
+      - name: Install Dependencies for Server
+        run: |
+          cd ./server
+          npm ci
+      - name: Test Server
+        run: |
+          npm run test:server
