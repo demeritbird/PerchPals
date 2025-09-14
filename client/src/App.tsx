@@ -1,5 +1,7 @@
 import React, { Fragment, Suspense } from 'react';
 import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+
+import './index.scss'; // global stylesheet
 import styles from './App.module.scss';
 
 import RequireAuth from './routes/RequireAuth';
