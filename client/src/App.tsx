@@ -1,10 +1,7 @@
-import './App.scss';
-import React, { Fragment, Suspense, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { Fragment, Suspense } from 'react';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import styles from './App.module.scss';
 
-import useAxios from './hooks/useAxios';
-import useLocalStorage from './hooks/useLocalStorage';
-import useRefreshToken from './hooks/useRefreshToken';
 import RequireAuth from './routes/RequireAuth';
 import PersistLogin from './routes/PersistLogin';
 
@@ -16,43 +13,36 @@ const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
 
 function App() {
-  const { response: testdata, error, isLoading, axiosRequest: getData } = useAxios();
-  const refresh = useRefreshToken();
-  const [store, setStore] = useLocalStorage('key', {
-    name: 'foo',
-  });
-
-  useEffect(() => {
-    setStore({
-      name: 'bar',
-    });
-  }, []);
-
-  async function getTestData() {
-    getData({
-      method: 'get',
-      url: 'api/v1/users/test',
-    });
-  }
-
   return (
     <Fragment>
       <Routes>
         <Route element={<PersistLogin />}>
-          <Route path='/' element={<AuthPage />} />
-          <Route path='/auth' element={<AuthPage />} />
-
+          {/* Onboarding Layer */}
           <Route
-            path='/publicpage'
+            path='/'
             element={
               <Suspense fallback={<div>loading...</div>}>
-                <LandingPage />
+                <div>Dashboard Page</div>
               </Suspense>
             }
           />
-          <Route element={<PersistLogin />}>
+
+          {/* Application Layer */}
+          <Route
+            element={
+              <div className={`${styles.container}`}>
+                <Outlet />
+              </div>
+            }
+          >
+            {/* Authentication Pages */}
+            <Route path='/auth' element={<AuthPage />}></Route>
             <Route element={<RequireAuth allowedRoles={[UserRoles.USER, UserRoles.ADMIN]} />}>
-              <Route path='/activate' element={<ActivatePage />} />
+              <Route path='/auth/activate' element={<ActivatePage />} />
+            </Route>
+
+            {/* Dashboard Pages */}
+            <Route element={<RequireAuth allowedRoles={[UserRoles.USER, UserRoles.ADMIN]} />}>
               <Route
                 path='/landingpage'
                 element={
@@ -71,8 +61,9 @@ function App() {
               />
             </Route>
           </Route>
+
+          <Route path='/*' element={<Navigate to='/auth' replace />} />
         </Route>
-        <Route path='/*' element={<h4>error</h4>} />
       </Routes>
     </Fragment>
   );

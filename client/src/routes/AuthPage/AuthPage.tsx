@@ -39,7 +39,7 @@ function AuthPage() {
   };
 
   return (
-    <div className={`${styles.background}`}>
+    <div>
       <div className={`${styles.container}`}>
         <aside className={`${styles.container__infographics}`}></aside>
         <section className={`${styles['container__auth-panel']}`}>
