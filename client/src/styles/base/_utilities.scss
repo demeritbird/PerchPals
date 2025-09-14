@@ -4,25 +4,39 @@
 }
 
 //// MARGINS ////
+$spacings: (
+  1: 0.4rem,
+  2: 0.8rem,
+  3: 1.6rem,
+  4: 2.4rem,
+  5: 3.2rem,
+  6: 6.4rem
+);
 
-// Top
-.u-margin-top-small {
-  margin-top: 1.5rem !important;
-}
-.u-margin-top-medium {
-  margin-top: 4rem !important;
-}
-.u-margin-top-big {
-  margin-top: 8rem !important;
-}
+@each $name, $size in $spacings {
+  .u-gap-x--#{$name} {
+    column-gap: $size !important;
+  }
 
-// Bottom
-.u-margin-btm-small {
-  margin-bottom: 1.5rem !important;
-}
-.u-margin-btm-medium {
-  margin-bottom: 4rem !important;
-}
-.u-margin-btm-big {
-  margin-bottom: 8rem !important;
+  .u-gap-y--#{$name} {
+    row-gap: $size !important;
+  }
+
+  .u-padding-x--#{$name} {
+    padding-left: $size !important;
+    padding-right: $size !important;
+  }
+
+  .u-padding-y--#{$name} {
+    padding-top: $size !important;
+    padding-bottom: $size !important;
+  }
+
+  .u-margin-btm--#{$name} {
+    margin-bottom: $size !important;
+  }
+
+  .u-margin-right--#{$name} {
+    margin-bottom: $size !important;
+  }
 }

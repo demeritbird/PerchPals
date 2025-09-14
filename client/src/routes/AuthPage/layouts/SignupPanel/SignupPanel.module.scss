@@ -33,15 +33,15 @@
     font-family: "Carbona", sans-serif;
     font-size: 1.728rem;
     font-weight: 700;
-    color: $color-primary-dark;
+    color: $color-black;
     text-decoration: underline;
 
     &:hover {
-      color: color-lighten($color-primary-dark, 12%);
+      color: color-lighten($color-black, 12%);
     }
 
     &:active {
-      color: color-darken($color-primary-dark, 12%);
+      color: color-darken($color-black, 12%);
     }
   }
 }
