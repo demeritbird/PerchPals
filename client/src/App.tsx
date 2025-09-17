@@ -1,18 +1,21 @@
 import React, { Suspense } from 'react';
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate, useLocation } from 'react-router-dom';
 
-import './index.scss'; // global stylesheet
-import styles from './App.module.scss';
+import './App.scss'; // global stylesheet
 
 import RequireAuth from './routes/RequireAuth';
 import PersistLogin from './routes/PersistLogin';
 
+import BackgroundImageWrapper from './components/wrappers/BackgroundImageWrapper';
 import AuthPage from './routes/AuthPage';
 const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
 
 function App() {
+  const location = useLocation();
+  const locationSegments = location.pathname.split('/').filter(Boolean);
+
   return (
     <Routes>
       <Route element={<PersistLogin />}>
@@ -29,9 +32,10 @@ function App() {
         {/* Application Layer */}
         <Route
           element={
-            <div className={`${styles.container}`}>
+            /* only active when not in auth routes */
+            <BackgroundImageWrapper active={!(locationSegments[0] === 'auth')}>
               <Outlet />
-            </div>
+            </BackgroundImageWrapper>
           }
         >
           {/* Authentication Pages */}

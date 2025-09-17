@@ -1,0 +1,42 @@
+@use "./../../../styles/main.scss" as *;
+
+.container {
+  position: relative;
+  @include flex-center();
+
+  height: 100vh;
+  width: 100vw;
+  max-height: 100%;
+  max-width: 100%;
+
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include fill-parent();
+
+  pointer-events: none;
+
+  &-image {
+    @include fill-parent();
+    object-fit: cover;
+
+    z-index: -2; // must be the lowest element.
+
+    &--expanded {
+      scale: 1.2;
+      transform-origin: center center;
+    }
+  }
+  &-overlay {
+    @include fill-parent();
+    background-color: rgba($color-white, 0.2);
+
+    z-index: -1; // must be the lowest element after image.
+  }
+
+  transition: all 0.8s ease-in-out;
+}
