@@ -4,18 +4,17 @@ import EmailIcon from '../../icons/EmailIcon';
 import UserIcon from '../../icons/UserIcon';
 import KeyIcon from '../../icons/KeyIcon';
 
-import styles from './AuthFormInput.module.scss';
+import styles from './CommonFormInput.module.scss';
 
-interface AuthFormInputProps {
+interface CommonFormInputProps {
   children: string;
-  id: string;
   inputType: 'text' | 'email' | 'password';
   inputRef: React.RefObject<HTMLInputElement>;
   onChangeHandler: ChangeEventHandler<HTMLInputElement>;
 }
 
-function AuthFormInput(props: AuthFormInputProps) {
-  const { children: labelName, id, inputType, inputRef, onChangeHandler } = props;
+function CommonFormInput(props: CommonFormInputProps) {
+  const { children: placeholder, inputType, inputRef, onChangeHandler } = props;
 
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
   const inputRefCurrent = inputRef.current;
@@ -84,9 +83,8 @@ function AuthFormInput(props: AuthFormInputProps) {
         <div className={styles.container__input}>
           <input
             className={`${styles.container__input} ${styles['input-text']}`}
-            placeholder={labelName}
+            placeholder={placeholder}
             type={inputType}
-            id={id}
             ref={inputRef}
             onChange={onChangeHandler}
             onFocus={onFocusHandler}
@@ -100,4 +98,4 @@ function AuthFormInput(props: AuthFormInputProps) {
   );
 }
 
-export default AuthFormInput;
+export default CommonFormInput;

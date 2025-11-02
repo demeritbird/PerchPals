@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
-import AuthFormInput from '../../../../components/inputs/AuthFormInput';
+import CommonFormInput from '../../../../components/inputs/CommonFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 import { RegistrationStatus } from '../../AuthPage';
@@ -119,22 +119,20 @@ function LoginPanel(props: LoginPanelProps) {
       <div className={styles.panel__section}>
         <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
           <div className={`${styles.form} u-margin-btm-medium`}>
-            <AuthFormInput
-              id='email'
+            <CommonFormInput
               inputType='email'
               inputRef={emailInputRef}
               onChangeHandler={() => setError(null)}
             >
               Email
-            </AuthFormInput>
-            <AuthFormInput
-              id='password'
+            </CommonFormInput>
+            <CommonFormInput
               inputType='password'
               inputRef={passwordInputRef}
               onChangeHandler={() => setError(null)}
             >
               Password
-            </AuthFormInput>
+            </CommonFormInput>
 
             <span
               className={styles['form__alt-text']}
@@ -149,7 +147,7 @@ function LoginPanel(props: LoginPanelProps) {
             <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
               Log In
             </AuthPrimaryButton>
- 
+
             <p className={styles.prompt}>
               Not a member?{' '}
               <span

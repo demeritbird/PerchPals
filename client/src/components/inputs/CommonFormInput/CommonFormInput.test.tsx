@@ -1,20 +1,19 @@
 import React, { createRef } from 'react';
 import { render, screen } from '../../../utils/testing-library-utils';
-import AuthFormInput from './AuthFormInput';
+import CommonFormInput from './CommonFormInput';
 
-test('render authform input', () => {
+test('render Common Form Input', () => {
   const testRef = createRef();
   const TEST_VALUE = 'testvalue';
 
   render(
-    <AuthFormInput
-      id='testId'
+    <CommonFormInput
       inputType='text'
       inputRef={testRef as React.RefObject<HTMLInputElement>}
       onChangeHandler={vitest.fn()}
     >
       {TEST_VALUE}
-    </AuthFormInput>
+    </CommonFormInput>
   );
 
   const authPrimaryButtonInput = screen.getByPlaceholderText(TEST_VALUE);

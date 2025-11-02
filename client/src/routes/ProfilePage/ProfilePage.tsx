@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment, FormEvent, useRef } from 'react';
 import useAxios from '../../hooks/useAxios';
 
 import ProfileImage from '../../components/images/ProfileImage';
-import AuthFormInput from '../../components/inputs/AuthFormInput/AuthFormInput';
+import CommonFormInput from '../../components/inputs/CommonFormInput/CommonFormInput';
 
 function ProfilePage() {
   const { response, isLoading, isError, axiosRequest } = useAxios();
@@ -81,22 +81,12 @@ function ProfilePage() {
           />
         </label>
         {/* TODO: Add errors when wrong input */}
-        <AuthFormInput
-          id='name'
-          inputType='text'
-          inputRef={nameInputRef}
-          onChangeHandler={() => {}}
-        >
+        <CommonFormInput inputType='text' inputRef={nameInputRef} onChangeHandler={() => {}}>
           Name:
-        </AuthFormInput>
-        <AuthFormInput
-          id='email'
-          inputType='email'
-          inputRef={emailInputRef}
-          onChangeHandler={() => {}}
-        >
+        </CommonFormInput>
+        <CommonFormInput inputType='email' inputRef={emailInputRef} onChangeHandler={() => {}}>
           Email:
-        </AuthFormInput>
+        </CommonFormInput>
         <button type='submit'>submit form</button>
       </form>
 

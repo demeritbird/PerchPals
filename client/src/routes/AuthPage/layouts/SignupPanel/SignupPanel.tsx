@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
-import AuthFormInput from '../../../../components/inputs/AuthFormInput';
+import CommonFormInput from '../../../../components/inputs/CommonFormInput';
 import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 import { RegistrationStatus } from '../../AuthPage';
@@ -141,38 +141,34 @@ function SignupPanel(props: SignupPanelProps) {
       </div>
       <div className={styles.panel__section}>
         <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-          <AuthFormInput
-            id='username'
+          <CommonFormInput
             inputType='text'
             inputRef={usernameInputRef}
             onChangeHandler={() => setError(null)}
           >
             Username
-          </AuthFormInput>
-          <AuthFormInput
-            id='email'
+          </CommonFormInput>
+          <CommonFormInput
             inputType='email'
             inputRef={emailInputRef}
             onChangeHandler={() => setError(null)}
           >
             Email
-          </AuthFormInput>
-          <AuthFormInput
-            id='password'
+          </CommonFormInput>
+          <CommonFormInput
             inputType='password'
             inputRef={passwordInputRef}
             onChangeHandler={() => setError(null)}
           >
             Password
-          </AuthFormInput>
-          <AuthFormInput
-            id='password'
+          </CommonFormInput>
+          <CommonFormInput
             inputType='password'
             inputRef={confirmPasswordInputRef}
             onChangeHandler={() => setError(null)}
           >
             Confirm Password
-          </AuthFormInput>
+          </CommonFormInput>
 
           <div className={`${styles.panel__section}`}>
             <AuthPrimaryButton isLoading={authLoading} isError={error != null}>

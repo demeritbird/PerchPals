@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
-import AuthFormInput from './AuthFormInput';
+import CommonFormInput from './CommonFormInput';
 import { useRef } from 'react';
 
 export default {
-  title: 'Components/AuthFormInput',
-  component: AuthFormInput,
+  title: 'Components/CommonFormInput',
+  component: CommonFormInput,
   decorators: [
     (Story) => (
       <MemoryRouter>
@@ -16,15 +16,15 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as Meta<typeof AuthFormInput>;
+} as Meta<typeof CommonFormInput>;
 
-type Story = StoryObj<typeof AuthFormInput>;
+type Story = StoryObj<typeof CommonFormInput>;
 
 export const Component: Story = {
   render: (args) => {
     const Wrapper = () => {
       const inputRef = useRef<HTMLInputElement>(null);
-      return <AuthFormInput {...args} inputRef={inputRef} />;
+      return <CommonFormInput {...args} inputRef={inputRef} />;
     };
     return <Wrapper />;
   },
