@@ -20,14 +20,19 @@ function useLocalStorage<T>(key: string, initialValue: T | null = null): [T, Set
   const [state, setState] = useState<T>(() => {
     try {
       const item = localStorage.getItem(key);
-
-      if (item) {
-        return JSON.parse(item);
-      } else if (initialValue) {
+      if (!item) {
         localStorage.setItem(key, JSON.stringify(initialValue));
         return initialValue;
       }
+
+      return JSON.parse(item);
     } catch {
+      logValidity(
+        TAG,
+        Validity.FAIL,
+        `Error find key: '${key}' in localStorage, defaulting to initialValue: '${initialValue}'...`
+      );
+
       return initialValue;
     }
   });
