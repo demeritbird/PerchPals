@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ProfileImage from './ProfileImage';
 
 export default {
-  title: 'Components/ProfileImage',
+  title: 'Components/Images/ProfileImage',
   component: ProfileImage,
   argTypes: {
     backgroundColor: { control: 'color' },

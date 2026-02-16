@@ -5,6 +5,8 @@ export enum Validity {
   FAIL,
 }
 
+export type Size = 'sm' | 'md' | 'lg';
+
 //// User Related ////
 export type User = {
   id: string;
