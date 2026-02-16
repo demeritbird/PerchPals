@@ -100,24 +100,7 @@ function ActivatePage() {
     event.target.setSelectionRange(0, event.target.value.length);
   }
 
-  return (
-    <div>
-      {valueItems.map((char, idx) => (
-        <input
-          key={idx}
-          type='text'
-          inputMode='text'
-          autoComplete='one-time-code'
-          pattern='\d{1}'
-          maxLength={TOKEN_MAX_LENGTH}
-          value={char}
-          onChange={(e) => inputOnChange(e, idx)}
-          onKeyDown={inputOnKeyDown}
-          onFocus={inputOnFocus}
-        />
-      ))}
-    </div>
-  );
+  return <div></div>;
 }
 
 export default ActivatePage;

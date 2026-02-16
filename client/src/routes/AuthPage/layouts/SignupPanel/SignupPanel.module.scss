@@ -37,11 +37,11 @@
     text-decoration: underline;
 
     &:hover {
-      color: color-lighten($color-black, 12%);
+      // color: color-lighten($color-black, 12%);
     }
 
     &:active {
-      color: color-darken($color-black, 12%);
+      // color: color-darken($color-black, 12%);
     }
   }
 }
