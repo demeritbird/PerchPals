@@ -1,0 +1,73 @@
+@use "./../abstracts/variables" as v;
+@use "light" as light;
+// @use "dark" as dark;
+
+:root.light {
+  @each $name, $val in light.$theme-map {
+    #{$name}: #{$val};
+  }
+}
+// :root.dark {
+//   @each $name, $val in dark.$theme-map {
+//     #{$name}: #{$val};
+//   }
+// }
+
+//// COLOR ////
+$color-black: var(--theme-black);
+$color-white: var(--theme-white);
+$color-grey-light-1: var(--theme-grey-light-1);
+$color-grey-light-2: var(--theme-grey-light-2);
+$color-grey-dark-1: var(--theme-grey-dark-1);
+$color-grey-dark-2: var(--theme-grey-dark-2);
+
+$color-primary: var(--theme-primary);
+$color-primary-light-1: var(--theme-primary-light-1);
+$color-primary-light-2: var(--theme-primary-light-2);
+$color-primary-dark-1: var(--theme-primary-dark-1);
+$color-primary-dark-2: var(--theme-primary-dark-2);
+
+$color-secondary: var(--theme-secondary);
+$color-secondary-light: var(--theme-secondary-light);
+$color-secondary-dark: var(--theme-secondary-dark);
+
+$color-accent-green: var(--theme-accent-green);
+$color-accent-green-light: var(--theme-accent-green-light);
+$color-accent-green-dark: var(--theme-accent-green-dark);
+
+$color-accent-red: var(--theme-accent-red);
+$color-accent-red-light: var(--theme-accent-red-light);
+$color-accent-red-dark: var(--theme-accent-red-dark);
+
+//// SPACING ////
+$spacing-xs: v.$value-rem-1;
+$spacing-sm: v.$value-rem-2;
+$spacing-md: v.$value-rem-3;
+$spacing-lg: v.$value-rem-4;
+$spacing-xl: v.$value-rem-5;
+$spacing-2xl: v.$value-rem-6;
+$spacing-3xl: v.$value-rem-7;
+$spacing-4xl: v.$value-rem-8;
+
+//// RADIUS ////
+$radius-sm: v.$value-px-3;
+$radius-md: v.$value-px-6;
+$radius-lg: v.$value-px-9;
+$radius-full: 100%;
+
+//// STROKE-WIDTH ////
+$stroke-width-xs: v.$value-px-3;
+$stroke-width-sm: v.$value-px-4;
+$stroke-width-md: v.$value-px-5;
+$stroke-width-lg: v.$value-px-6;
+$stroke-width-xl: v.$value-px-7;
+
+//// OPACITY ////
+$opacity-0: 0%;
+$opacity-20: 20%;
+$opacity-40: 40%;
+$opacity-60: 60%;
+$opacity-80: 80%;
+
+//// BOX-SHADOW ////
+$box-shadow--medium: 0 v.$value-rem-4 v.$value-rem-4 rgba(var(--theme-black), $opacity-20);

@@ -1,28 +1,85 @@
+//// VALUES ////
+// rem
+$value-rem-1: 0.2rem;
+$value-rem-2: 0.4rem;
+$value-rem-3: 0.8rem;
+$value-rem-4: 1.6rem;
+$value-rem-5: 2.4rem;
+$value-rem-6: 3.2rem;
+$value-rem-7: 4.8rem;
+$value-rem-8: 6.4rem;
+$value-rem-9: 8rem;
+
+// px
+$value-px-1: 0.2px;
+$value-px-2: 0.4px;
+$value-px-3: 0.8px;
+$value-px-4: 1.6px;
+$value-px-5: 2.4px;
+$value-px-6: 3.2px;
+$value-px-7: 4.8px;
+$value-px-8: 6.4px;
+$value-px-9: 8px;
+
 //// COLOURS ////
-$color-black: #000;
-$color-white: #fff;
-$color-grey-light-1: #aaa;
-$color-grey-light-2: #ddd;
-$color-grey-dark-1: #444;
-$color-grey-dark-2: #222;
+// Neutral
+$color-neutral-0: #fff;
+$color-neutral-50: #f2f2f2;
+$color-neutral-100: #e6e6e6;
+$color-neutral-200: #cccccc;
+$color-neutral-300: #b3b3b3;
+$color-neutral-400: #999999;
+$color-neutral-500: #808080;
+$color-neutral-600: #666666;
+$color-neutral-700: #4d4d4d;
+$color-neutral-800: #333333;
+$color-neutral-900: #1a1a1a;
+$color-neutral-1000: #000;
 
-$color-primary: #30366a;
-$color-primary-light-1: #8386a6;
-$color-primary-light-2: #d6d7e1;
-$color-primary-dark-1: #262b55;
-$color-primary-dark-2: #1d2040;
+// Savoy-Blue
+$color-savoy-blue-50: #edeef8;
+$color-savoy-blue-100: #c9cdee;
+$color-savoy-blue-200: #a6abe3;
+$color-savoy-blue-300: #8288d8;
+$color-savoy-blue-400: #5f66c4;
+$color-savoy-blue-500: #4f59b0;
+$color-savoy-blue-600: #434c95;
+$color-savoy-blue-700: #373e79;
+$color-savoy-blue-800: #2b305d;
+$color-savoy-blue-900: #1f2241;
 
-$color-secondary: #b66f49;
-$color-secondary-light: #d3a992;
-$color-secondary-dark: #6d432c;
+// Cocoa-Brown
+$color-cocoa-brown-50: #faefea;
+$color-cocoa-brown-100: #f3d3be;
+$color-cocoa-brown-200: #f1d1c0;
+$color-cocoa-brown-300: #de946c;
+$color-cocoa-brown-400: #d57642;
+$color-cocoa-brown-500: #c8622c;
+$color-cocoa-brown-600: #b95527;
+$color-cocoa-brown-700: #9d4520;
+$color-cocoa-brown-800: #81361a;
+$color-cocoa-brown-900: #652714;
 
-$color-accent-green: #366a30;
-$color-accent-green-light: #86a683;
-$color-accent-green-dark: #20401d;
+// Forest Green
+$color-forest-green-50: #e9f4e8;
+$color-forest-green-100: #c7e0c4;
+$color-forest-green-200: #a3cca0;
+$color-forest-green-300: #7fb97b;
+$color-forest-green-400: #629f5e;
+$color-forest-green-500: #4d8a45;
+$color-forest-green-600: #41753a;
+$color-forest-green-700: #366a30;
+$color-forest-green-800: #285024;
+$color-forest-green-900: #1b3618;
 
-$color-accent-red: #6a3036;
-$color-accent-red-light: #a68383;
-$color-accent-red-dark: #401d1d;
-
-//// BOX-SHADOW ////
-$box-shadow--medium: 0 1.6rem 1.6rem rgba($color-black, 0.25);
+// Cordovan Red
+$color-cordovan-red-50: #f7eaea;
+$color-cordovan-red-100: #e4c5c6;
+$color-cordovan-red-200: #d19fa1;
+$color-cordovan-red-300: #bd7a7c;
+$color-cordovan-red-400: #a85b5f;
+$color-cordovan-red-500: #8a3b41;
+$color-cordovan-red-600: #753438;
+$color-cordovan-red-700: #6a3036;
+$color-cordovan-red-800: #4e2225;
+$color-cordovan-red-900: #351617;
