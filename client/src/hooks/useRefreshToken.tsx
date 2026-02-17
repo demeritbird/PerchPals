@@ -24,6 +24,7 @@ function useRefreshToken() {
       id: response.data.data.user._id,
       name: response.data.data.user.name,
       email: response.data.data.user.email,
+      photo: response.data.data.user.photo,
       role: response.data.data.user.role,
       active: response.data.data.user.active,
       token: response.data.token,
