@@ -2,16 +2,10 @@
 
 // Link: https://mockuptemplate.net/glassmorphism-css-generator/
 .wrapper {
-  background: rgba($color-white, 0.2);
-  // Fallback for browsers that don't support backdrop-filter
-  @supports not (backdrop-filter: blur(1px)) {
-    background: rgba($color-white, 0.2);
-  }
-  backdrop-filter: blur(6.4rem);
-  -webkit-backdrop-filter: blur(6.4rem);
+  background: rgba($color-white, 0.04);
+  backdrop-filter: blur(1.6rem);
+  -webkit-backdrop-filter: blur(1.6rem);
 
-  padding: 3.2rem;
+  border: 1px solid rgba($color-white, 0.1);
   border-radius: 3.2rem;
-  border: 1px solid rgba($color-white, 0.2);
-  box-shadow: $box-shadow--medium;
 }
