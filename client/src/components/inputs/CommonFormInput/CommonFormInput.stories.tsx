@@ -10,7 +10,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Sample input',
+        component: 'Reusable input with different states',
       },
     },
     controls: {

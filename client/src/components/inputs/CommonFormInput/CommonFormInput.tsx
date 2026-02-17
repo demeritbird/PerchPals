@@ -18,6 +18,32 @@ enum InputStatus {
   ERROR = 'error',
 }
 
+/**
+ * @desc
+ * reusable input with different states
+ *
+ * @param {string} props.children placeholder shown in input
+ * @param {boolean} props.showBackground shows white background when toggled on
+ * @param {boolean} props.isError triggers error state of input (red styling) when toggled on
+ * @param {React.ComponentType<IconProps>} props.icon placeholder shown in input
+ * @param {React.RefObject<HTMLInputElement>} props.inputRef ref obj attached to input
+ * @param {'text' | 'email' | 'password'} props.inputType type of input
+ * @param {ChangeEventHandler<HTMLInputElement>} props.ChangeEventHandler
+ * ref of function passed from parent to listen to any changes in component
+ *
+ * @example
+ * const emailInputRef = useRef<HTMLInputElement>(null);
+ * ...
+ * <CommonFormInput
+     icon={EmailIcon}
+     inputType='email'
+     inputRef={emailInputRef}
+     showBackground={true}
+     onChangeHandler={() => {}}
+    >
+    Email
+   </CommonFormInput>
+ */
 function CommonFormInput(props: CommonFormInputProps) {
   const {
     children: placeholder,
@@ -36,6 +62,9 @@ function CommonFormInput(props: CommonFormInputProps) {
     setIsInputActive(bool);
   }
 
+  /**
+   * @returns current state of input
+   */
   function getInputStatus(): InputStatus {
     if (isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0))
       return InputStatus.ACTIVE;
@@ -43,6 +72,9 @@ function CommonFormInput(props: CommonFormInputProps) {
     return InputStatus.INACTIVE;
   }
 
+  /**
+   * @returns icon colour based on current state of input
+   */
   function getIconColour(): IconColour {
     const status: InputStatus = getInputStatus();
 
