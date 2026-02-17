@@ -4,8 +4,6 @@ import App from './App';
 import { AuthProvider } from './contexts/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeProvider';
-
 if (import.meta.env.VITE_ENV === 'production') {
   disableReactDevTools();
 }
@@ -19,11 +17,9 @@ root.render(
         v7_relativeSplatPath: true,
       }}
     >
-      <ThemeProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
