@@ -29,3 +29,14 @@
   flex-direction: column;
   align-items: center;
 }
+
+@mixin remove-default-input-style {
+  border: none;
+  outline: none;
+  background-color: transparent;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}

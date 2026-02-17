@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
 import styles from './IconWrapper.module.scss';
+import { Size } from 'src/utils/types';
 
-export type IconSize = 'small' | 'medium';
+export type IconSize = Size | 'fill';
 export type IconStyle = 'fill' | 'outline';
-export type IconColour = 'black' | 'blue' | 'white' | 'grey-dark' | 'grey-light';
+export type IconColour = 'primary' | 'secondary' | 'grey' | 'white' | 'success' | 'error';
 
 export interface IconProps {
   size: IconSize;
@@ -22,6 +23,7 @@ function IconWrapper(props: IconWrapperProps) {
 
   const fillIcon = (
     <svg
+      data-testid='icon'
       viewBox='0 0 24 24'
       fill='currentColor'
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 

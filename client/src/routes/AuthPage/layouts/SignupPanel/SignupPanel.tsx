@@ -77,6 +77,7 @@ function SignupPanel(props: SignupPanelProps) {
         id: authResponse.data.user._id,
         name: authResponse.data.user.name,
         email: authResponse.data.user.email,
+        photo: '',
         role: authResponse.data.user.role,
         active: authResponse.data.user.active,
         token: authResponse.token,
@@ -141,7 +142,7 @@ function SignupPanel(props: SignupPanelProps) {
       </div>
       <div className={styles.panel__section}>
         <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-          <CommonFormInput
+          {/* <CommonFormInput
             inputType='text'
             inputRef={usernameInputRef}
             onChangeHandler={() => setError(null)}
@@ -168,7 +169,7 @@ function SignupPanel(props: SignupPanelProps) {
             onChangeHandler={() => setError(null)}
           >
             Confirm Password
-          </CommonFormInput>
+          </CommonFormInput> */}
 
           <div className={`${styles.panel__section}`}>
             <AuthPrimaryButton isLoading={authLoading} isError={error != null}>

@@ -1,30 +1,63 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
 import CommonFormInput from './CommonFormInput';
 import { useRef } from 'react';
+import UserIcon from 'src/components/icons/UserIcon';
+import KeyIcon from 'src/components/icons/KeyIcon';
 
-export default {
-  title: 'Components/CommonFormInput',
+const meta = {
+  title: 'Components/Inputs/CommonFormInput',
   component: CommonFormInput,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
-  argTypes: {
-    backgroundColor: { control: 'color' },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Sample input',
+      },
+    },
+    controls: {
+      exclude: ['icon', 'inputRef', 'onChangeHandler'],
+    },
   },
-} as Meta<typeof CommonFormInput>;
+} satisfies Meta<typeof CommonFormInput>;
+export default meta;
 
 type Story = StoryObj<typeof CommonFormInput>;
 
-export const Component: Story = {
+export const textInputComponent: Story = {
+  args: {
+    inputType: 'text',
+    showBackground: true,
+    isError: false,
+  },
+
   render: (args) => {
     const Wrapper = () => {
       const inputRef = useRef<HTMLInputElement>(null);
-      return <CommonFormInput {...args} inputRef={inputRef} />;
+
+      return (
+        <CommonFormInput {...args} icon={UserIcon} inputRef={inputRef}>
+          Name
+        </CommonFormInput>
+      );
+    };
+    return <Wrapper />;
+  },
+};
+export const passwordInputComponent: Story = {
+  args: {
+    inputType: 'password',
+    showBackground: false,
+    isError: false,
+  },
+
+  render: (args) => {
+    const Wrapper = () => {
+      const inputRef = useRef<HTMLInputElement>(null);
+
+      return (
+        <CommonFormInput {...args} icon={KeyIcon} inputRef={inputRef}>
+          Password
+        </CommonFormInput>
+      );
     };
     return <Wrapper />;
   },

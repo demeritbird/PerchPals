@@ -1,49 +1,43 @@
 @use "./../../../styles/main.scss" as *;
 
-$input-container-height: 6.4rem;
-$input-container-width: 43.2rem;
-
-$input-icon-height: 100%;
-$input-icon-width: 6rem;
-
 .container {
   display: flex;
   flex-direction: row;
+  justify-content: start;
+  align-items: center;
 
-  height: $input-container-height;
-  width: $input-container-width;
+  height: 6.4rem;
+  min-width: 40rem;
+  width: 100%;
+
+  padding: $spacing-md $spacing-lg;
+  gap: $spacing-lg;
+  border-radius: $radius-sm;
 
   transition: all 0.2s;
 
+  &__background {
+    background-color: $color-white;
+  }
+
   &--active {
-    border-bottom: 1px solid $color-black;
+    border-bottom: $stroke-width-lg solid $color-primary;
   }
   &--inactive {
-    border-bottom: 1px solid $color-black;
+    opacity: $opacity-80;
+    border-bottom: $stroke-width-lg solid $color-grey-dark-1;
   }
-
-  &__icon {
-    @include flex-center;
-
-    height: $input-icon-height;
-    width: $input-icon-width;
-
-    margin: 0 2rem 0 1rem;
-  }
-
-  &__input {
-    height: 100%;
-    width: calc($input-container-width - $input-icon-width);
+  &--error {
+    border-bottom: $stroke-width-lg solid $color-accent-red;
   }
 }
 
-.input-text {
+.input {
+  @include remove-default-input-style;
+  flex-grow: 1;
   height: 100%;
-  width: 100%;
-  border: none;
-  outline: none;
 
-  font-family: "Open Sans", sans-serif;
-  font-size: 2.074rem;
-  font-weight: 300;
+  &__text {
+    color: $color-black;
+  }
 }

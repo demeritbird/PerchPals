@@ -4,32 +4,44 @@
   transition: color 0.2s;
 
   /// Size ///
-  &--small {
-    height: 2.4rem;
-    width: 2.4rem;
+  &--sm {
+    height: 3.2rem;
+    width: 3.2rem;
   }
 
-  &--medium {
-    height: 4rem;
-    width: 4rem;
+  &--md {
+    height: 6.4rem;
+    width: 6.4rem;
+  }
+
+  &--md {
+    height: 9.6rem;
+    width: 9.6rem;
+  }
+
+  &--fill {
+    height: 100%;
+    width: 100%;
   }
 
   /// Colour ///
-  &--black {
-    color: black;
+  &--primary {
+    color: $color-primary;
   }
-  &--blue {
-    color: blue;
+  &--secondary {
+    color: $color-secondary;
+  }
+  &--grey {
+    color: $color-grey-dark-1;
   }
   &--white {
     color: $color-white;
   }
-  &--grey-dark {
-    color: $color-grey-dark-2;
+  &--success {
+    color: $color-accent-green;
   }
-
-  &--grey-light {
-    color: $color-black;
+  &--error {
+    color: $color-accent-red;
   }
 
   /// interactive ///

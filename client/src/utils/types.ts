@@ -12,6 +12,7 @@ export type User = {
   id: string;
   email: string;
   name: string;
+  photo: string; // base64
   role: UserRoles;
   token: string;
   active: AccountStatus;

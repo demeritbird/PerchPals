@@ -12,6 +12,7 @@ import { AccountStatus } from '@backend/types';
 import { logValidity } from '../../../../utils/helpers';
 
 import styles from './LoginPanel.module.scss';
+import EmailIcon from 'src/components/icons/EmailIcon';
 
 interface LoginRequest {
   email: string;
@@ -64,6 +65,7 @@ function LoginPanel(props: LoginPanelProps) {
         id: loginResponse.data.user._id,
         name: loginResponse.data.user.name,
         email: loginResponse.data.user.email,
+        photo: '',
         role: loginResponse.data.user.role,
         active: loginResponse.data.user.active,
         token: loginResponse.token,
@@ -111,57 +113,53 @@ function LoginPanel(props: LoginPanelProps) {
   }
 
   return (
-    <div className={styles.panel}>
-      <div className={styles.panel__section}>
-        {/* TODO: to add in image component when done.*/}
-        <div className={styles.logo}></div>
-      </div>
-      <div className={styles.panel__section}>
-        <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-          <div className={`${styles.form} u-margin-btm-medium`}>
-            <CommonFormInput
-              inputType='email'
-              inputRef={emailInputRef}
-              onChangeHandler={() => setError(null)}
-            >
-              Email
-            </CommonFormInput>
-            <CommonFormInput
+    <div className={styles.panel__section}>
+      <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
+        <div className={`${styles.form} u-margin-btm-medium`}>
+          <CommonFormInput
+            icon={EmailIcon}
+            inputType='email'
+            inputRef={emailInputRef}
+            showBackground={true}
+            onChangeHandler={() => setError(null)}
+          >
+            Email
+          </CommonFormInput>
+          {/* <CommonFormInput
               inputType='password'
               inputRef={passwordInputRef}
               onChangeHandler={() => setError(null)}
             >
               Password
-            </CommonFormInput>
+            </CommonFormInput> */}
 
+          <span
+            className={styles['form__alt-text']}
+            onClick={() => {
+              /* TODO: forget password page */
+            }}
+          >
+            Forgot your password?
+          </span>
+        </div>
+        <div className={`${styles.panel__section}`}>
+          <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
+            Log In
+          </AuthPrimaryButton>
+
+          <p className={styles.prompt}>
+            Not a member?{' '}
             <span
-              className={styles['form__alt-text']}
+              className={styles.prompt__highlight}
               onClick={() => {
-                /* TODO: forget password page */
+                setCurrentRegistrationState(RegistrationStatus.SIGNUP);
               }}
             >
-              Forgot your password?
+              Sign Up
             </span>
-          </div>
-          <div className={`${styles.panel__section}`}>
-            <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
-              Log In
-            </AuthPrimaryButton>
-
-            <p className={styles.prompt}>
-              Not a member?{' '}
-              <span
-                className={styles.prompt__highlight}
-                onClick={() => {
-                  setCurrentRegistrationState(RegistrationStatus.SIGNUP);
-                }}
-              >
-                Sign Up
-              </span>
-            </p>
-          </div>
-        </form>
-      </div>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }

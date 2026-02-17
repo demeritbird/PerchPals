@@ -1,99 +1,83 @@
-import React, { Fragment, ChangeEventHandler, useState } from 'react';
-
-import EmailIcon from '../../icons/EmailIcon';
-import UserIcon from '../../icons/UserIcon';
-import KeyIcon from '../../icons/KeyIcon';
-
+import React, { Fragment, ChangeEventHandler, useState, ReactElement } from 'react';
 import styles from './CommonFormInput.module.scss';
+import { IconColour, IconProps } from 'src/components/icons/IconWrapper';
 
 interface CommonFormInputProps {
   children: string;
-  inputType: 'text' | 'email' | 'password';
+  showBackground?: boolean;
+  isError?: boolean;
+  icon?: React.ComponentType<IconProps>;
   inputRef: React.RefObject<HTMLInputElement>;
+  inputType: 'text' | 'email' | 'password';
   onChangeHandler: ChangeEventHandler<HTMLInputElement>;
 }
 
+enum InputStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ERROR = 'error',
+}
+
 function CommonFormInput(props: CommonFormInputProps) {
-  const { children: placeholder, inputType, inputRef, onChangeHandler } = props;
+  const {
+    children: placeholder,
+    showBackground,
+    isError = false,
+    icon: Icon,
+    inputRef,
+    inputType,
+    onChangeHandler,
+  } = props;
 
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
   const inputRefCurrent = inputRef.current;
 
-  function onFocusHandler() {
-    setIsInputActive(true);
+  function onFocusHandler(bool: boolean): void {
+    setIsInputActive(bool);
   }
 
-  function onBlurHandler() {
-    setIsInputActive(false);
+  function getInputStatus(): InputStatus {
+    if (isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0))
+      return InputStatus.ACTIVE;
+    if (isError) return InputStatus.ERROR;
+    return InputStatus.INACTIVE;
   }
 
-  const userIcon: JSX.Element = (
-    <UserIcon
-      size='medium'
-      type='fill'
-      colour={
-        isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0)
-          ? 'grey-dark'
-          : 'grey-light'
-      }
-    />
-  );
-  const emailIcon: JSX.Element = (
-    <EmailIcon
-      size='medium'
-      type='fill'
-      colour={
-        isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0)
-          ? 'grey-dark'
-          : 'grey-light'
-      }
-    />
-  );
-  const passwordIcon: JSX.Element = (
-    <KeyIcon
-      size='medium'
-      type='fill'
-      colour={
-        isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0)
-          ? 'grey-dark'
-          : 'grey-light'
-      }
-    />
-  );
+  function getIconColour(): IconColour {
+    const status: InputStatus = getInputStatus();
 
-  const iconState = {
-    text: userIcon,
-    email: emailIcon,
-    password: passwordIcon,
-  };
+    switch (status) {
+      case InputStatus.ACTIVE:
+        return 'primary';
+      case InputStatus.INACTIVE:
+        return 'grey';
+      case InputStatus.ERROR:
+        return 'error';
+      default:
+        return 'primary';
+    }
+  }
 
   return (
-    <div>
-      <div
-        className={`${styles.container} u-margin-btm-small
-                    ${
-                      isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0)
-                        ? styles['container--active']
-                        : styles['container--inactive']
-                    }`}
-      >
-        <div className={styles.container__icon}>
-          <Fragment>{iconState[inputType]}</Fragment>
-        </div>
-        <div className={styles.container__input}>
-          <input
-            className={`${styles.container__input} ${styles['input-text']}`}
-            placeholder={placeholder}
-            type={inputType}
-            ref={inputRef}
-            onChange={onChangeHandler}
-            onFocus={onFocusHandler}
-            onBlur={onBlurHandler}
-            autoComplete='off'
-            required
-          />
-        </div>
-      </div>
+    <div
+      data-testid='container'
+      className={`${styles.container} ${showBackground && styles['container__background']}
+                  ${styles[`container--${getInputStatus()}`]}`}
+    >
+      <Fragment>
+        {Icon && <Icon size='sm' type='fill' colour={getIconColour()}></Icon>}
+      </Fragment>
+      <input
+        className={`${styles.input} ${styles['input__text']} ${styles['body-1']}`}
+        placeholder={placeholder}
+        type={inputType}
+        ref={inputRef}
+        onChange={onChangeHandler}
+        onFocus={() => onFocusHandler(true)}
+        onBlur={() => onFocusHandler(false)}
+        autoComplete='off'
+        required
+      />
     </div>
   );
 }
