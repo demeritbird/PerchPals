@@ -35,16 +35,16 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies for Client
+        working-directory: ./client
         run: |
-          cd ./client
           npm ci
           npx playwright install --with-deps
       - name: Test Client
-        run: |
-          npm run test:client
+        working-directory: ./client
+        run: npm run test:client
       - name: Test Storybook
+        working-directory: ./client
         run: |
-          npm run build:storybook 
           npm run test:storybook
 
       - name: Install Dependencies for Server
