@@ -13,6 +13,7 @@ import { logValidity } from '../../../../utils/helpers';
 import styles from './LoginPanel.module.scss';
 import EmailIcon from 'src/components/icons/EmailIcon';
 import CommonButton from '../../../../components/buttons/CommonButton';
+import KeyIcon from 'src/components/icons/KeyIcon';
 
 interface LoginRequest {
   email: string;
@@ -37,7 +38,7 @@ function LoginPanel(props: LoginPanelProps) {
     error: loginError,
     isError,
     isLoading,
-    axiosRequest: loginRequest,
+    request: loginRequest,
   } = useAxios();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -68,7 +69,7 @@ function LoginPanel(props: LoginPanelProps) {
         photo: '',
         role: loginResponse.data.user.role,
         active: loginResponse.data.user.active,
-        token: loginResponse.token,
+        token: loginResponse.token!,
       };
 
       setAuthUser(inputUser);
@@ -125,13 +126,15 @@ function LoginPanel(props: LoginPanelProps) {
           >
             Email
           </CommonFormInput>
-          {/* <CommonFormInput
-              inputType='password'
-              inputRef={passwordInputRef}
-              onChangeHandler={() => setError(null)}
-            >
-              Password
-            </CommonFormInput> */}
+          <CommonFormInput
+            icon={KeyIcon}
+            inputType='password'
+            inputRef={passwordInputRef}
+            showBackground={true}
+            onChangeHandler={() => setError(null)}
+          >
+            Password
+          </CommonFormInput>
 
           <span
             className={styles['form__alt-text']}

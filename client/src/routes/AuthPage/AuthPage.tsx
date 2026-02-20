@@ -51,7 +51,7 @@ function AuthPage() {
     <GlassContainerWrapper>
       <div className={styles.container}>
         {authUser && currentRegistrationState === RegistrationStatus.AUTH ? (
-          <ProfileImage imageSrc={authUser.photo} size='large'></ProfileImage>
+          <ProfileImage src={authUser.photo} size='lg'></ProfileImage>
         ) : (
           <AppLogo size='lg'></AppLogo>
         )}

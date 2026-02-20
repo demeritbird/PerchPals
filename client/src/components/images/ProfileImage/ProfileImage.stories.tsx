@@ -2,29 +2,46 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import ProfileImage from './ProfileImage';
 
-export default {
+const meta = {
   title: 'Components/Images/ProfileImage',
   component: ProfileImage,
-  argTypes: {
-    backgroundColor: { control: 'color' },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Displays profile image of user with uploading new image function',
+      },
+    },
+    controls: {
+      exclude: ['src'],
+    },
   },
-} as Meta<typeof ProfileImage>;
+  argTypes: {
+    size: {
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      control: {
+        type: 'select',
+        labels: {
+          xs: 'tiny',
+          sm: 'small',
+          md: 'medium',
+          lg: 'large',
+          xl: 'huge',
+        },
+      },
+    },
+    isEdit: {
+      control: { type: 'boolean' },
+      if: { arg: 'size', neq: 'xs' },
+    },
+  },
+} satisfies Meta<typeof ProfileImage>;
+export default meta;
 
 type Story = StoryObj<typeof ProfileImage>;
-
-export const small: Story = {
+export const component: Story = {
   args: {
-    size: 'small',
-  },
-};
-
-export const medium: Story = {
-  args: {
-    size: 'medium',
-  },
-};
-export const large: Story = {
-  args: {
-    size: 'large',
+    src: '/img/default-user.jpeg',
+    size: 'md',
+    isEdit: false,
   },
 };

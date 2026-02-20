@@ -8,6 +8,7 @@ export enum Validity {
 export type Color = 'primary' | 'secondary' | 'grey';
 export type ColorWithAccents = Color | 'red' | 'green' | 'white';
 export type Size = 'sm' | 'md' | 'lg';
+export type ExtendedSize = Size | 'xs' | 'xl';
 export enum Status {
   ACTIVE = 'active',
   INACTIVE = 'inactive',

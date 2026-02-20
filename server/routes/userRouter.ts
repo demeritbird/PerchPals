@@ -20,11 +20,11 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect);
 
 router.get('/me', userController.getMe, userController.getUser);
-router.post(
-  '/updateMe',
+router.patch(
+  '/updateMyPhoto',
   userController.uploadUserPhoto,
   userController.resizeUserPhoto,
-  userController.updateMe
+  userController.updateMyPhoto
 );
 
 //// Admin-Restricted Information ////

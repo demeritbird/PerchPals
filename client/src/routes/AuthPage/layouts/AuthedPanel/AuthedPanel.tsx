@@ -66,7 +66,7 @@ function AuthedPanel(props: AuthedPanelProps) {
     <div className={styles.panel}>
       <div className={styles.panel__section}>
         <ProfileImage
-          imageSrc={`data:image/png;base64, ${getMeResponse?.data.photo}`}
+          src={`data:image/png;base64, ${getMeResponse?.data.photo}`}
           size='medium'
           hasBorder={false}
         />

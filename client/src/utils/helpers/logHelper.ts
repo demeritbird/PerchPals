@@ -1,6 +1,6 @@
 import { Validity } from '../types';
 
-export function logValidity(TAG: string, type: Validity, message: string): void {
+export function logValidity(TAG: `** ${string}`, type: Validity, message: string): void {
   if (import.meta.env.VITE_ENV === 'production') return;
 
   switch (type) {

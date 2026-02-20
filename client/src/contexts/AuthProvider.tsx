@@ -5,7 +5,10 @@ import { CurrentUser } from '../utils/types';
 type PersistType = 'true' | 'false';
 interface AuthContextOptions {
   authUser: CurrentUser;
-  setAuthUser: (prevUser: CurrentUser | ((prevUser: CurrentUser) => CurrentUser)) => void;
+  setAuthUser: {
+    (user: CurrentUser): void;
+    (updater: (prevUser: CurrentUser) => CurrentUser): void;
+  };
   persist: PersistType;
   setPersist: (prevSel: PersistType) => void;
 }

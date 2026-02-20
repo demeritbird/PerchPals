@@ -13,7 +13,11 @@ interface AxiosRequest {
   };
 }
 interface AxiosResponse {
-  [key: string]: any;
+  status: 'success' | 'error' | 'error';
+  token?: string;
+  data: {
+    [key: string]: any;
+  };
 }
 
 function useAxios() {
@@ -117,11 +121,11 @@ function useAxios() {
   }, [controller]);
 
   return {
+    request: axiosRequest,
     response,
     error,
     isError: error as unknown as boolean,
     isLoading: loading,
-    axiosRequest,
   };
 }
 
