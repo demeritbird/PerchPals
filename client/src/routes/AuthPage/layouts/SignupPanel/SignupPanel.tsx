@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
-import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
+import AuthPrimaryButton from '../../../../components/buttons/CommonButton';
 
 import { RegistrationStatus } from '../../AuthPage';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';

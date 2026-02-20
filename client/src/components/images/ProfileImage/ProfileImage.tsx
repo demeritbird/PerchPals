@@ -32,7 +32,7 @@ function ProfileImage(props: ProfileImageProps) {
         />
         {size !== 'small' && (
           <div className={styles.profile__items}>
-            {isEdit && <CameraIcon size='sm' type='outline' colour='white' />}
+            {isEdit && <CameraIcon size='sm' type='outline' color='white' />}
             <figcaption className={styles['profile__caption--white']}>{caption}</figcaption>
           </div>
         )}

@@ -1,7 +1,7 @@
 import IconWrapper, { IconProps } from '../IconWrapper';
 
 function EmailIcon(props: IconProps) {
-  const { size, type, colour } = props;
+  const { size, type, color } = props;
   const pathNames = {
     fillPathArr: [
       'M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z',
@@ -13,7 +13,7 @@ function EmailIcon(props: IconProps) {
   };
 
   return (
-    <IconWrapper size={size} type={type} colour={colour}>
+    <IconWrapper size={size} type={type} color={color}>
       {pathNames}
     </IconWrapper>
   );

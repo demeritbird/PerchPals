@@ -1,15 +1,15 @@
 import { Fragment } from 'react';
 import styles from './IconWrapper.module.scss';
-import { Size } from 'src/utils/types';
+import { ColorWithAccents, Size } from 'src/utils/types';
 
 export type IconSize = Size | 'fill';
 export type IconStyle = 'fill' | 'outline';
-export type IconColour = 'primary' | 'secondary' | 'grey' | 'white' | 'success' | 'error';
+export type IconColor = ColorWithAccents;
 
 export interface IconProps {
   size: IconSize;
   type: IconStyle;
-  colour: IconColour;
+  color: IconColor;
   isInteractive?: boolean;
 }
 interface IconWrapperProps extends IconProps {
@@ -19,7 +19,7 @@ interface IconWrapperProps extends IconProps {
   };
 }
 function IconWrapper(props: IconWrapperProps) {
-  const { size, type, colour, isInteractive, children: pathName } = props;
+  const { size, type, color, isInteractive, children: pathName } = props;
 
   const fillIcon = (
     <svg
@@ -28,7 +28,7 @@ function IconWrapper(props: IconWrapperProps) {
       fill='currentColor'
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
                   ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
-                  ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon--${color}`]}`}
     >
       {pathName.fillPathArr.map((curPath, idx) => (
         <path key={idx} fillRule='evenodd' clipRule='evenodd' d={curPath} />
@@ -43,7 +43,7 @@ function IconWrapper(props: IconWrapperProps) {
       strokeWidth={1.6}
       className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
                   ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
-                  ${styles[`icon--${colour}`]}`}
+                  ${styles[`icon--${color}`]}`}
     >
       {pathName.outlinePathArr.map((curPath, idx) => (
         <path key={idx} strokeLinecap='round' strokeLinejoin='round' d={curPath} />

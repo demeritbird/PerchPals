@@ -37,9 +37,9 @@ $spacing-3xl: v.$value-rem-7;
 $spacing-4xl: v.$value-rem-8;
 
 //// RADIUS ////
-$radius-sm: v.$value-px-3;
-$radius-md: v.$value-px-6;
-$radius-lg: v.$value-px-9;
+$radius-sm: v.$value-rem-1;
+$radius-md: v.$value-rem-4;
+$radius-lg: v.$value-rem-7;
 $radius-full: 100%;
 
 //// STROKE-WIDTH ////
@@ -57,4 +57,5 @@ $opacity-60: 60%;
 $opacity-80: 80%;
 
 //// BOX-SHADOW ////
-$box-shadow--medium: 0 v.$value-rem-4 v.$value-rem-4 rgba(var(--theme-black), $opacity-20);
+$box-shadow--small: 0 v.$value-rem-2 v.$value-rem-2 rgba($color-black, $opacity-20);
+$box-shadow--medium: 0 v.$value-rem-4 v.$value-rem-4 rgba($color-black, $opacity-20);

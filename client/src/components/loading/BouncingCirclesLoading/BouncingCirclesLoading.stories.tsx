@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import BouncingCirclesLoading from './BouncingCirclesLoading';
+import './../../../styles/main.scss';
 
 export default {
   title: 'Components/BouncingCirclesLoading',
@@ -14,18 +14,18 @@ type Story = StoryObj<typeof BouncingCirclesLoading>;
 
 export const small: Story = {
   args: {
-    size: 'small',
+    size: 'sm',
   },
 };
 
 export const medium: Story = {
   args: {
-    size: 'medium',
+    size: 'md',
   },
 };
 
 export const large: Story = {
   args: {
-    size: 'large',
+    size: 'lg',
   },
 };

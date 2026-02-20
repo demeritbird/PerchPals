@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
-import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
 
 import { RegistrationStatus } from '../../AuthPage';
 import { AuthErrorResponse, Validity } from '../../../../utils/types';
@@ -13,6 +12,7 @@ import { logValidity } from '../../../../utils/helpers';
 
 import styles from './LoginPanel.module.scss';
 import EmailIcon from 'src/components/icons/EmailIcon';
+import CommonButton from '../../../../components/buttons/CommonButton';
 
 interface LoginRequest {
   email: string;
@@ -143,9 +143,16 @@ function LoginPanel(props: LoginPanelProps) {
           </span>
         </div>
         <div className={`${styles.panel__section}`}>
-          <AuthPrimaryButton isLoading={isLoading} isError={error != null}>
+          <CommonButton
+            isLoading={isLoading}
+            isError={error != null}
+            isSubmit={true}
+            size='lg'
+            color='primary'
+            onClickHandler={onSubmitHandler}
+          >
             Log In
-          </AuthPrimaryButton>
+          </CommonButton>
 
           <p className={styles.prompt}>
             Not a member?{' '}

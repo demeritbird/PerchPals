@@ -1,6 +1,7 @@
 import React, { Fragment, ChangeEventHandler, useState, ReactElement } from 'react';
 import styles from './CommonFormInput.module.scss';
-import { IconColour, IconProps } from 'src/components/icons/IconWrapper';
+import { IconColor, IconProps } from 'src/components/icons/IconWrapper';
+import { Status } from 'src/utils/types';
 
 interface CommonFormInputProps {
   children: string;
@@ -10,12 +11,6 @@ interface CommonFormInputProps {
   inputRef: React.RefObject<HTMLInputElement>;
   inputType: 'text' | 'email' | 'password';
   onChangeHandler: ChangeEventHandler<HTMLInputElement>;
-}
-
-enum InputStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  ERROR = 'error',
 }
 
 /**
@@ -65,26 +60,26 @@ function CommonFormInput(props: CommonFormInputProps) {
   /**
    * @returns current state of input
    */
-  function getInputStatus(): InputStatus {
+  function getInputStatus(): Status {
     if (isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0))
-      return InputStatus.ACTIVE;
-    if (isError) return InputStatus.ERROR;
-    return InputStatus.INACTIVE;
+      return Status.ACTIVE;
+    if (isError) return Status.ERROR;
+    return Status.INACTIVE;
   }
 
   /**
    * @returns icon colour based on current state of input
    */
-  function getIconColour(): IconColour {
-    const status: InputStatus = getInputStatus();
+  function getIconColour(): IconColor {
+    const status: Status = getInputStatus();
 
     switch (status) {
-      case InputStatus.ACTIVE:
+      case Status.ACTIVE:
         return 'primary';
-      case InputStatus.INACTIVE:
+      case Status.INACTIVE:
         return 'grey';
-      case InputStatus.ERROR:
-        return 'error';
+      case Status.ERROR:
+        return 'red';
       default:
         return 'primary';
     }
@@ -97,7 +92,7 @@ function CommonFormInput(props: CommonFormInputProps) {
                   ${styles[`container--${getInputStatus()}`]}`}
     >
       <Fragment>
-        {Icon && <Icon size='sm' type='fill' colour={getIconColour()}></Icon>}
+        {Icon && <Icon size='sm' type='fill' color={getIconColour()}></Icon>}
       </Fragment>
       <input
         className={`${styles.input} ${styles['input__text']} ${styles['body-1']}`}

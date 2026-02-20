@@ -30,6 +30,17 @@
   align-items: center;
 }
 
+@mixin overflow-text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin remove-default-button-style {
+  border: none;
+  outline: none;
+}
+
 @mixin remove-default-input-style {
   border: none;
   outline: none;

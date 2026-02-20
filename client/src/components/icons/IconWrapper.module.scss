@@ -31,16 +31,18 @@
   &--secondary {
     color: $color-secondary;
   }
+
   &--grey {
     color: $color-grey-dark-1;
   }
   &--white {
     color: $color-white;
   }
-  &--success {
+
+  &--green {
     color: $color-accent-green;
   }
-  &--error {
+  &--red {
     color: $color-accent-red;
   }
 

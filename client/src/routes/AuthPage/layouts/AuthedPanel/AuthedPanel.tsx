@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
 import ProfileImage from '../../../../components/images/ProfileImage';
-import AuthPrimaryButton from '../../../../components/buttons/AuthPrimaryButton';
+import AuthPrimaryButton from '../../../../components/buttons/CommonButton';
 
 import styles from './AuthedPanel.module.scss';
 

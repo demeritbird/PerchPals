@@ -5,7 +5,15 @@ export enum Validity {
   FAIL,
 }
 
+export type Color = 'primary' | 'secondary' | 'grey';
+export type ColorWithAccents = Color | 'red' | 'green' | 'white';
 export type Size = 'sm' | 'md' | 'lg';
+export enum Status {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  LOADING = 'loading',
+  ERROR = 'error',
+}
 
 //// User Related ////
 export type User = {

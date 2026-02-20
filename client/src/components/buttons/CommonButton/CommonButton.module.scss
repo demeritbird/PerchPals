@@ -1,0 +1,61 @@
+@use "./../../../styles/main" as *;
+
+.btn,
+.btn:link,
+.btn:visited {
+  @include remove-default-button-style;
+  @include flex-center;
+  cursor: pointer;
+
+  min-height: 4rem;
+  min-width: 16rem;
+  max-width: 100%;
+
+  background-color: $color-primary;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-sm;
+  box-shadow: $box-shadow--small;
+
+  transition: all 0.1s;
+
+  &:hover {
+    transform: translateY(-0.8px);
+  }
+
+  &:active {
+    transform: translateY(0.4px);
+  }
+}
+
+.btn {
+  &__text {
+    color: $color-white;
+    @include overflow-text-ellipsis;
+  }
+
+  // Size
+  &--md {
+    height: 4rem;
+    width: 16rem;
+  }
+  &--lg {
+    height: 6.4rem;
+    width: 44rem;
+  }
+
+  // State
+  &--error {
+    background-color: $color-accent-red;
+  }
+
+  // Colour
+  &--primary {
+    background-color: $color-primary;
+  }
+  &--secondary {
+    background-color: $color-secondary;
+  }
+  &--grey {
+    background-color: $color-grey-dark-1;
+  }
+}

@@ -1,12 +1,12 @@
 @use "./../../../styles/main" as *;
 
-$large-scale: "large";
-$medium-scale: "medium";
-$small-scale: "small";
+$large-scale: "lg";
+$medium-scale: "md";
+$small-scale: "sm";
 
-$circle-initial-colour: aqua;
-$circle-final-colour: green;
-$shadow-colour: black;
+$circle-initial-colour: $color-white;
+$circle-final-colour: $color-primary;
+$shadow-colour: $color-black;
 
 $animation-delay: 0.1s;
 
@@ -25,7 +25,7 @@ $shadow-width-small: 1rem;
 $shadow-resting-small: 1.7rem;
 
 //// MEDIUM DIMENSIONS  ////
-$medium-mulitplier: 2;
+$medium-mulitplier: 1.6;
 $container-height-medium: multiply($container-height-small, $medium-mulitplier);
 $container-width-medium: multiply($container-width-small, $medium-mulitplier);
 $element-displacement-medium: multiply($element-displacement-small, $medium-mulitplier);
@@ -40,7 +40,7 @@ $shadow-width-medium: multiply($shadow-width-small, $medium-mulitplier);
 $shadow-resting-medium: multiply($shadow-resting-small, $medium-mulitplier);
 
 //// LARGE DIMENSIONS  ////
-$large-mulitplier: 4;
+$large-mulitplier: 3.2;
 $container-height-large: multiply($container-height-small, $large-mulitplier);
 $container-width-large: multiply($container-width-small, $large-mulitplier);
 $element-displacement-large: multiply($element-displacement-small, $large-mulitplier);
@@ -54,11 +54,11 @@ $shadow-height-large: multiply($shadow-height-small, $large-mulitplier);
 $shadow-width-large: multiply($shadow-width-small, $large-mulitplier);
 $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
 
-@keyframes bounce-small {
+@keyframes bounce-sm {
   0% {
     top: $circle-lowest-small;
     height: divide($circle-radius-small, 4);
-    background-color: $circle-final-colour;
+    // background-color: $circle-final-colour;
     border-radius: 50px 50px 25px 25px;
     transform: translate(-50%, -50%) scaleX(1.7);
   }
@@ -69,13 +69,14 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   }
   100% {
     top: $circle-highest-small;
+    background-color: $circle-initial-colour;
   }
 }
-@keyframes bounce-medium {
+@keyframes bounce-md {
   0% {
     top: $circle-lowest-medium;
     height: divide($circle-radius-medium, 4);
-    background-color: $circle-final-colour;
+    // background-color: $circle-final-colour;
     border-radius: 50px 50px 25px 25px;
     transform: translate(-50%, -50%) scaleX(1.7);
   }
@@ -86,13 +87,14 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   }
   100% {
     top: $circle-highest-medium;
+    background-color: $circle-initial-colour;
   }
 }
-@keyframes bounce-large {
+@keyframes bounce-lg {
   0% {
     top: $circle-lowest-large;
     height: divide($circle-radius-large, 4);
-    background-color: $circle-final-colour;
+    // background-color: $circle-final-colour;
     border-radius: 50px 50px 25px 25px;
     transform: translate(-50%, -50%) scaleX(1.7);
   }
@@ -103,6 +105,7 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   }
   100% {
     top: $circle-highest-large;
+    background-color: $circle-initial-colour;
   }
 }
 
@@ -185,15 +188,15 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   display: inline-block;
   transform-origin: center;
 
-  &--small {
+  &--sm {
     height: $container-height-small;
     width: $container-width-small;
   }
-  &--medium {
+  &--md {
     height: $container-height-medium;
     width: $container-width-medium;
   }
-  &--large {
+  &--lg {
     height: $container-height-large;
     width: $container-width-large;
   }
@@ -203,24 +206,34 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   @include abs-center;
   z-index: 2;
   border-radius: 50%;
-  background-color: $circle-initial-colour;
+
   @include delay-elements(1, 2);
 
-  &--small {
+  &--primary {
+    background-color: $color-primary;
+  }
+  &--secondary {
+    background-color: $color-secondary;
+  }
+  &--grey {
+    background-color: $color-grey-dark-1;
+  }
+
+  &--sm {
     top: $circle-resting-small;
     height: $circle-radius-small;
     width: $circle-radius-small;
     @include circle-bounce-animation($small-scale);
     @include displace-elements(1, 2, $small-scale);
   }
-  &--medium {
+  &--md {
     top: $circle-resting-medium;
     height: $circle-radius-medium;
     width: $circle-radius-medium;
     @include circle-bounce-animation($medium-scale);
     @include displace-elements(1, 2, $medium-scale);
   }
-  &--large {
+  &--lg {
     top: $circle-resting-large;
     height: $circle-radius-large;
     width: $circle-radius-large;
@@ -237,21 +250,21 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   filter: blur(1px);
   @include delay-elements(5, 6);
 
-  &--small {
+  &--sm {
     top: $shadow-resting-small;
     height: $shadow-height-small;
     width: $shadow-width-small;
     @include shadow-bounce-animation($small-scale);
     @include displace-elements(5, 6, $small-scale);
   }
-  &--medium {
+  &--md {
     top: $shadow-resting-medium;
     height: $shadow-height-medium;
     width: $shadow-width-medium;
     @include shadow-bounce-animation($medium-scale);
     @include displace-elements(5, 6, $medium-scale);
   }
-  &--large {
+  &--lg {
     top: $shadow-resting-large;
     height: $shadow-height-large;
     width: $shadow-width-large;
