@@ -27,9 +27,3 @@ export type User = {
   active: AccountStatus;
 };
 export type CurrentUser = User | null;
-
-//// Request & Responses ////
-export interface AuthErrorResponse {
-  title: string;
-  message: string;
-}

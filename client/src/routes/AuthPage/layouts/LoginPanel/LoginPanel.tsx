@@ -20,7 +20,7 @@ interface LoginRequest {
   password: string;
 }
 
-function isLoginInputValid(email: string, password: string): boolean {
+function isLoginFormValid(email: string, password: string): boolean {
   return email.includes('@') && password.length >= 8;
 }
 
@@ -88,7 +88,7 @@ function LoginPanel(props: LoginPanelProps) {
     const inputPassword: string = passwordInputRef.current.value.trim();
 
     // client validation
-    if (!isLoginInputValid(inputEmail, inputPassword)) {
+    if (!isLoginFormValid(inputEmail, inputPassword)) {
       const validationError = 'You have input the wrong email / password format!';
       setError(validationError);
       logValidity(TAG, Validity.FAIL, validationError);

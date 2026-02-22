@@ -112,7 +112,7 @@ export const signup = catchAsync(
     const inputUser: SignupRequest = {
       name: req.body.name,
       email: req.body.email,
-      photo: bufferConvertToString('default_user.jpeg'),
+      photo: bufferConvertToString('default-user.jpeg'),
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       role: UserRoles.USER,

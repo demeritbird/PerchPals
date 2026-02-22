@@ -1,16 +1,19 @@
-import { useState, useRef, useEffect, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useEffect, FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
 import useAxios from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
-import AuthPrimaryButton from '../../../../components/buttons/CommonButton';
 
 import { RegistrationStatus } from '../../AuthPage';
-import { AuthErrorResponse, Validity } from '../../../../utils/types';
+import { Validity } from '../../../../utils/types';
 import { logValidity } from '../../../../utils/helpers';
 
 import styles from './SignupPanel.module.scss';
+import EmailIcon from 'src/components/icons/EmailIcon';
+import KeyIcon from 'src/components/icons/KeyIcon';
+import UserIcon from 'src/components/icons/UserIcon';
+import CommonButton from 'src/components/buttons/CommonButton';
 
 interface SignupRequest {
   name: string;
@@ -19,13 +22,12 @@ interface SignupRequest {
   passwordConfirm: string;
 }
 
-function signupInputIsValid(
+function isSignUpFormValid(
   username: string,
   email: string,
   password: string,
   confirmPassword: string
 ): boolean {
-  if (username.length < 8) return false;
   if (!email.includes('@')) return false;
   if (password.length < 8) return false;
   if (password !== confirmPassword) return false;
@@ -38,18 +40,22 @@ interface SignupPanelProps {
 }
 
 const TAG = '** Signup Panel';
+/**
+ * @desc login form to enter application
+ * @param {React.Dispatch<React.SetStateAction<RegistrationStatus>>} props.setCurrentRegistrationHandler
+ * set useState ref used to update authpage of user's auth progress
+ */
 function SignupPanel(props: SignupPanelProps) {
   const { setCurrentRegistrationHandler: setCurrentRegistrationState } = props;
   const navigate = useNavigate();
-  const { authUser, setAuthUser, setPersist } = useAuth();
+  const { setAuthUser, setPersist } = useAuth();
   const {
-    response: authResponse,
-    error: authError,
-    isLoading: authLoading,
-    axiosRequest: authRequest,
+    request: signup,
+    response: signupResponse,
+    error: signupError,
+    setError,
+    isLoading,
   } = useAxios();
-
-  const [error, setError] = useState<AuthErrorResponse | null>(null);
 
   const usernameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -62,33 +68,33 @@ function SignupPanel(props: SignupPanelProps) {
   }, []);
 
   useEffect(() => {
-    if (authError) {
-      setError({
-        title: 'Registration Error',
-        message: authError,
-      });
-
-      logValidity(TAG, Validity.FAIL, authError);
+    if (signupError) {
+      setError(signupError);
+      logValidity(TAG, Validity.FAIL, signupError);
+      clearPasswordInput();
       return;
     }
+    if (!signupResponse) return;
 
-    if (authResponse != null) {
-      const inputUser = {
-        id: authResponse.data.user._id,
-        name: authResponse.data.user.name,
-        email: authResponse.data.user.email,
-        photo: '',
-        role: authResponse.data.user.role,
-        active: authResponse.data.user.active,
-        token: authResponse.token,
-      };
+    const inputUser = {
+      id: signupResponse.data.user._id,
+      name: signupResponse.data.user.name,
+      email: signupResponse.data.user.email,
+      photo: '',
+      role: signupResponse.data.user.role,
+      active: signupResponse.data.user.active,
+      token: signupResponse.token!,
+    };
 
-      setAuthUser(inputUser);
-      setPersist('true');
-      navigate(`/activate`);
-      logValidity(TAG, Validity.PASS, `Authenticated User: ${authResponse.data.user.name}`);
-    }
-  }, [authResponse, authError]);
+    setAuthUser(inputUser);
+    setPersist('true');
+    navigate(`/activate`);
+    logValidity(
+      TAG,
+      Validity.PASS,
+      `User ${signupResponse.data.user.name} has created an account.`
+    );
+  }, [signupResponse, signupError]);
 
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
@@ -105,87 +111,107 @@ function SignupPanel(props: SignupPanelProps) {
     const inputPassword: string = passwordInputRef.current.value.trim();
     const inputConfirmPassword: string = confirmPasswordInputRef.current.value.trim();
 
-    passwordInputRef.current.value = '';
-    confirmPasswordInputRef.current.value = '';
-
-    // Client Validation
-    if (!signupInputIsValid(inputUsername, inputEmail, inputPassword, inputConfirmPassword)) {
-      const validationError = {
-        title: 'Validation Error',
-        message: 'You have input the wrong signup format!',
-      };
+    if (!isSignUpFormValid(inputUsername, inputEmail, inputPassword, inputConfirmPassword)) {
+      const validationError = 'You have input the wrong signup format!';
       setError(validationError);
-      logValidity(TAG, Validity.FAIL, validationError.message);
+      logValidity(TAG, Validity.FAIL, validationError);
+      clearPasswordInput();
       return;
     }
 
-    // Server Validation
     const requestBody: SignupRequest = {
       name: inputUsername,
       email: inputEmail,
       password: inputPassword,
       passwordConfirm: inputConfirmPassword,
     };
-    authRequest({
-      // axiosInstance: axiosPrivate,
+    signup({
       method: 'post',
       url: '/api/v1/users/signup',
       requestBody,
     });
   }
 
+  function clearPasswordInput(): void {
+    if (!passwordInputRef.current || !confirmPasswordInputRef.current) return;
+    passwordInputRef.current.value = '';
+    confirmPasswordInputRef.current.value = '';
+  }
+
   return (
     <div className={styles.panel}>
       <div className={styles.panel__section}>
-        {/* TODO: to add in image component when done.*/}
-        <div className={styles.logo}></div>
+        <h3 className={`${styles.subheader} ${styles['heading-3']}`}>Register New Account</h3>
       </div>
       <div className={styles.panel__section}>
-        <form onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
-          {/* <CommonFormInput
-            inputType='text'
-            inputRef={usernameInputRef}
-            onChangeHandler={() => setError(null)}
-          >
-            Username
-          </CommonFormInput>
-          <CommonFormInput
-            inputType='email'
-            inputRef={emailInputRef}
-            onChangeHandler={() => setError(null)}
-          >
-            Email
-          </CommonFormInput>
-          <CommonFormInput
-            inputType='password'
-            inputRef={passwordInputRef}
-            onChangeHandler={() => setError(null)}
-          >
-            Password
-          </CommonFormInput>
-          <CommonFormInput
-            inputType='password'
-            inputRef={confirmPasswordInputRef}
-            onChangeHandler={() => setError(null)}
-          >
-            Confirm Password
-          </CommonFormInput> */}
-
-          <div className={`${styles.panel__section}`}>
-            <AuthPrimaryButton isLoading={authLoading} isError={error != null}>
+        <form className={styles.form} onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
+          <div className={`${styles.form__section}`}>
+            <div className={styles.form__inputs}>
+              <CommonFormInput
+                icon={UserIcon}
+                inputType='text'
+                inputRef={usernameInputRef}
+                isError={!!signupError}
+                showBackground={true}
+                onChangeHandler={() => setError(null)}
+              >
+                Username
+              </CommonFormInput>
+              <CommonFormInput
+                icon={EmailIcon}
+                inputType='text'
+                inputRef={emailInputRef}
+                isError={!!signupError}
+                showBackground={true}
+                onChangeHandler={() => setError(null)}
+              >
+                Email
+              </CommonFormInput>
+              <CommonFormInput
+                icon={KeyIcon}
+                inputType='password'
+                inputRef={passwordInputRef}
+                isError={!!signupError}
+                showBackground={true}
+                onChangeHandler={() => setError(null)}
+              >
+                Password
+              </CommonFormInput>
+              <CommonFormInput
+                icon={KeyIcon}
+                inputType='password'
+                inputRef={confirmPasswordInputRef}
+                isError={!!signupError}
+                showBackground={true}
+                onChangeHandler={() => setError(null)}
+              >
+                Confirm Password
+              </CommonFormInput>
+            </div>
+          </div>
+          <div className={`${styles.form__section}`}>
+            <CommonButton
+              isLoading={isLoading}
+              isError={!!signupError}
+              isSubmit={true}
+              size='lg'
+              color='primary'
+              onClickHandler={onSubmitHandler}
+            >
               Sign Up
-            </AuthPrimaryButton>
+            </CommonButton>
 
-            <p className={styles.prompt}>
+            <p className={`${styles.prompt} ${styles['body-3']}`}>
               Already a member?{' '}
-              <span
-                className={styles.prompt__highlight}
+              <Link
+                to='/auth'
+                className={`${styles.prompt__highlight} ${styles['body-3B']}`}
                 onClick={() => {
                   setCurrentRegistrationState(RegistrationStatus.LOGIN);
                 }}
               >
-                Sign In
-              </span>
+                Log In
+              </Link>
             </p>
           </div>
         </form>
