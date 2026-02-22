@@ -52,6 +52,7 @@ function LoginPanel(props: LoginPanelProps) {
   useEffect(() => {
     if (loginError) {
       logValidity(TAG, Validity.FAIL, loginError);
+      clearPasswordInput();
       return;
     }
     if (!loginResponse) return;
@@ -74,6 +75,11 @@ function LoginPanel(props: LoginPanelProps) {
     logValidity(TAG, Validity.PASS, `Authenticated User: ${loginResponse.data.user.name}`);
   }, [loginResponse, loginError]);
 
+  function clearPasswordInput(): void {
+    if (!passwordInputRef.current) return;
+    passwordInputRef.current.value = '';
+  }
+
   function onSubmitHandler(event: FormEvent): void {
     event.preventDefault();
     if (!emailInputRef.current || !passwordInputRef.current) return;
@@ -81,13 +87,13 @@ function LoginPanel(props: LoginPanelProps) {
     const inputEmail: string = emailInputRef.current.value.trim();
     const inputPassword: string = passwordInputRef.current.value.trim();
 
-    passwordInputRef.current.value = '';
-
     // client validation
     if (!isLoginInputValid(inputEmail, inputPassword)) {
       const validationError = 'You have input the wrong email / password format!';
       setError(validationError);
       logValidity(TAG, Validity.FAIL, validationError);
+
+      clearPasswordInput();
       return;
     }
 
@@ -128,6 +134,7 @@ function LoginPanel(props: LoginPanelProps) {
                 icon={KeyIcon}
                 inputType='password'
                 inputRef={passwordInputRef}
+                isError={!!loginError}
                 showBackground={true}
                 onChangeHandler={() => setError(null)}
               >
