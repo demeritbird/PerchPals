@@ -12,7 +12,7 @@ $color-variants: (
 
 @mixin color-modifiers {
   @each $name, $value in $color-variants {
-    &--#{$name} {
+    &--#{"#{$name}"} {
       color: $value;
     }
   }
@@ -20,7 +20,7 @@ $color-variants: (
 
 @mixin hover-color-modifiers {
   @each $name, $value in $color-variants {
-    &--#{$name}:hover {
+    &--#{"#{$name}"}:hover {
       color: $value;
     }
   }

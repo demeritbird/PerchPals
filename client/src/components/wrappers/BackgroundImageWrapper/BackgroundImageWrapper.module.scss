@@ -20,6 +20,8 @@
 
   pointer-events: none;
 
+  transition: all 0.8s ease-in-out;
+
   &-image {
     @include fill-parent();
     object-fit: cover;
@@ -37,6 +39,4 @@
 
     z-index: -1; // must be the lowest element after image.
   }
-
-  transition: all 0.8s ease-in-out;
 }
