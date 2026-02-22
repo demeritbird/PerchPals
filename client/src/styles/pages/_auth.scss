@@ -1,0 +1,64 @@
+@use "./../abstracts/mixins" as *;
+@use "./../themes/themes" as *;
+
+@mixin style {
+  .panel {
+    @include flex-top-down;
+    justify-content: space-between;
+
+    height: 100%;
+    padding: 2rem 0;
+    &__section {
+      @include flex-top-down;
+    }
+  }
+
+  .header {
+    background: linear-gradient(to right, $color-primary-light-1 20%, $color-primary-dark-1 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .subheader {
+    color: $color-primary-dark-2;
+  }
+
+  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    &__section {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xs;
+    }
+
+    &__inputs {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-md;
+    }
+
+    &__alt {
+      width: 100%;
+      text-align: end;
+    }
+  }
+
+  .alt-text {
+    color: $color-grey-dark-2;
+  }
+
+  .prompt {
+    width: 100%;
+    text-align: center;
+
+    &__highlight {
+      cursor: pointer;
+      color: $color-primary-dark-2;
+    }
+  }
+}

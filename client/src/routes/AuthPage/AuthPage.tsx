@@ -6,9 +6,10 @@ import SignupPanel from './layouts/SignupPanel';
 import AuthedPanel from './layouts/AuthedPanel';
 
 import styles from './AuthPage.module.scss';
-import GlassContainerWrapper from 'src/components/wrappers/GlassContainerWrapper';
 import ProfileImage from 'src/components/images/ProfileImage';
 import AppLogo from 'src/components/images/AppLogo';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import RequireAuth from '../RequireAuth';
 
 export enum RegistrationStatus {
   LOGIN = 'login', // currently on login
@@ -48,16 +49,35 @@ function AuthPage() {
   };
 
   return (
-    <GlassContainerWrapper>
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <Fragment>
         {authUser && currentRegistrationState === RegistrationStatus.AUTH ? (
           <ProfileImage src={authUser.photo} size='lg'></ProfileImage>
         ) : (
           <AppLogo size='lg'></AppLogo>
         )}
-        <Fragment>{panelStatus[currentRegistrationState]}</Fragment>
-      </div>
-    </GlassContainerWrapper>
+      </Fragment>
+      <Routes>
+        <Route element={<Outlet />}>
+          <Route
+            path='/'
+            element={
+              <LoginPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
+            }
+          ></Route>
+          <Route
+            path='/signup'
+            element={
+              <SignupPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
+            }
+          ></Route>
+
+          <Route element={<RequireAuth />}>
+            {/* <Route path='/auth/activate' element={<ActivatePage />} /> */}
+          </Route>
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

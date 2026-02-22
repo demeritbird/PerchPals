@@ -68,9 +68,10 @@ function CommonFormInput(props: CommonFormInputProps) {
    * @returns current state of input
    */
   function getInputStatus(): Status {
+    if (isError) return Status.ERROR;
     if (isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0))
       return Status.ACTIVE;
-    if (isError) return Status.ERROR;
+
     return Status.INACTIVE;
   }
 

@@ -12,7 +12,7 @@
 
   padding: $spacing-md $spacing-lg;
   gap: $spacing-lg;
-  border-radius: $radius-sm;
+  border-radius: $radius-md;
 
   transition: all 0.2s;
 
@@ -21,14 +21,14 @@
   }
 
   &--active {
-    border-bottom: $stroke-width-lg solid $color-primary;
+    border-bottom: 3.2px solid $color-primary;
   }
   &--inactive {
     opacity: $opacity-80;
-    border-bottom: $stroke-width-lg solid $color-grey-dark-1;
+    border-bottom: 3.2px solid $color-grey-dark-1;
   }
   &--error {
-    border-bottom: $stroke-width-lg solid $color-accent-red;
+    border-bottom: 3.2px solid $color-accent-red;
   }
 }
 

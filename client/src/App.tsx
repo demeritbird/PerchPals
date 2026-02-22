@@ -47,10 +47,7 @@ function App() {
               </GlassContainerWrapper>
             }
           >
-            <Route path='/auth' element={<AuthPage />}></Route>
-            <Route element={<RequireAuth />}>
-              <Route path='/auth/activate' element={<ActivatePage />} />
-            </Route>
+            <Route path='/auth/*' element={<AuthPage />}></Route>
           </Route>
 
           {/* Dashboard Pages */}

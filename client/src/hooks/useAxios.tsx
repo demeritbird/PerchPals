@@ -13,7 +13,7 @@ interface AxiosRequest {
   };
 }
 interface AxiosResponse {
-  status: 'success' | 'error' | 'error';
+  status: 'success' | 'error' | 'fail';
   token?: string;
   data: {
     [key: string]: any;
@@ -22,7 +22,7 @@ interface AxiosResponse {
 
 function useAxios() {
   const [response, setResponse] = useState<AxiosResponse | null>(null);
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [controller, setController] = useState<AbortController>();
 
@@ -34,7 +34,7 @@ function useAxios() {
     const isFormData = requestBody instanceof FormData;
 
     try {
-      setError('');
+      setError(null);
       setLoading(true);
 
       const controller: AbortController = new AbortController();
@@ -124,7 +124,7 @@ function useAxios() {
     request: axiosRequest,
     response,
     error,
-    isError: error as unknown as boolean,
+    setError,
     isLoading: loading,
   };
 }
