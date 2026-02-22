@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 function LogoutButton() {
   const navigate = useNavigate();
   const { setAuthUser, setPersist } = useAuth();
-  const { response: logoutResponse, axiosRequest: logoutRequest } = useAxios();
+  const { response: logoutResponse, request: logoutRequest } = useAxios();
 
   useEffect(() => {
     if (logoutResponse != null) {
