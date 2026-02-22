@@ -1,5 +1,37 @@
 @use "./../../styles/main" as *;
 
+$color-variants: (
+  primary: $color-primary,
+  secondary: $color-secondary,
+  grey: $color-grey-dark-1,
+  grey-light: $color-grey-light-1,
+  white: $color-white,
+  green: $color-accent-green,
+  red: $color-accent-red
+);
+
+@mixin color-modifiers {
+  @each $name, $value in $color-variants {
+    &--#{$name} {
+      color: $value;
+    }
+  }
+}
+
+@mixin hover-color-modifiers {
+  @each $name, $value in $color-variants {
+    &--#{$name}:hover {
+      color: $value;
+    }
+  }
+}
+
+.container {
+  &-hover {
+    cursor: pointer;
+  }
+}
+
 .icon {
   transition: color 0.2s;
 
@@ -25,34 +57,10 @@
   }
 
   /// Colour ///
-  &--primary {
-    color: $color-primary;
-  }
-  &--secondary {
-    color: $color-secondary;
-  }
+  @include color-modifiers;
 
-  &--grey {
-    color: $color-grey-dark-1;
-  }
-  &--white {
-    color: $color-white;
-  }
-
-  &--green {
-    color: $color-accent-green;
-  }
-  &--red {
-    color: $color-accent-red;
-  }
-
-  /// interactive ///
-  &--interact {
-    transition: all 0.2s;
-
-    &:hover {
-      color: #444;
-      cursor: pointer;
-    }
+  &-hover {
+    @include hover-color-modifiers;
+    background-color: transparent;
   }
 }

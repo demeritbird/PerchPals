@@ -119,7 +119,7 @@ function LoginPanel(props: LoginPanelProps) {
         <div className={`${styles.form} u-margin-btm-medium`}>
           <CommonFormInput
             icon={EmailIcon}
-            inputType='email'
+            inputType='text'
             inputRef={emailInputRef}
             showBackground={true}
             onChangeHandler={() => setError(null)}

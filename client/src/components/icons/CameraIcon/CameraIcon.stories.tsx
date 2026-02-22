@@ -2,17 +2,36 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import CameraIcon from './CameraIcon';
 
-export default {
-  title: 'Icons/CameraIcon',
+const meta = {
+  title: 'Components/Icons/CameraIcon',
   component: CameraIcon,
-} as Meta<typeof CameraIcon>;
+  parameters: {
+    controls: {
+      exclude: [],
+    },
+  },
+  argTypes: {
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: {
+        type: 'select',
+        labels: {
+          sm: 'small',
+          md: 'medium',
+          lg: 'large',
+        },
+      },
+    },
+  },
+} satisfies Meta<typeof CameraIcon>;
+export default meta;
 
 type Story = StoryObj<typeof CameraIcon>;
-
-export const Component: Story = {
+export const component: Story = {
   args: {
-    size: 'small',
+    size: 'sm',
     type: 'fill',
-    colour: 'black',
+    color: 'grey-light',
+    hoverColor: 'grey',
   },
 };

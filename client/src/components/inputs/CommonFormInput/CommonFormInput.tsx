@@ -1,7 +1,9 @@
-import React, { Fragment, ChangeEventHandler, useState, ReactElement } from 'react';
+import React, { Fragment, ChangeEventHandler, useState } from 'react';
 import styles from './CommonFormInput.module.scss';
 import { IconColor, IconProps } from 'src/components/icons/IconWrapper';
 import { Status } from 'src/utils/types';
+import EyeOpenIcon from 'src/components/icons/EyeOpenIcon';
+import EyeCloseIcon from 'src/components/icons/EyeCloseIcon';
 
 interface CommonFormInputProps {
   children: string;
@@ -9,7 +11,7 @@ interface CommonFormInputProps {
   isError?: boolean;
   icon?: React.ComponentType<IconProps>;
   inputRef: React.RefObject<HTMLInputElement>;
-  inputType: 'text' | 'email' | 'password';
+  inputType: 'text' | 'password';
   onChangeHandler: ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -31,7 +33,7 @@ interface CommonFormInputProps {
  * ...
  * <CommonFormInput
      icon={EmailIcon}
-     inputType='email'
+     inputType='text'
      inputRef={emailInputRef}
      showBackground={true}
      onChangeHandler={() => {}}
@@ -51,7 +53,12 @@ function CommonFormInput(props: CommonFormInputProps) {
   } = props;
 
   const [isInputActive, setIsInputActive] = useState<boolean>(false);
+  const [visibilityToggleValue, setVisibilityToggleValue] = useState<boolean>(false);
   const inputRefCurrent = inputRef.current;
+
+  const isShowInputValue = (): boolean => {
+    return !(inputType === 'password' && !visibilityToggleValue);
+  };
 
   function onFocusHandler(bool: boolean): void {
     setIsInputActive(bool);
@@ -85,19 +92,23 @@ function CommonFormInput(props: CommonFormInputProps) {
     }
   }
 
+  function toggleVisiblityValue(): void {
+    setVisibilityToggleValue(!visibilityToggleValue);
+  }
+
   return (
     <div
       data-testid='container'
-      className={`${styles.container} ${showBackground && styles['container__background']}
+      className={`${styles.container} ${showBackground && styles.container__background}
                   ${styles[`container--${getInputStatus()}`]}`}
     >
       <Fragment>
         {Icon && <Icon size='sm' type='fill' color={getIconColour()}></Icon>}
       </Fragment>
       <input
-        className={`${styles.input} ${styles['input__text']} ${styles['body-1']}`}
+        className={`${styles.input} ${styles.input__text} ${styles['body-1']}`}
         placeholder={placeholder}
-        type={inputType}
+        type={isShowInputValue() ? 'text' : 'password'}
         ref={inputRef}
         onChange={onChangeHandler}
         onFocus={() => onFocusHandler(true)}
@@ -105,6 +116,15 @@ function CommonFormInput(props: CommonFormInputProps) {
         autoComplete='off'
         required
       />
+      {inputType === 'password' && (
+        <div onClick={toggleVisiblityValue}>
+          {isShowInputValue() ? (
+            <EyeOpenIcon size='sm' type='fill' color='grey-light' hoverColor='grey' />
+          ) : (
+            <EyeCloseIcon size='sm' type='fill' color='grey-light' hoverColor='grey' />
+          )}
+        </div>
+      )}
     </div>
   );
 }

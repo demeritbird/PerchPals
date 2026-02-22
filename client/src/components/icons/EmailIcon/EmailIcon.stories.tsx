@@ -2,17 +2,36 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import EmailIcon from './EmailIcon';
 
-export default {
-  title: 'Icons/EmailIcon',
+const meta = {
+  title: 'Components/Icons/EmailIcon',
   component: EmailIcon,
-} as Meta<typeof EmailIcon>;
+  parameters: {
+    controls: {
+      exclude: [],
+    },
+  },
+  argTypes: {
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: {
+        type: 'select',
+        labels: {
+          sm: 'small',
+          md: 'medium',
+          lg: 'large',
+        },
+      },
+    },
+  },
+} satisfies Meta<typeof EmailIcon>;
+export default meta;
 
 type Story = StoryObj<typeof EmailIcon>;
-
-export const Component: Story = {
+export const component: Story = {
   args: {
-    size: 'small',
+    size: 'sm',
     type: 'fill',
-    colour: 'black',
+    color: 'grey-light',
+    hoverColor: 'grey',
   },
 };

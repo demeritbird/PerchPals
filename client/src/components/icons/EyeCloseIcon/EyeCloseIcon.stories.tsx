@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import KeyIcon from './KeyIcon';
+import EyeCloseIcon from './EyeCloseIcon';
 
 const meta = {
-  title: 'Components/Icons/KeyIcon',
-  component: KeyIcon,
+  title: 'Components/Icons/EyeCloseIcon',
+  component: EyeCloseIcon,
   parameters: {
     controls: {
       exclude: [],
@@ -23,10 +23,10 @@ const meta = {
       },
     },
   },
-} satisfies Meta<typeof KeyIcon>;
+} satisfies Meta<typeof EyeCloseIcon>;
 export default meta;
 
-type Story = StoryObj<typeof KeyIcon>;
+type Story = StoryObj<typeof EyeCloseIcon>;
 export const component: Story = {
   args: {
     size: 'sm',

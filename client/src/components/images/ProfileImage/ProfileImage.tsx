@@ -70,49 +70,43 @@ function ProfileImage(props: ProfileImageProps) {
     });
   }
 
-  const baseProfileImageComponent = (): JSX.Element => {
-    return (
-      <div className={`${styles.profile} ${styles[`profile--${size}`]}`}>
-        <figure className={styles.profile__shape} data-testid='profile'>
-          <img
-            className={`${styles.profile__image} ${isEdit && styles['profile__image--blur']}`}
-            src={uploadedImage ?? src}
-            alt='Display Profile of User'
-          />
-          {isEdit && (
-            <div className={styles.profile__items}>
-              <CameraIcon size='sm' type='outline' color='white' />
-              <figcaption className={styles['profile__caption']}>{caption}</figcaption>
-            </div>
-          )}
-        </figure>
-      </div>
-    );
-  };
+  const baseProfileImageComponent: JSX.Element = (
+    <div className={`${styles.profile} ${styles[`profile--${size}`]}`}>
+      <figure className={styles.profile__shape} data-testid='profile'>
+        <img
+          className={`${styles.profile__image} ${isEdit && styles['profile__image--blur']}`}
+          src={uploadedImage ?? src}
+          alt='Display Profile of User'
+        />
+        {isEdit && (
+          <div className={styles.profile__items}>
+            <CameraIcon size='sm' type='outline' color='white' />
+            <figcaption className={styles['profile__caption']}>{caption}</figcaption>
+          </div>
+        )}
+      </figure>
+    </div>
+  );
 
-  const editProfileImageFormWrapper = () => {
-    return (
-      <form encType='multipart/form-data'>
-        <label htmlFor='photo'>
-          {baseProfileImageComponent()}
-          <input
-            type='file'
-            accept='image/*'
-            id='photo'
-            name='photo'
-            ref={fileInputRef}
-            onChange={(e) => updateProfileImage(e)}
-            style={{ display: 'none' }}
-          />
-        </label>
-      </form>
-    );
-  };
+  const editProfileImageFormWrapper: JSX.Element = (
+    <form encType='multipart/form-data'>
+      <label htmlFor='photo'>
+        {baseProfileImageComponent}
+        <input
+          type='file'
+          accept='image/*'
+          id='photo'
+          name='photo'
+          ref={fileInputRef}
+          onChange={(e) => updateProfileImage(e)}
+          style={{ display: 'none' }}
+        />
+      </label>
+    </form>
+  );
 
   return (
-    <Fragment>
-      {!isEdit ? baseProfileImageComponent() : editProfileImageFormWrapper()}
-    </Fragment>
+    <Fragment>{!isEdit ? baseProfileImageComponent : editProfileImageFormWrapper}</Fragment>
   );
 }
 export default ProfileImage;

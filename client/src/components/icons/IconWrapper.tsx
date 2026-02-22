@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import styles from './IconWrapper.module.scss';
 import { ColorWithAccents, Size } from 'src/utils/types';
 
@@ -10,7 +9,7 @@ export interface IconProps {
   size: IconSize;
   type: IconStyle;
   color: IconColor;
-  isInteractive?: boolean;
+  hoverColor?: IconColor;
 }
 interface IconWrapperProps extends IconProps {
   children: {
@@ -19,16 +18,15 @@ interface IconWrapperProps extends IconProps {
   };
 }
 function IconWrapper(props: IconWrapperProps) {
-  const { size, type, color, isInteractive, children: pathName } = props;
+  const { size, type, color, hoverColor, children: pathName } = props;
 
   const fillIcon = (
     <svg
       data-testid='icon'
       viewBox='0 0 24 24'
       fill='currentColor'
-      className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
-                  ${styles[`icon--${color}`]}`}
+      className={`${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
+                  ${styles[`icon--${color}`]} ${styles[`icon-hover--${hoverColor}`]} `}
     >
       {pathName.fillPathArr.map((curPath, idx) => (
         <path key={idx} fillRule='evenodd' clipRule='evenodd' d={curPath} />
@@ -41,9 +39,8 @@ function IconWrapper(props: IconWrapperProps) {
       viewBox='0 0 24 24'
       stroke='currentColor'
       strokeWidth={1.6}
-      className={`${isInteractive ? `${styles['icon--interact']}` : ''} 
-                  ${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
-                  ${styles[`icon--${color}`]}`}
+      className={`${styles[`icon`]}  ${styles[`icon--${size.toLowerCase()}`]} 
+                  ${styles[`icon--${color}`]}  ${styles[`icon-hover--${hoverColor}`]}  `}
     >
       {pathName.outlinePathArr.map((curPath, idx) => (
         <path key={idx} strokeLinecap='round' strokeLinejoin='round' d={curPath} />
@@ -56,7 +53,7 @@ function IconWrapper(props: IconWrapperProps) {
     outline: outlineIcon,
   };
 
-  return <Fragment>{IconState[type]}</Fragment>;
+  return <div className={hoverColor && styles[`container-hover`]}>{IconState[type]}</div>;
 }
 
 export default IconWrapper;
