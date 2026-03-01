@@ -99,7 +99,7 @@ function CommonFormInput(props: CommonFormInputProps) {
 
   return (
     <div
-      data-testid='container'
+      data-testid='input-container'
       className={`${styles.container} ${showBackground && styles.container__background}
                   ${styles[`container--${getInputStatus()}`]}`}
     >
@@ -107,6 +107,7 @@ function CommonFormInput(props: CommonFormInputProps) {
         {Icon && <Icon size='sm' type='fill' color={getIconColour()}></Icon>}
       </Fragment>
       <input
+        aria-label={`${placeholder.toLowerCase()}`}
         className={`${styles.input} ${styles.input__text} ${styles['body-1']}`}
         placeholder={placeholder}
         type={isShowInputValue() ? 'text' : 'password'}

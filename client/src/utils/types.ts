@@ -1,5 +1,6 @@
 import { AccountStatus, UserRoles } from '@backend/types';
 
+export type ServerStatusType = 'success' | 'error' | 'fail';
 export enum Validity {
   PASS,
   FAIL,

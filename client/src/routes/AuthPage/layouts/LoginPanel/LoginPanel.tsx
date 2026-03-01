@@ -2,7 +2,7 @@ import { useRef, useEffect, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
-import useAxios from '../../../../hooks/useAxios';
+import useAxios, { isResponseType } from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
 
 import { RegistrationStatus } from '../../AuthPage';
@@ -15,7 +15,7 @@ import CommonButton from '../../../../components/buttons/CommonButton';
 import KeyIcon from 'src/components/icons/KeyIcon';
 import { Validity } from 'src/utils/types';
 
-interface LoginRequest {
+export interface LoginRequest {
   email: string;
   password: string;
 }
@@ -55,7 +55,7 @@ function LoginPanel(props: LoginPanelProps) {
       clearPasswordInput();
       return;
     }
-    if (!loginResponse) return;
+    if (!loginResponse || !isResponseType(loginResponse, 'success')) return;
 
     const inputUser = {
       id: loginResponse.data.user._id,

@@ -1,5 +1,5 @@
 import React, { createRef } from 'react';
-import { fireEvent, logRoles, render, screen } from '../../../utils/testing-library-utils';
+import { fireEvent, render, screen } from '../../../utils/testing-library-utils';
 import CommonFormInput from './CommonFormInput';
 import KeyIcon from 'src/components/icons/KeyIcon';
 import styles from './CommonFormInput.module.scss';
@@ -55,7 +55,7 @@ describe('CommonFormInput', () => {
       </CommonFormInput>
     );
 
-    const container = screen.getByTestId('container');
+    const container = screen.getByTestId('input-container');
     const input = screen.getByRole('textbox');
     const icon = screen.getByTestId('icon');
     expect(icon).toHaveClass(iconStyles['icon--grey']);

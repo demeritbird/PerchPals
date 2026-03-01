@@ -4,6 +4,11 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import matchers from '@testing-library/jest-dom/matchers';
-import { expect } from 'vitest';
+import { server } from './mocks/server.js';
+import { expect, beforeAll, afterEach, afterAll } from 'vitest';
 
 expect.extend(matchers);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());

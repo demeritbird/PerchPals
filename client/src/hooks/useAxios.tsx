@@ -4,20 +4,40 @@ import { axiosInstance } from '../utils/helpers';
 
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
+import { ServerStatusType } from 'src/utils/types';
 
-interface AxiosRequest {
+export interface SuccessReponse {
+  status: Extract<'success', ServerStatusType>;
+  token?: string;
+  data: {
+    [key: string]: any;
+  };
+}
+export interface ErrorResponse {
+  status: Extract<'error' | 'fail', ServerStatusType>;
+  error: {
+    statusCode: number;
+    status: 'error' | 'fail';
+    isOperational: 'true' | 'false';
+  };
+  message: string;
+  stack?: string;
+}
+
+type AxiosRequest = {
   method: 'get' | 'post' | 'patch' | 'delete';
   url: string;
   requestBody?: {
     [key: string]: any;
   };
-}
-interface AxiosResponse {
-  status: 'success' | 'error' | 'fail';
-  token?: string;
-  data: {
-    [key: string]: any;
-  };
+};
+type AxiosResponse = SuccessReponse | ErrorResponse;
+
+export function isResponseType<T extends ServerStatusType>(
+  res: AxiosResponse,
+  status: T
+): res is Extract<AxiosResponse, { status: T }> {
+  return res.status === status;
 }
 
 function useAxios() {
