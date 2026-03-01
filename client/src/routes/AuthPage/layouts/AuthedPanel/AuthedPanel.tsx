@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
 import ProfileImage from '../../../../components/images/ProfileImage';
-import AuthPrimaryButton from '../../../../components/buttons/CommonButton';
 
 import styles from './AuthedPanel.module.scss';
 
@@ -25,8 +24,8 @@ function AuthedPanel(props: AuthedPanelProps) {
     props;
   const { setAuthUser, setPersist } = useAuth();
 
-  const { response: getMeResponse, axiosRequest: getMeRequest } = useAxios();
-  const { response: logoutResponse, axiosRequest: logoutRequest } = useAxios();
+  const { response: getMeResponse, request: getMeRequest } = useAxios();
+  const { response: logoutResponse, request: logoutRequest } = useAxios();
 
   async function getProfileData() {
     getMeRequest({
@@ -65,16 +64,11 @@ function AuthedPanel(props: AuthedPanelProps) {
   return (
     <div className={styles.panel}>
       <div className={styles.panel__section}>
-        <ProfileImage
-          src={`data:image/png;base64, ${getMeResponse?.data.photo}`}
-          size='medium'
-          hasBorder={false}
-        />
+        <ProfileImage src={`data:image/png;base64, ${user!.photo}`} size='md' />
         <h3 className={styles.greeting__upper}>Welcome back,</h3>
-        <h2 className={styles.greeting__lower}>{getMeResponse?.data.name}</h2>
+        <h2 className={styles.greeting__lower}>{user!.name}</h2>
       </div>
       <div className={styles.panel__section}>
-        <AuthPrimaryButton onClickHandler={authedLoginHandler}>Log In</AuthPrimaryButton>
         <p className={styles.prompt}>
           Using a different account?{' '}
           <span className={styles.prompt__highlight} onClick={logoutHandler}>

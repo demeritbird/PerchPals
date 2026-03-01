@@ -2,7 +2,7 @@ import { CurrentUser, Size, Validity } from 'src/utils/types';
 import CameraIcon from '../../icons/CameraIcon/CameraIcon';
 import styles from './ProfileImage.module.scss';
 import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
-import useAxios from 'src/hooks/useAxios';
+import useAxios, { isResponseType } from 'src/hooks/useAxios';
 import { logValidity } from 'src/utils/helpers';
 import useAuth from 'src/hooks/useAuth';
 
@@ -29,7 +29,7 @@ const TAG = '** ProfileImage';
 function ProfileImage(props: ProfileImageProps) {
   const { src, caption = null, isEdit = false, size } = props;
   const { setAuthUser } = useAuth();
-  const { request: uploadData, response: uploadResponse, isError: uploadError } = useAxios();
+  const { request: uploadData, response: uploadResponse, error: uploadError } = useAxios();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -39,7 +39,7 @@ function ProfileImage(props: ProfileImageProps) {
       logValidity(TAG, Validity.FAIL, 'Fail to Update User Profile Image');
       return;
     }
-    if (!uploadedImage && uploadResponse) {
+    if (!uploadedImage && uploadResponse && isResponseType(uploadResponse, 'success')) {
       const imageUrl = uploadResponse.data.photo;
       setUploadedImage(`data:image/png;base64, ${imageUrl}`);
 

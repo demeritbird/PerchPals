@@ -2,7 +2,7 @@ import { useRef, useEffect, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../../hooks/useAuth';
-import useAxios from '../../../../hooks/useAxios';
+import useAxios, { isResponseType } from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
 
 import { RegistrationStatus } from '../../AuthPage';
@@ -74,7 +74,7 @@ function SignupPanel(props: SignupPanelProps) {
       clearPasswordInput();
       return;
     }
-    if (!signupResponse) return;
+    if (!signupResponse || !isResponseType(signupResponse, 'success')) return;
 
     const inputUser = {
       id: signupResponse.data.user._id,
