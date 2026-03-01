@@ -5,19 +5,19 @@ import readlineSync from 'readline-sync';
 
 import { User, Module, ModuleUser, Invitation } from './../../models';
 import { ModuleDocument, UserDocument } from '../types';
-import { bufferConvertToString } from '../helpers';
+import { bufferConvertToString, importMockDatabaseData } from '../helpers';
 
 dotenv.config({ path: __dirname + './../../.env' });
 
-function connectToDB(isTest: boolean = false): void {
-  const DB: string = process.env[isTest ? 'TEST_DATABASE' : 'DATABASE']!.replace(
+function connectToDB(): void {
+  const DB: string = process.env.DATABASE!.replace(
     '<PASSWORD>',
     process.env.DATABASE_PASSWORD!
   );
 
   mongoose.set('strictQuery', true);
   mongoose.connect(DB).then((con) => {
-    console.log(`${isTest ? '<TEST>' : ''} DB connection successful!`);
+    console.log('DB connection successful!');
   });
 }
 
@@ -34,31 +34,10 @@ function createCmdPrompt(): boolean {
 }
 
 // Read JSON file
-const users = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/users.json`, 'utf-8')
-).map((user: UserDocument) => {
-  if (user.photo) {
-    user.photo = bufferConvertToString(user.photo);
-  }
-  return user;
-});
-const modules = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/modules.json`, 'utf-8')
-).map((moduleItem: ModuleDocument) => {
-  if (moduleItem.photo) {
-    moduleItem.photo = bufferConvertToString(moduleItem.photo);
-  }
-  return moduleItem;
-});
-const moduleUsers = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/moduleUsers.json`, 'utf-8')
-);
-const invitations = JSON.parse(
-  fs.readFileSync(`${__dirname}` + `/collections/invitations.json`, 'utf-8')
-);
+const { users, moduleUsers, invitations, modules } = importMockDatabaseData();
 
 // Import Data into Collection
-const importData = async (): Promise<void> => {
+const createData = async (): Promise<void> => {
   try {
     const selection = createCmdPrompt();
     if (!selection) return;
@@ -96,9 +75,9 @@ const deleteData = async (): Promise<void> => {
 };
 
 if (process.argv.includes('--import')) {
-  connectToDB(process.argv.includes('--test'));
-  importData();
+  connectToDB();
+  createData();
 } else if (process.argv.includes('--delete')) {
-  connectToDB(process.argv.includes('--test'));
+  connectToDB();
   deleteData();
 }

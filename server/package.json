@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./server.ts",
-    "test": "npm run data:test:delete -- -y && npm run data:test:import -- -y && mocha",
+    "test": "mocha",
     "build": "rimraf dist && tsc --project ./tsconfig.build.json && copyfiles public/**/* dist && etsc",
     "data:import": "ts-node utils/dev-data/dev-data.ts --import",
     "data:delete": "ts-node utils/dev-data/dev-data.ts --delete",
@@ -53,6 +53,7 @@
     "chai": "^4.5.0",
     "chai-http": "^4.4.0",
     "mocha": "^11.1.0",
+    "mongodb-memory-server": "^11.0.1",
     "nodemon": "^2.0.22",
     "readline-sync": "^1.4.10",
     "ts-node": "^10.9.2"

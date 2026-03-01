@@ -4,7 +4,18 @@ dotenv.config({ path: './.env' });
 
 import { app } from './app';
 
-const DB: string = process.env.DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
+let DB: string = '';
+switch (process.env.NODE_ENV) {
+  case 'development':
+    DB = process.env.DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
+    break;
+  case 'production':
+    DB = process.env.PROD_DATABASE!.replace('<PASSWORD>', process.env.DATABASE_PASSWORD!);
+    break;
+  default:
+    throw new Error('wrong environment set for database connection');
+}
+
 mongoose.set('strictQuery', true);
 mongoose.connect(DB).then((con) => {
   console.log('DB connection successful!');
