@@ -10,7 +10,7 @@ function ProfilePage() {
     <Fragment>
       <h2>Profile Page</h2>
       <ProfileImage
-        src={`data:image/png;base64, ${authUser!.photo}`}
+        src={`data:image/png;base64, ${authUser?.photo}`}
         size='lg'
         isEdit={true}
         caption='edit'
