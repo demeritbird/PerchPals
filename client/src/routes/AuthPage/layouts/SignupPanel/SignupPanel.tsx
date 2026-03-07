@@ -15,7 +15,7 @@ import KeyIcon from 'src/components/icons/KeyIcon';
 import UserIcon from 'src/components/icons/UserIcon';
 import CommonButton from 'src/components/buttons/CommonButton';
 
-interface SignupRequest {
+export interface SignupRequest {
   name: string;
   email: string;
   password: string;

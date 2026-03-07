@@ -1,11 +1,167 @@
-import { render, screen } from '../../../../utils/testing-library-utils';
+import { fireEvent, render, screen, waitFor } from '../../../../utils/testing-library-utils';
 import SignupPanel from './SignupPanel';
+import inputStyles from '@/components/inputs/CommonFormInput/CommonFormInput.module.scss';
+import btnStyles from '@/components/buttons/CommonButton/CommonButton.module.scss';
 
-test('render label names for signup', () => {
+const setup = () => {
   render(<SignupPanel setCurrentRegistrationHandler={vitest.fn()} />);
+  const inputContainer = screen.getAllByTestId('input-container');
+  const emailInput = screen.getByLabelText('email');
+  const usernameInput = screen.getByLabelText('username');
+  const passwordInput = screen.getByLabelText('password');
+  const passwordConfirmInput = screen.getByLabelText('confirm password');
+  const signupBtn = screen.getByRole('button', { name: /Sign Up/i });
 
-  const signupTestText = screen.getByText(/sign up/i);
-  expect(signupTestText).toBeInTheDocument();
+  return {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  };
+};
+
+test('correct signup credential', async () => {
+  const {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  } = setup();
+  expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+
+  // valid credentials
+  fireEvent.change(emailInput, { target: { value: 'newuser@example.com' } });
+  fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+  fireEvent.change(passwordInput, { target: { value: 'test1234' } });
+  fireEvent.change(passwordConfirmInput, { target: { value: 'test1234' } });
+  fireEvent.click(signupBtn);
+
+  // check if elements is still same color
+  for (const input of inputContainer) {
+    await waitFor(() => {
+      expect(input).toHaveClass(inputStyles['container--active']);
+    });
+  }
+  await waitFor(() => {
+    expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+  });
 });
 
-test('correct sign in', async () => {});
+test('incorrect signup credential - password inputs are not the same', async () => {
+  const {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  } = setup();
+  expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+
+  fireEvent.change(emailInput, { target: { value: 'newuser@example.com' } });
+  fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+  // password and confirmPassword fields are not the same
+  fireEvent.change(passwordInput, { target: { value: 'test1234' } });
+  fireEvent.change(passwordConfirmInput, { target: { value: 'notTheSamePassword' } });
+  fireEvent.click(signupBtn);
+
+  for (const input of inputContainer) {
+    await waitFor(() => {
+      expect(input).toHaveClass(inputStyles['container--error']);
+    });
+  }
+  await waitFor(() => {
+    expect(signupBtn).toHaveClass(btnStyles['btn--error']);
+  });
+});
+
+test('incorrect signup credential - invalid password length condition', async () => {
+  const {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  } = setup();
+  expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+
+  fireEvent.change(emailInput, { target: { value: 'newuser@example.com' } });
+  fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+  // password and confirmPassword fields are not the same
+  fireEvent.change(passwordInput, { target: { value: 'test' } });
+  fireEvent.change(passwordConfirmInput, { target: { value: 'test' } });
+  fireEvent.click(signupBtn);
+
+  for (const input of inputContainer) {
+    await waitFor(() => {
+      expect(input).toHaveClass(inputStyles['container--error']);
+    });
+  }
+  await waitFor(() => {
+    expect(signupBtn).toHaveClass(btnStyles['btn--error']);
+  });
+});
+
+test('incorrect signup credential - invalid email input', async () => {
+  const {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  } = setup();
+  expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+
+  // invalid email, does not have '@'
+  fireEvent.change(emailInput, { target: { value: 'newuserexample.com' } });
+  fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+  fireEvent.change(passwordInput, { target: { value: 'test' } });
+  fireEvent.change(passwordConfirmInput, { target: { value: 'test' } });
+  fireEvent.click(signupBtn);
+
+  for (const input of inputContainer) {
+    await waitFor(() => {
+      expect(input).toHaveClass(inputStyles['container--error']);
+    });
+  }
+  await waitFor(() => {
+    expect(signupBtn).toHaveClass(btnStyles['btn--error']);
+  });
+});
+
+test('attempting to retry validation should reset form input and button state', async () => {
+  const {
+    inputContainer,
+    emailInput,
+    usernameInput,
+    passwordInput,
+    passwordConfirmInput,
+    signupBtn,
+  } = setup();
+  expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+
+  // invalid email, does not have '@'
+  fireEvent.change(emailInput, { target: { value: 'newuserexample.com' } });
+  fireEvent.change(usernameInput, { target: { value: 'newuser' } });
+  fireEvent.change(passwordInput, { target: { value: 'wrong' } });
+  fireEvent.change(passwordConfirmInput, { target: { value: 'wrong' } });
+  fireEvent.click(signupBtn);
+
+  // now if i input something new it should go back to primary color
+  fireEvent.change(passwordInput, { target: { value: 'test1234' } });
+  for (const input of inputContainer) {
+    await waitFor(() => {
+      // either primary or inactive as password / confirmPassword fields are emptied
+      expect(input).not.toHaveClass(inputStyles['container--error']);
+    });
+  }
+  await waitFor(() => {
+    expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
+  });
+});

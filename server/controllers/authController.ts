@@ -101,12 +101,12 @@ function createSendToken(
   });
 }
 
+type SignupRequest = Omit<InputUser, 'refreshToken'>;
 /**
  * Signup user.
  * While this creates the user, it does not give user access;
  * Move into sendActivate middleware to send token for activation.
  */
-type SignupRequest = Omit<InputUser, 'refreshToken'>;
 export const signup = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
     const inputUser: SignupRequest = {
@@ -118,12 +118,17 @@ export const signup = catchAsync(
       role: UserRoles.USER,
       active: AccountStatus.PENDING,
     };
-    const newUser: UserDocument = await User.create(inputUser);
 
-    // pass user information into sendActivate route
-    req.user = newUser;
-    res.locals.user = newUser;
-    next();
+    try {
+      const newUser: UserDocument = await User.create(inputUser);
+
+      // pass user information into sendActivate route
+      req.user = newUser;
+      res.locals.user = newUser;
+      next();
+    } catch (err) {
+      return next(new AppError((err as Error).message, 400));
+    }
   }
 );
 
