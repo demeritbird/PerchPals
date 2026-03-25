@@ -80,7 +80,7 @@ function SignupPanel(props: SignupPanelProps) {
       id: signupResponse.data.user._id,
       name: signupResponse.data.user.name,
       email: signupResponse.data.user.email,
-      photo: '',
+      photo: signupResponse.data.user.photo,
       role: signupResponse.data.user.role,
       active: signupResponse.data.user.active,
       token: signupResponse.token!,

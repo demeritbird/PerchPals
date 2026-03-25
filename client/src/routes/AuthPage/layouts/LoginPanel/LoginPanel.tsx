@@ -61,7 +61,7 @@ function LoginPanel(props: LoginPanelProps) {
       id: loginResponse.data.user._id,
       name: loginResponse.data.user.name,
       email: loginResponse.data.user.email,
-      photo: '',
+      photo: loginResponse.data.user.photo,
       role: loginResponse.data.user.role,
       active: loginResponse.data.user.active,
       token: loginResponse.token!,
