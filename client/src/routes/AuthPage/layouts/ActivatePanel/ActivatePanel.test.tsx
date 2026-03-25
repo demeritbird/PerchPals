@@ -46,19 +46,19 @@ test('correct activation token provided', async () => {
   fireEvent.change(inputs[5], { target: { value: 'a' } });
 
   // check if elements is still same color after input
-  for (const input of inputs) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputs) {
       expect(input).toHaveClass(inputStyles['input--primary']);
-    });
-  }
+    }
+  });
 
   fireEvent.click(confirmActivateBtn);
   // check if elements is still same color after mock api
-  for (const input of inputs) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputs) {
       expect(input).toHaveClass(inputStyles['input--primary']);
-    });
-  }
+    }
+  });
   expect(confirmActivateBtn).toHaveClass(btnStyles['btn--primary']);
 });
 
