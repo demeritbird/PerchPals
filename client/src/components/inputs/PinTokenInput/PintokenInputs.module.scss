@@ -1,0 +1,38 @@
+@use "./../../../styles/main.scss" as *;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input {
+  @include remove-default-input-style;
+  height: 8.8rem;
+  width: 6.8rem;
+
+  text-align: center;
+
+  color: $color-black;
+  background-color: rgba($color-white, 0.8);
+
+  border-radius: $radius-md;
+
+  transition: all 0.2s;
+
+  &--fill {
+    background-color: $color-white;
+  }
+
+  &:focus,
+  &--primary {
+    border: $stroke-width-lg solid $color-primary;
+  }
+
+  &--red {
+    border: $stroke-width-lg solid $color-accent-red;
+  }
+  &--grey {
+    border: $stroke-width-lg solid $color-grey-dark-1;
+  }
+}

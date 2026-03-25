@@ -69,9 +69,7 @@ function LoginPanel(props: LoginPanelProps) {
 
     setAuthUser(inputUser);
     setPersist('true');
-    inputUser.active === AccountStatus.PENDING
-      ? navigate(`/activate`)
-      : navigate(`/landingpage`);
+    navigate(`/landingpage`);
     logValidity(TAG, Validity.PASS, `Authenticated User: ${loginResponse.data.user.name}`);
   }, [loginResponse, loginError]);
 
@@ -141,7 +139,7 @@ function LoginPanel(props: LoginPanelProps) {
                 Password
               </CommonFormInput>
             </div>
-            <div className={styles.form__alt}>
+            <div className={styles['form__alt--end']}>
               <Link
                 to='/auth/forget-password'
                 className={`${styles['alt-text']} ${styles['body-3']}`}

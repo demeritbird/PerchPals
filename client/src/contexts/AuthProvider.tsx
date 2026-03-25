@@ -5,10 +5,8 @@ import { CurrentUser } from '../utils/types';
 type PersistType = 'true' | 'false';
 interface AuthContextOptions {
   authUser: CurrentUser;
-  setAuthUser: {
-    (user: CurrentUser): void;
-    (updater: (prevUser: CurrentUser) => CurrentUser): void;
-  };
+  setAuthUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
+
   persist: PersistType;
   setPersist: (prevSel: PersistType) => void;
 }

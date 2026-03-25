@@ -88,7 +88,8 @@ function SignupPanel(props: SignupPanelProps) {
 
     setAuthUser(inputUser);
     setPersist('true');
-    navigate(`/activate`);
+    setCurrentRegistrationState(RegistrationStatus.ACTIVATE);
+    navigate(`/auth/activate`);
     logValidity(
       TAG,
       Validity.PASS,

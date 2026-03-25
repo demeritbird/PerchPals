@@ -3,13 +3,14 @@ import { Fragment, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import LoginPanel from './layouts/LoginPanel';
 import SignupPanel from './layouts/SignupPanel';
-import AuthedPanel from './layouts/AuthedPanel';
 
 import styles from './AuthPage.module.scss';
 import ProfileImage from 'src/components/images/ProfileImage';
 import AppLogo from 'src/components/images/AppLogo';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import RequireAuth from '../RequireAuth';
+import { UserRoles } from '@backend/types';
+import ActivatePanel from './layouts/ActivatePanel';
 
 export enum RegistrationStatus {
   LOGIN = 'login', // currently on login
@@ -24,29 +25,6 @@ function AuthPage() {
   const [currentRegistrationState, setCurrentRegistrationState] = useState<RegistrationStatus>(
     authUser ? RegistrationStatus.AUTH : RegistrationStatus.LOGIN
   );
-
-  const loginPanel: JSX.Element = (
-    <LoginPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
-  );
-  const signupPanel: JSX.Element = (
-    <SignupPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
-  );
-  const resetPasswordPanel: JSX.Element = <Fragment></Fragment>;
-  const authedPanel: JSX.Element = (
-    <AuthedPanel
-      currentUser={authUser}
-      setCurrentRegistrationHandler={setCurrentRegistrationState}
-    />
-  );
-  const activatePanel: JSX.Element = <Fragment></Fragment>;
-
-  const panelStatus = {
-    login: loginPanel,
-    signup: signupPanel,
-    reset: resetPasswordPanel,
-    activate: activatePanel,
-    auth: authedPanel,
-  };
 
   return (
     <div className={styles.container}>
@@ -72,8 +50,13 @@ function AuthPage() {
             }
           ></Route>
 
-          <Route element={<RequireAuth />}>
-            {/* <Route path='/auth/activate' element={<ActivatePage />} /> */}
+          <Route element={<RequireAuth allowedRoles={[UserRoles.USER, UserRoles.ADMIN]} />}>
+            <Route
+              path='/activate'
+              element={
+                <ActivatePanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
+              }
+            />
           </Route>
         </Route>
       </Routes>

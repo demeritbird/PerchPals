@@ -21,14 +21,14 @@
   }
 
   &--active {
-    border-bottom: 3.2px solid $color-primary;
+    border-bottom: $stroke-width-lg solid $color-primary;
   }
   &--inactive {
     opacity: $opacity-80;
-    border-bottom: 3.2px solid $color-grey-dark-1;
+    border-bottom: $stroke-width-lg solid $color-grey-dark-1;
   }
   &--error {
-    border-bottom: 3.2px solid $color-accent-red;
+    border-bottom: $stroke-width-lg solid $color-accent-red;
   }
 }
 

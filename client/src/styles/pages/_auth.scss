@@ -18,10 +18,23 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+
+    text-align: center;
   }
 
   .subheader {
     color: $color-primary-dark-2;
+    text-align: center;
+
+    &--highlight {
+      color: $color-secondary;
+      text-align: center;
+    }
+  }
+
+  .caption {
+    color: $color-primary-dark-1;
+    text-align: center;
   }
 
   .form {
@@ -44,7 +57,10 @@
 
     &__alt {
       width: 100%;
-      text-align: end;
+
+      &--end {
+        text-align: end;
+      }
     }
   }
 
@@ -59,6 +75,7 @@
     &__highlight {
       cursor: pointer;
       color: $color-primary-dark-2;
+      text-decoration: underline;
     }
   }
 }

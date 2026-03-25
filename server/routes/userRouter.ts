@@ -6,8 +6,8 @@ const router = express.Router();
 
 //// User Authentication ////
 router.post('/signup', authController.signup, authController.sendActivate);
-router.post('/resendActivate', authController.sendActivate);
-router.patch('/confirmActivate/:token', authController.confirmActivate);
+router.post('/:id/resendActivate', authController.sendActivate);
+router.patch('/:id/confirmActivate', authController.confirmActivate);
 router.post('/login', authController.login);
 
 router.get('/refresh', authController.refresh);

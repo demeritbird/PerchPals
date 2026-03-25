@@ -138,11 +138,15 @@ export const signup = catchAsync(
  */
 export const sendActivate = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction): Promise<void> => {
+    const { id } = req.params;
+
     // User is either from previous signup request or resent via a req.body
-    const user: UserDocument | null =
-      req.user ?? (await User.findOne({ email: req.body.email }));
+    const user: UserDocument | null = req.user ?? (await User.findById(id));
     if (!user) {
       return next(new AppError('User not found', 404));
+    }
+    if (user.active === 'active') {
+      return next(new AppError('User is already activated!', 400));
     }
 
     const activationToken: string = user.createActivationToken();
@@ -172,21 +176,25 @@ export const sendActivate = catchAsync(
  */
 export const confirmActivate = catchAsync(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const hashedToken: string = crypto
-      .createHash('sha256')
-      .update(req.params.token)
-      .digest('hex');
+    const { id } = req.params;
+    const { token } = req.body;
 
-    // FIXME: Right now, it is possible that 2 users have the same token (even if unlikely).
-    //        So perhaps need to send in user information as well.
-    const user: UserDocument | null = await User.findOne({
-      activationToken: hashedToken,
-    });
+    console.log(id, token);
+
+    const hashedToken: string = crypto.createHash('sha256').update(token).digest('hex');
+
+    // check if user exists to begin with
+    const user: UserDocument | null = await User.findById(id);
     if (!user) {
-      return next(new AppError('There is no user with email address.', 404));
+      return next(new AppError('There is no user with these credentials', 404));
     }
 
-    // Change User status on activated
+    // also, check if the token is correct
+    if (user.activationToken !== hashedToken) {
+      return next(new AppError('Incorrect activation token was provided.', 400));
+    }
+
+    // check success, activate user
     user.active = AccountStatus.ACTIVE;
     user.activationToken = undefined;
     await user.save({ validateBeforeSave: false });

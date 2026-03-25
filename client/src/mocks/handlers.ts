@@ -4,6 +4,7 @@ import { LoginRequest } from 'src/routes/AuthPage/layouts/LoginPanel/LoginPanel'
 import { SignupRequest } from '@/routes/AuthPage/layouts/SignupPanel/SignupPanel';
 import { logValidity } from 'src/utils/helpers';
 import { Validity } from 'src/utils/types';
+import { ConfirmActivateRequest } from '@/routes/AuthPage/layouts/ActivatePanel/ActivatePanel';
 
 const SERVER_URL = 'http://127.0.0.1:3001';
 const TAG = '** Mock Handlers';
@@ -112,5 +113,49 @@ const signupHandler = http.post<never, SignupRequest>(
   }
 );
 
-const handlers = [loginHandler, signupHandler];
+const confirmActivationHandler = http.patch<{ id: string }, ConfirmActivateRequest>(
+  `${SERVER_URL}/api/v1/users/:id/confirmActivate`,
+  async ({ request, params }) => {
+    const USER_TO_ACTIVATE = '123';
+    const TOKEN_TO_ACTIVATE = 'alyssa';
+
+    const { id } = params;
+    const { token } = await request.clone().json();
+    console.log(token);
+
+    if (!id || id !== USER_TO_ACTIVATE) {
+      return errorJSON({
+        statusCode: 404,
+        message: 'There is no user with these credentials.',
+      });
+    }
+
+    // no token
+    if (!token || token !== TOKEN_TO_ACTIVATE) {
+      return errorJSON({
+        statusCode: 400,
+        message: 'Incorrect activation token was provided.',
+      });
+    }
+
+    return HttpResponse.json<SuccessReponse>({
+      status: 'success',
+      token: 'token',
+      data: {
+        user: {
+          name: 'newuser',
+          email: 'newuser@example.com',
+          photo: 'default-user-base64.jpeg',
+          active: 'active',
+          _id: '69ab674c3b7805d08c1080ed',
+          created_at: '2025-04-28T00:00:00.000Z',
+          updated_at: '2025-04-28T00:00:00.000Z',
+          __v: 0,
+        },
+      },
+    });
+  }
+);
+
+const handlers = [loginHandler, signupHandler, confirmActivationHandler];
 export default handlers;

@@ -33,6 +33,7 @@
     "role": "user",
     "password": "test1234",
     "photo": "default-user.jpeg",
-    "active": "active"
+    "active": "pending",
+    "activationToken": "54b19096b9cb1ab025d47a4a1746cdb8811e354aeee976eecb5bbecb26ef404b"
   }
 ]

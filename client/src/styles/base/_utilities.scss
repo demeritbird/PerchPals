@@ -1,3 +1,10 @@
+@use "./../themes/themes" as themes;
+
+.u-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 //// FONTS ////
 .u-center-text {
   text-align: center !important;
@@ -5,12 +12,12 @@
 
 //// MARGINS ////
 $spacings: (
-  1: 0.4rem,
-  2: 0.8rem,
-  3: 1.6rem,
-  4: 2.4rem,
-  5: 3.2rem,
-  6: 6.4rem
+  xs: themes.$spacing-xs,
+  sm: themes.$spacing-sm,
+  md: themes.$spacing-md,
+  lg: themes.$spacing-lg,
+  xl: themes.$spacing-xl,
+  2xl: themes.$spacing-2xl
 );
 
 @each $name, $size in $spacings {
