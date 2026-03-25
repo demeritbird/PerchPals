@@ -41,11 +41,11 @@ test('correct signup credential', async () => {
   fireEvent.click(signupBtn);
 
   // check if elements is still same color
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--active']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
   });
@@ -69,11 +69,11 @@ test('incorrect signup credential - password inputs are not the same', async () 
   fireEvent.change(passwordConfirmInput, { target: { value: 'notTheSamePassword' } });
   fireEvent.click(signupBtn);
 
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(signupBtn).toHaveClass(btnStyles['btn--error']);
   });
@@ -97,11 +97,11 @@ test('incorrect signup credential - invalid password length condition', async ()
   fireEvent.change(passwordConfirmInput, { target: { value: 'test' } });
   fireEvent.click(signupBtn);
 
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(signupBtn).toHaveClass(btnStyles['btn--error']);
   });
@@ -125,11 +125,11 @@ test('incorrect signup credential - invalid email input', async () => {
   fireEvent.change(passwordConfirmInput, { target: { value: 'test' } });
   fireEvent.click(signupBtn);
 
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(signupBtn).toHaveClass(btnStyles['btn--error']);
   });
@@ -155,12 +155,12 @@ test('attempting to retry validation should reset form input and button state', 
 
   // now if i input something new it should go back to primary color
   fireEvent.change(passwordInput, { target: { value: 'test1234' } });
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       // either primary or inactive as password / confirmPassword fields are emptied
       expect(input).not.toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(signupBtn).toHaveClass(btnStyles['btn--primary']);
   });

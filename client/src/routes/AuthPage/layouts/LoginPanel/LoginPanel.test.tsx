@@ -27,11 +27,11 @@ test('correct login credential', async () => {
   fireEvent.click(logInBtn);
 
   // check if elements is still same color
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--active']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(logInBtn).toHaveClass(btnStyles['btn--primary']);
   });
@@ -44,11 +44,11 @@ test('incorrect login credentials and client reject', async () => {
   fireEvent.click(logInBtn);
 
   // check if elements is in error state and has changed bgColor to red
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(logInBtn).toHaveClass(btnStyles['btn--error']);
   });
@@ -61,11 +61,11 @@ test('incorrect login credentials and server reject', async () => {
   fireEvent.click(logInBtn);
 
   // check if elements is in error state and has changed bgColor to red
-  for (const input of inputContainer) {
-    await waitFor(() => {
+  await waitFor(() => {
+    for (const input of inputContainer) {
       expect(input).toHaveClass(inputStyles['container--error']);
-    });
-  }
+    }
+  });
   await waitFor(() => {
     expect(logInBtn).toHaveClass(btnStyles['btn--error']);
   });
