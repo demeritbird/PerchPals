@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useRef } from 'react';
 import styles from './PintokenInputs.module.scss';
-import { Status } from '@/utils/types';
+import { InputStatus } from '@/utils/types';
 import { IconColor } from '@/components/icons/IconWrapper';
 
 interface PinTokenInputsProps {
@@ -169,25 +169,25 @@ function PinTokenInputs(props: PinTokenInputsProps) {
   /**
    * @returns current state of input
    */
-  const getInputStatus = (idx: number): Status => {
-    if (isError) return Status.ERROR;
-    if (isInputFilled(idx)) return Status.ACTIVE;
+  const getInputStatus = (idx: number): InputStatus => {
+    if (isError) return InputStatus.ERROR;
+    if (isInputFilled(idx)) return InputStatus.ACTIVE;
 
-    return Status.INACTIVE;
+    return InputStatus.INACTIVE;
   };
 
   /**
    * @returns icon colour based on current state of input
    */
   const getIconColour = (idx: number): IconColor => {
-    const status: Status = getInputStatus(idx);
+    const status: InputStatus = getInputStatus(idx);
 
     switch (status) {
-      case Status.ACTIVE:
+      case InputStatus.ACTIVE:
         return 'primary';
-      case Status.INACTIVE:
+      case InputStatus.INACTIVE:
         return 'grey';
-      case Status.ERROR:
+      case InputStatus.ERROR:
         return 'red';
       default:
         return 'primary';

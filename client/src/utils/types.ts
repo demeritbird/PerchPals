@@ -1,16 +1,21 @@
 import { AccountStatus, UserRoles } from '@backend/types';
 
-export type ServerStatusType = 'success' | 'error' | 'fail';
+export type ServerReturnStatus = 'success' | 'error' | 'fail';
 export enum Validity {
   PASS,
   FAIL,
 }
 
-export type Color = 'primary' | 'secondary' | 'grey';
-export type ColorWithAccents = Color | 'red' | 'green' | 'white' | 'grey-light';
+export type MainColor = 'primary' | 'secondary' | 'grey';
+export type AccentColor = 'red' | 'red-light' | 'green' | 'green-light';
+export type ColorWithAccent = MainColor | AccentColor | 'white' | 'grey-light';
 export type Size = 'sm' | 'md' | 'lg';
 export type ExtendedSize = Size | 'xs' | 'xl';
-export enum Status {
+export enum SuccessStatus {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+export enum InputStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   LOADING = 'loading',

@@ -4,6 +4,7 @@ import App from './App';
 import { AuthProvider } from './contexts/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SnackbarProvider } from './contexts/SnackbarProvider';
 if (import.meta.env.VITE_ENV === 'production') {
   disableReactDevTools();
 }
@@ -18,7 +19,9 @@ root.render(
       }}
     >
       <AuthProvider>
-        <App />
+        <SnackbarProvider>
+          <App />
+        </SnackbarProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

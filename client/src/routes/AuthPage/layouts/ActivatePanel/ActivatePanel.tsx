@@ -92,9 +92,9 @@ function ActivatePanel(props: any) {
         <h3 className={`${styles.subheader} ${styles['heading-3']}`}>
           We have sent a code to:
         </h3>
-        <h1 className={`${styles['subheader--highlight']} ${styles['heading-3EB']}`}>
+        <h3 className={`${styles['subheader--highlight']} ${styles['heading-3EB']}`}>
           {authUser?.email ?? 'unknown user'}
-        </h1>
+        </h3>
         <p className={`${styles.caption} ${styles['body-1']}`}>
           Give it a check! This verification is required for the creation of your account.
         </p>

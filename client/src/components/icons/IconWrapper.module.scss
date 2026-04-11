@@ -7,7 +7,9 @@ $color-variants: (
   grey-light: $color-grey-light-1,
   white: $color-white,
   green: $color-accent-green,
-  red: $color-accent-red
+  green-light: $color-accent-green-light,
+  red: $color-accent-red,
+  red-light: $color-accent-red-light
 );
 
 @mixin color-modifiers {

@@ -1,7 +1,7 @@
 import React, { Fragment, ChangeEventHandler, useState } from 'react';
 import styles from './CommonFormInput.module.scss';
 import { IconColor, IconProps } from 'src/components/icons/IconWrapper';
-import { Status } from 'src/utils/types';
+import { InputStatus } from 'src/utils/types';
 import EyeOpenIcon from 'src/components/icons/EyeOpenIcon';
 import EyeCloseIcon from 'src/components/icons/EyeCloseIcon';
 
@@ -67,26 +67,26 @@ function CommonFormInput(props: CommonFormInputProps) {
   /**
    * @returns current state of input
    */
-  function getInputStatus(): Status {
-    if (isError) return Status.ERROR;
+  function getInputStatus(): InputStatus {
+    if (isError) return InputStatus.ERROR;
     if (isInputActive || (inputRefCurrent && inputRefCurrent.value.length > 0))
-      return Status.ACTIVE;
+      return InputStatus.ACTIVE;
 
-    return Status.INACTIVE;
+    return InputStatus.INACTIVE;
   }
 
   /**
    * @returns icon colour based on current state of input
    */
   function getIconColour(): IconColor {
-    const status: Status = getInputStatus();
+    const status: InputStatus = getInputStatus();
 
     switch (status) {
-      case Status.ACTIVE:
+      case InputStatus.ACTIVE:
         return 'primary';
-      case Status.INACTIVE:
+      case InputStatus.INACTIVE:
         return 'grey';
-      case Status.ERROR:
+      case InputStatus.ERROR:
         return 'red';
       default:
         return 'primary';

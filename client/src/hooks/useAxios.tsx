@@ -4,17 +4,17 @@ import { axiosInstance } from '../utils/helpers';
 
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
-import { ServerStatusType } from 'src/utils/types';
+import { ServerReturnStatus } from 'src/utils/types';
 
 export interface SuccessReponse {
-  status: Extract<'success', ServerStatusType>;
+  status: Extract<'success', ServerReturnStatus>;
   token?: string;
   data: {
     [key: string]: any;
   };
 }
 export interface ErrorResponse {
-  status: Extract<'error' | 'fail', ServerStatusType>;
+  status: Extract<'error' | 'fail', ServerReturnStatus>;
   error: {
     statusCode: number;
     status: 'error' | 'fail';
@@ -33,7 +33,7 @@ type AxiosRequest = {
 };
 type AxiosResponse = SuccessReponse | ErrorResponse;
 
-export function isResponseType<T extends ServerStatusType>(
+export function isResponseType<T extends ServerReturnStatus>(
   res: AxiosResponse,
   status: T
 ): res is Extract<AxiosResponse, { status: T }> {

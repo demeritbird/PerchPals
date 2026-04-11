@@ -1,0 +1,56 @@
+@use "./../../../styles/main" as *;
+
+$container-height: 8rem;
+$container-width: 100rem;
+$animation-timing: 0.2s;
+
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: $container-height;
+  width: $container-width;
+
+  border-radius: $radius-lg;
+  padding: $spacing-md $spacing-lg;
+  gap: $spacing-lg;
+
+  z-index: 99; // must be the highest element
+
+  // container visuals
+  &--green {
+    background-color: $color-accent-green-dark;
+  }
+
+  &--red {
+    background-color: $color-accent-red-dark;
+  }
+
+  // container visibility
+  &--hide {
+    visibility: hidden;
+    opacity: 0;
+    top: 0;
+
+    transition:
+      opacity $animation-timing ease-in,
+      top 0s linear $animation-timing;
+  }
+
+  &--show {
+    visibility: visible;
+    top: calc($container-height);
+
+    transition: all $animation-timing ease-in;
+  }
+}
+
+.message {
+  @include overflow-text-ellipsis;
+  color: $color-white;
+}

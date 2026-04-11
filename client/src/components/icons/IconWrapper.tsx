@@ -1,9 +1,9 @@
 import styles from './IconWrapper.module.scss';
-import { ColorWithAccents, Size } from 'src/utils/types';
+import { ColorWithAccent, Size } from 'src/utils/types';
 
 export type IconSize = Size | 'fill';
 export type IconStyle = 'fill' | 'outline';
-export type IconColor = ColorWithAccents;
+export type IconColor = ColorWithAccent;
 
 export interface IconProps {
   size: IconSize;
