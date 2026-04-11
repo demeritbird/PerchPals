@@ -179,8 +179,6 @@ export const confirmActivate = catchAsync(
     const { id } = req.params;
     const { token } = req.body;
 
-    console.log(id, token);
-
     const hashedToken: string = crypto.createHash('sha256').update(token).digest('hex');
 
     // check if user exists to begin with
