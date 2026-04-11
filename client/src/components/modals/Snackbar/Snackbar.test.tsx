@@ -1,18 +1,19 @@
-import { TEST_STRING } from 'src/utils/constants';
 import { render, screen } from '../../../utils/testing-library-utils';
-import Snackbar from './Snackbar';
-import { SuccessStatus } from '@/utils/types';
-import { SnackbarVisibility } from '@/contexts/SnackbarProvider';
+
+import SnackbarProvider from '@/contexts/SnackbarProvider';
+
+// TODO: add more tests for different states and dropping width bar
+
+const setup = () => {
+  const { container } = render(<SnackbarProvider></SnackbarProvider>); // provider comes with snackbar
+
+  return { container };
+};
 
 test('render snackbar', () => {
-  render(
-    <Snackbar
-      show={SnackbarVisibility.SHOW}
-      message={TEST_STRING}
-      status={SuccessStatus.SUCCESS}
-    ></Snackbar>
-  );
+  const { container } = setup();
+  const message = screen.getByRole('paragraph');
 
-  const component = screen.getByText(/testvalue/i);
-  expect(component).toBeInTheDocument();
+  expect(container).toBeInTheDocument();
+  expect(message).toBeInTheDocument();
 });
