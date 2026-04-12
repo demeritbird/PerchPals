@@ -4,6 +4,7 @@ import inputStyles from '@/components/inputs/PinTokenInput/PintokenInputs.module
 import btnStyles from '@/components/buttons/CommonButton/CommonButton.module.scss';
 import AuthContext from '@/contexts/AuthProvider';
 import { AccountStatus, UserRoles } from '@backend/types';
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 const setup = () => {
   render(
@@ -23,7 +24,9 @@ const setup = () => {
         setPersist: vi.fn(),
       }}
     >
-      <ActivatePanel setCurrentRegistrationHandler={vitest.fn()} />
+      <SnackbarProvider>
+        <ActivatePanel setCurrentRegistrationHandler={vitest.fn()} />
+      </SnackbarProvider>
     </AuthContext.Provider>
   );
   const inputs = screen.getAllByRole('textbox');

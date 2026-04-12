@@ -9,7 +9,6 @@ import PersistLogin from './routes/PersistLogin';
 import BackgroundImageWrapper from './components/wrappers/BackgroundImageWrapper';
 import AuthPage from './routes/AuthPage';
 import GlassContainerWrapper from './components/wrappers/GlassContainerWrapper';
-const ActivatePage = React.lazy(() => import('./routes/ActivatePage'));
 const LandingPage = React.lazy(() => import('./routes/LandingPage'));
 const ProfilePage = React.lazy(() => import('./routes/ProfilePage'));
 

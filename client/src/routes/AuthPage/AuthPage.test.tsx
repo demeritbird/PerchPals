@@ -1,8 +1,13 @@
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 import { render, screen } from '../../utils/testing-library-utils';
 import AuthPage from './AuthPage';
 
 test('render label names for login and signup', () => {
-  render(<AuthPage />);
+  render(
+    <SnackbarProvider>
+      <AuthPage />
+    </SnackbarProvider>
+  );
 
   const loginTestText = screen.getByText(/log in/i);
   expect(loginTestText).toBeInTheDocument();

@@ -2,9 +2,14 @@ import { fireEvent, render, screen, waitFor } from '../../../../utils/testing-li
 import LoginPanel from './LoginPanel';
 import inputStyles from '@/components/inputs/CommonFormInput/CommonFormInput.module.scss';
 import btnStyles from '@/components/buttons/CommonButton/CommonButton.module.scss';
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 const setup = () => {
-  render(<LoginPanel setCurrentRegistrationHandler={vitest.fn()} />);
+  render(
+    <SnackbarProvider>
+      <LoginPanel setCurrentRegistrationHandler={vitest.fn()} />
+    </SnackbarProvider>
+  );
   const inputContainer = screen.getAllByTestId('input-container');
   const emailInput = screen.getByLabelText('email');
   const passwordInput = screen.getByLabelText('password');
