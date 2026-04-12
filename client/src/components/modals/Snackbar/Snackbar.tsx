@@ -12,6 +12,31 @@ interface SnackbarProps {
   status: SuccessStatus;
 }
 
+/**
+ * @desc
+ * common snackbar that is event driven
+ *
+ * @param {SnackbarVisibility} props.show visible state of the snackbar
+ * @param {string} props.message message shown in snackbar
+ * @param {SuccessStatus} props.status success state that affect the color used for the snackbar
+ *
+ * @example
+ * // creating instance
+ * const { state } = useSnackbar();
+ * <Snackbar
+     show={state.show}
+     message={state.message ?? ''}
+     status={state.status ?? SuccessStatus.ERROR}
+   ></Snackbar>
+ *  
+ * // calling instance
+ * const { dispatch } = useSnackbar();
+ * dispatch({
+     show: SnackbarVisibility.SHOW,
+     message: 'value to be shown',
+     status: SuccessStatus.SUCCESS
+   })
+*/
 function Snackbar(props: SnackbarProps) {
   const { show, message, status } = props;
   const { dispatch } = useSnackbar();
