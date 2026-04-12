@@ -2,8 +2,8 @@ import { SnackbarAction, SnackbarState } from '@/contexts/SnackbarProvider';
 import { createContext, useContext } from 'react';
 
 export interface SnackbarContextOptions {
-  state: SnackbarState;
-  dispatch: React.Dispatch<SnackbarAction>;
+  snackbar: SnackbarState;
+  dispatchSnackbar: React.Dispatch<SnackbarAction>;
 }
 
 // this needs to be here to init context first

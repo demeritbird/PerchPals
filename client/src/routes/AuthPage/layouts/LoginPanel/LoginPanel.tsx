@@ -13,7 +13,9 @@ import styles from './LoginPanel.module.scss';
 import EmailIcon from 'src/components/icons/EmailIcon';
 import CommonButton from '../../../../components/buttons/CommonButton';
 import KeyIcon from 'src/components/icons/KeyIcon';
-import { Validity } from 'src/utils/types';
+import { SuccessStatus, Validity } from 'src/utils/types';
+import useSnackbar from '@/hooks/useSnackbar';
+import { SnackbarVisibility } from '@/contexts/SnackbarProvider';
 
 export interface LoginRequest {
   email: string;
@@ -40,6 +42,7 @@ function LoginPanel(props: LoginPanelProps) {
     setError,
     isLoading,
   } = useAxios();
+  const { dispatchSnackbar } = useSnackbar();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -53,6 +56,12 @@ function LoginPanel(props: LoginPanelProps) {
     if (loginError) {
       logValidity(TAG, Validity.FAIL, loginError);
       clearPasswordInput();
+
+      dispatchSnackbar({
+        show: SnackbarVisibility.SHOW,
+        message: 'Incorrect credentials were used! Please try again.',
+        status: SuccessStatus.ERROR,
+      });
       return;
     }
     if (!loginResponse || !isResponseType(loginResponse, 'success')) return;
@@ -70,6 +79,11 @@ function LoginPanel(props: LoginPanelProps) {
     setAuthUser(inputUser);
     setPersist('true');
     navigate(`/landingpage`);
+    dispatchSnackbar({
+      show: SnackbarVisibility.SHOW,
+      message: 'Login successful!',
+      status: SuccessStatus.SUCCESS,
+    });
     logValidity(TAG, Validity.PASS, `Authenticated User: ${loginResponse.data.user.name}`);
   }, [loginResponse, loginError]);
 

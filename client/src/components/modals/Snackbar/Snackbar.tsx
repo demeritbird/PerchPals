@@ -39,7 +39,7 @@ interface SnackbarProps {
 */
 function Snackbar(props: SnackbarProps) {
   const { show, message, status } = props;
-  const { dispatch } = useSnackbar();
+  const { dispatchSnackbar } = useSnackbar();
 
   const progressRef = useRef<HTMLDivElement | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -103,7 +103,7 @@ function Snackbar(props: SnackbarProps) {
       const width = parseInt(progressRef.current.style.width);
 
       if (width <= 0) {
-        dispatch({
+        dispatchSnackbar({
           show: SnackbarVisibility.HIDE,
         });
         stopCountdown();

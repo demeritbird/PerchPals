@@ -52,8 +52,8 @@ export function SnackbarProvider(props: React.PropsWithChildren) {
   });
 
   const SnackbarContextValue: SnackbarContextOptions = {
-    state,
-    dispatch,
+    snackbar: state,
+    dispatchSnackbar: dispatch,
   };
 
   return (

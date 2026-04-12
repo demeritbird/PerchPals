@@ -6,7 +6,7 @@ import useAxios, { isResponseType } from '../../../../hooks/useAxios';
 import CommonFormInput from '../../../../components/inputs/CommonFormInput';
 
 import { RegistrationStatus } from '../../AuthPage';
-import { Validity } from '../../../../utils/types';
+import { SuccessStatus, Validity } from '../../../../utils/types';
 import { logValidity } from '../../../../utils/helpers';
 
 import styles from './SignupPanel.module.scss';
@@ -14,6 +14,8 @@ import EmailIcon from 'src/components/icons/EmailIcon';
 import KeyIcon from 'src/components/icons/KeyIcon';
 import UserIcon from 'src/components/icons/UserIcon';
 import CommonButton from 'src/components/buttons/CommonButton';
+import useSnackbar from '@/hooks/useSnackbar';
+import { SnackbarVisibility } from '@/contexts/SnackbarProvider';
 
 export interface SignupRequest {
   name: string;
@@ -56,6 +58,7 @@ function SignupPanel(props: SignupPanelProps) {
     setError,
     isLoading,
   } = useAxios();
+  const { dispatchSnackbar } = useSnackbar();
 
   const usernameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -72,6 +75,11 @@ function SignupPanel(props: SignupPanelProps) {
       setError(signupError);
       logValidity(TAG, Validity.FAIL, signupError);
       clearPasswordInput();
+      dispatchSnackbar({
+        show: SnackbarVisibility.SHOW,
+        message: 'Incorrect credentials were used! Please try again.',
+        status: SuccessStatus.ERROR,
+      });
       return;
     }
     if (!signupResponse || !isResponseType(signupResponse, 'success')) return;
@@ -90,6 +98,11 @@ function SignupPanel(props: SignupPanelProps) {
     setPersist('true');
     setCurrentRegistrationState(RegistrationStatus.ACTIVATE);
     navigate(`/auth/activate`);
+    dispatchSnackbar({
+      show: SnackbarVisibility.SHOW,
+      message: 'Signup successful!',
+      status: SuccessStatus.SUCCESS,
+    });
     logValidity(
       TAG,
       Validity.PASS,

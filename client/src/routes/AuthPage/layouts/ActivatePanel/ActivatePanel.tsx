@@ -6,8 +6,10 @@ import useAuth from '@/hooks/useAuth';
 import useAxios, { isResponseType } from '@/hooks/useAxios';
 import { FormEvent, useEffect, useState } from 'react';
 import { RegistrationStatus } from '../../AuthPage';
-import { Validity } from '@/utils/types';
+import { SuccessStatus, Validity } from '@/utils/types';
 import { logValidity } from '@/utils/helpers';
+import useSnackbar from '@/hooks/useSnackbar';
+import { SnackbarVisibility } from '@/contexts/SnackbarProvider';
 
 export interface ConfirmActivateRequest {
   token: string;
@@ -18,7 +20,6 @@ function ActivatePanel(props: any) {
   const { setCurrentRegistrationHandler: setCurrentRegistrationState } = props;
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useAuth();
-
   const {
     request: activateRequest,
     response: activateResponse,
@@ -27,6 +28,7 @@ function ActivatePanel(props: any) {
     isLoading,
   } = useAxios();
   const { request: resendRequest } = useAxios();
+  const { dispatchSnackbar } = useSnackbar();
 
   const [token, setToken] = useState('');
 
@@ -37,6 +39,11 @@ function ActivatePanel(props: any) {
     }
 
     if (error) {
+      dispatchSnackbar({
+        show: SnackbarVisibility.SHOW,
+        message: 'Incorrect token was Used! Please try again.',
+        status: SuccessStatus.ERROR,
+      });
       logValidity(TAG, Validity.FAIL, error);
       return;
     }
@@ -47,6 +54,11 @@ function ActivatePanel(props: any) {
       ...authUser,
       active: activateResponse.data.user.active,
       token: activateResponse.token!,
+    });
+    dispatchSnackbar({
+      show: SnackbarVisibility.SHOW,
+      message: 'Your account has been activated!',
+      status: SuccessStatus.SUCCESS,
     });
   }, [activateResponse, error]);
 
@@ -59,6 +71,11 @@ function ActivatePanel(props: any) {
     resendRequest({
       method: 'post',
       url: `/api/v1/users/${authUser.id}/resendActivate`,
+    });
+    dispatchSnackbar({
+      show: SnackbarVisibility.SHOW,
+      message: 'New token has been resent! Please check your email.',
+      status: SuccessStatus.SUCCESS,
     });
   }
 
