@@ -2,14 +2,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import SignupPanel from './SignupPanel';
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 export default {
-  title: 'Layouts/LoginForm',
+  title: 'Layouts/SignupPanel',
   component: SignupPanel,
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <Story />
+        <SnackbarProvider>
+          <Story />
+        </SnackbarProvider>
       </MemoryRouter>
     ),
   ],

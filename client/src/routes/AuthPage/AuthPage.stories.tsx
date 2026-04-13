@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import AuthPage from './AuthPage';
 import { MemoryRouter } from 'react-router-dom';
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 export default {
   title: 'Routes/AuthPage',
@@ -9,7 +10,9 @@ export default {
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <Story />
+        <SnackbarProvider>
+          <Story />
+        </SnackbarProvider>
       </MemoryRouter>
     ),
   ],

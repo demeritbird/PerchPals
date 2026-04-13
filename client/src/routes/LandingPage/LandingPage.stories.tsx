@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import LandingPage from './LandingPage';
+import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 export default {
   title: 'Routes/LandingPage',
@@ -8,7 +9,9 @@ export default {
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <Story />
+        <SnackbarProvider>
+          <Story />
+        </SnackbarProvider>
       </MemoryRouter>
     ),
   ],
