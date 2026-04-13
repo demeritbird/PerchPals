@@ -11,6 +11,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import RequireAuth from '../RequireAuth';
 import { UserRoles } from '@backend/types';
 import ActivatePanel from './layouts/ActivatePanel';
+import ForgetPasswordPanel from './layouts/ForgetPasswordPanel';
 
 export enum RegistrationStatus {
   LOGIN = 'login', // currently on login
@@ -49,6 +50,14 @@ function AuthPage() {
               <SignupPanel setCurrentRegistrationHandler={setCurrentRegistrationState} />
             }
           ></Route>
+          <Route
+            path='/forget-password'
+            element={
+              <ForgetPasswordPanel
+                setCurrentRegistrationHandler={setCurrentRegistrationState}
+              />
+            }
+          />
 
           <Route element={<RequireAuth allowedRoles={[UserRoles.USER, UserRoles.ADMIN]} />}>
             <Route

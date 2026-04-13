@@ -340,14 +340,14 @@ export const forgetPassword = catchAsync(
 
     try {
       // Hashed token sent as a link to user
-      const resetURL = `${req.protocol}://${req.get(
-        'host'
-      )}/api/v1/users/resetPassword/${resetToken}`;
+      const resetURL = `${process.env.CLIENT_URL}/auth/reset-password/${resetToken}`;
       await new EmailService(user, resetURL).sendPasswordResetEmail();
 
       res.status(200).json({
         status: 'success',
-        message: 'Token sent to email!',
+        data: {
+          resetToken,
+        },
       });
     } catch (err) {
       // Cancel request entirely if error

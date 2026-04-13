@@ -189,3 +189,29 @@ describe('confirm activation', function () {
       });
   });
 });
+
+describe('forget password', function () {
+  it('should respond with status 200 when correct email is provided', function (done) {
+    chai
+      .request(app)
+      .post('/api/v1/users/forgetPassword')
+      .send({ email: 'admin@example.com' })
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(200);
+        done();
+      });
+  });
+
+  it('should respond with status 404 when incorrect email is provided, email cannot be found', function (done) {
+    chai
+      .request(app)
+      .post('/api/v1/users/forgetPassword')
+      .send({ email: 'wrongemail@example.com' })
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(404);
+        done();
+      });
+  });
+});

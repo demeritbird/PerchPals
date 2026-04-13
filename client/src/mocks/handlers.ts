@@ -5,6 +5,7 @@ import { SignupRequest } from '@/routes/AuthPage/layouts/SignupPanel/SignupPanel
 import { logValidity } from 'src/utils/helpers';
 import { Validity } from 'src/utils/types';
 import { ConfirmActivateRequest } from '@/routes/AuthPage/layouts/ActivatePanel/ActivatePanel';
+import { ForgetPasswordRequest } from '@/routes/AuthPage/layouts/ForgetPasswordPanel/ForgetPasswordPanel';
 
 const SERVER_URL = 'http://127.0.0.1:3001';
 const TAG = '** Mock Handlers';
@@ -121,7 +122,6 @@ const confirmActivationHandler = http.patch<{ id: string }, ConfirmActivateReque
 
     const { id } = params;
     const { token } = await request.clone().json();
-    console.log(token);
 
     if (!id || id !== USER_TO_ACTIVATE) {
       return errorJSON({
@@ -157,5 +157,31 @@ const confirmActivationHandler = http.patch<{ id: string }, ConfirmActivateReque
   }
 );
 
-const handlers = [loginHandler, signupHandler, confirmActivationHandler];
+const forgetPasswordHandler = http.post<never, ForgetPasswordRequest>(
+  `${SERVER_URL}/api/v1/forgetPassword`,
+  async ({ request }) => {
+    const MOCK_EMAIL = 'admin@example.com';
+    const MOCK_RETURN_RESET_TOKEN = '123456';
+
+    const { email } = await request.clone().json();
+
+    if (email !== MOCK_EMAIL) {
+      return errorJSON({ statusCode: 404, message: 'There is no user with email address.' });
+    }
+
+    return HttpResponse.json<SuccessReponse>({
+      status: 'success',
+      data: {
+        resetToken: MOCK_RETURN_RESET_TOKEN,
+      },
+    });
+  }
+);
+
+const handlers = [
+  loginHandler,
+  signupHandler,
+  confirmActivationHandler,
+  forgetPasswordHandler,
+];
 export default handlers;
