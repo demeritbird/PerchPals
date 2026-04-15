@@ -398,7 +398,7 @@ export const resetPassword = catchAsync(
     user.passwordResetExpires = undefined;
     await user.save();
 
-    res.status(200).json({
+    res.status(204).json({
       status: 'success',
       data: {},
     });

@@ -8,6 +8,7 @@ import { ServerReturnStatus } from 'src/utils/types';
 
 export interface SuccessReponse {
   status: Extract<'success', ServerReturnStatus>;
+  results?: number;
   token?: string;
   data: {
     [key: string]: any;

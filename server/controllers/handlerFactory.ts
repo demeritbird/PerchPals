@@ -85,6 +85,6 @@ export const deleteOne = (Model: AllModels) =>
 
     res.status(204).json({
       status: 'success',
-      data: null,
+      data: {},
     });
   });
