@@ -1,21 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
-
 import LoginPanel from './LoginPanel';
-import SnackbarProvider from '@/contexts/SnackbarProvider';
+import './../../../../styles/main.scss';
 
 export default {
   title: 'Layouts/LoginPanel',
   component: LoginPanel,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <SnackbarProvider>
-          <Story />
-        </SnackbarProvider>
-      </MemoryRouter>
-    ),
-  ],
   argTypes: {
     backgroundColor: { control: 'color' },
   },

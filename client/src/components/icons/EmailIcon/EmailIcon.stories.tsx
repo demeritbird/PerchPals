@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
+import './../../../styles/main.scss';
 import EmailIcon from './EmailIcon';
 
 const meta = {

@@ -1,20 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
 import ProfilePage from './ProfilePage';
-import SnackbarProvider from '@/contexts/SnackbarProvider';
+import './../../styles/main.scss';
 
 export default {
   title: 'Routes/ProfilePage',
   component: ProfilePage,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <SnackbarProvider>
-          <Story />
-        </SnackbarProvider>
-      </MemoryRouter>
-    ),
-  ],
   argTypes: {
     backgroundColor: { control: 'color' },
   },

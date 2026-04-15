@@ -1,17 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import BackgroundImageWrapper from './BackgroundImageWrapper';
-import { MemoryRouter } from 'react-router-dom';
+import './../../../styles/main.scss';
 
 export default {
   title: 'Components/Wrapper/BackgroundImageWrapper',
   component: BackgroundImageWrapper,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
   render: ({ ...args }) => (
     <BackgroundImageWrapper {...args}>
       <div

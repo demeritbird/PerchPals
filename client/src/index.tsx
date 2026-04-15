@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SnackbarProvider } from './contexts/SnackbarProvider';
+import { ThemeProvider } from './contexts/ThemeProvider';
 if (import.meta.env.VITE_ENV === 'production') {
   disableReactDevTools();
 }
@@ -18,11 +19,13 @@ root.render(
         v7_relativeSplatPath: true,
       }}
     >
-      <AuthProvider>
-        <SnackbarProvider>
-          <App />
-        </SnackbarProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <SnackbarProvider>
+            <App />
+          </SnackbarProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

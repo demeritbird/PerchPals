@@ -1,0 +1,28 @@
+@use "../abstracts/variables" as v;
+
+$theme-map: (
+  --theme-black: v.$color-neutral-1000,
+  --theme-white: v.$color-neutral-0,
+  --theme-grey-light-1: v.$color-neutral-100,
+  --theme-grey-light-2: v.$color-neutral-300,
+  --theme-grey-dark-1: v.$color-neutral-700,
+  --theme-grey-dark-2: v.$color-neutral-900,
+
+  --theme-primary: v.$color-savoy-blue-700,
+  --theme-primary-light-1: v.$color-savoy-blue-500,
+  --theme-primary-light-2: v.$color-savoy-blue-300,
+  --theme-primary-dark-1: v.$color-savoy-blue-800,
+  --theme-primary-dark-2: v.$color-savoy-blue-900,
+
+  --theme-secondary: v.$color-cocoa-brown-500,
+  --theme-secondary-light: v.$color-cocoa-brown-300,
+  --theme-secondary-dark: v.$color-cocoa-brown-700,
+
+  --theme-accent-green: v.$color-forest-green-500,
+  --theme-accent-green-light: v.$color-forest-green-200,
+  --theme-accent-green-dark: v.$color-forest-green-800,
+
+  --theme-accent-red: v.$color-cordovan-red-500,
+  --theme-accent-red-light: v.$color-cordovan-red-200,
+  --theme-accent-red-dark: v.$color-cordovan-red-800
+);

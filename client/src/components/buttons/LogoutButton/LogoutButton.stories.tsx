@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
+import './../../../styles/main.scss';
 
 export default {
   title: 'Components/LogoutButton',
@@ -8,13 +8,6 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
 } as Meta<typeof LogoutButton>;
 
 type Story = StoryObj<typeof LogoutButton>;

@@ -3,6 +3,7 @@ import CommonFormInput from './CommonFormInput';
 import { useRef } from 'react';
 import UserIcon from 'src/components/icons/UserIcon';
 import KeyIcon from 'src/components/icons/KeyIcon';
+import './../../../styles/main.scss';
 
 const meta = {
   title: 'Components/Inputs/CommonFormInput',

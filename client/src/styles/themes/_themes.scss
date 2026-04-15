@@ -1,30 +1,43 @@
 @use "./../abstracts/variables" as v;
+@use "light" as light;
+// @use "dark" as dark;
+
+:root.light {
+  @each $name, $val in light.$theme-map {
+    #{$name}: #{$val};
+  }
+}
+// :root.dark {
+//   @each $name, $val in dark.$theme-map {
+//     #{$name}: #{$val};
+//   }
+// }
 
 //// COLOR ////
-$color-black: v.$color-neutral-1000;
-$color-white: v.$color-neutral-0;
-$color-grey-light-1: v.$color-neutral-100;
-$color-grey-light-2: v.$color-neutral-300;
-$color-grey-dark-1: v.$color-neutral-700;
-$color-grey-dark-2: v.$color-neutral-900;
+$color-black: var(--theme-black);
+$color-white: var(--theme-white);
+$color-grey-light-1: var(--theme-grey-light-1);
+$color-grey-light-2: var(--theme-grey-light-2);
+$color-grey-dark-1: var(--theme-grey-dark-1);
+$color-grey-dark-2: var(--theme-grey-dark-2);
 
-$color-primary: v.$color-savoy-blue-700;
-$color-primary-light-1: v.$color-savoy-blue-500;
-$color-primary-light-2: v.$color-savoy-blue-300;
-$color-primary-dark-1: v.$color-savoy-blue-800;
-$color-primary-dark-2: v.$color-savoy-blue-900;
+$color-primary: var(--theme-primary);
+$color-primary-light-1: var(--theme-primary-light-1);
+$color-primary-light-2: var(--theme-primary-light-2);
+$color-primary-dark-1: var(--theme-primary-dark-1);
+$color-primary-dark-2: var(--theme-primary-dark-2);
 
-$color-secondary: v.$color-cocoa-brown-500;
-$color-secondary-light: v.$color-cocoa-brown-300;
-$color-secondary-dark: v.$color-cocoa-brown-700;
+$color-secondary: var(--theme-secondary);
+$color-secondary-light: var(--theme-secondary-light);
+$color-secondary-dark: var(--theme-secondary-dark);
 
-$color-accent-green: v.$color-forest-green-500;
-$color-accent-green-light: v.$color-forest-green-200;
-$color-accent-green-dark: v.$color-forest-green-800;
+$color-accent-green: var(--theme-accent-green);
+$color-accent-green-light: var(--theme-accent-green-light);
+$color-accent-green-dark: var(--theme-accent-green-dark);
 
-$color-accent-red: v.$color-cordovan-red-500;
-$color-accent-red-light: v.$color-cordovan-red-200;
-$color-accent-red-dark: v.$color-cordovan-red-800;
+$color-accent-red: var(--theme-accent-red);
+$color-accent-red-light: var(--theme-accent-red-light);
+$color-accent-red-dark: var(--theme-accent-red-dark);
 
 //// SPACING ////
 $spacing-xs: v.$value-rem-1;

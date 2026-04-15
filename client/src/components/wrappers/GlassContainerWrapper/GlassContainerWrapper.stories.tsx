@@ -1,17 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import GlassContainerWrapper from './GlassContainerWrapper';
-import { MemoryRouter } from 'react-router-dom';
+import './../../../styles/main.scss';
 
 export default {
   title: 'Components/Wrapper/GlassContainerWrapper',
   component: GlassContainerWrapper,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
   render: ({ ...args }) => (
     <div
       style={{

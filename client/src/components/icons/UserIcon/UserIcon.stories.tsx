@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
+import './../../../styles/main.scss';
 import UserIcon from './UserIcon';
 
 const meta = {

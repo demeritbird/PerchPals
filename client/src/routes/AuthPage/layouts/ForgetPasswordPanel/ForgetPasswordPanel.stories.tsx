@@ -1,23 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { MemoryRouter } from 'react-router-dom';
-
 import ForgetPasswordPanel from './ForgetPasswordPanel';
-import SnackbarProvider from '@/contexts/SnackbarProvider';
 import './../../../../styles/main.scss';
 
 export default {
   title: 'Layouts/ForgetPasswordPanel',
   component: ForgetPasswordPanel,
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <SnackbarProvider>
-          <Story />
-        </SnackbarProvider>
-      </MemoryRouter>
-    ),
-  ],
   argTypes: {
     backgroundColor: { control: 'color' },
   },
