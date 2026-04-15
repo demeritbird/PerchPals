@@ -201,6 +201,7 @@ const resetPasswordHandler = http.post<never, ResetPasswordRequest>(
 
     return HttpResponse.json<SuccessReponse>({
       status: 'success',
+      data: {},
     });
   }
 );
