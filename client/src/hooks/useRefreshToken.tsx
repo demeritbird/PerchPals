@@ -9,7 +9,7 @@ function useRefreshToken() {
   const { setAuthUser } = useAuth();
 
   async function refresh(): Promise<string | null> {
-    const response = await axios(`${import.meta.env.VITE_LINK}api/v1/users/refresh`, {
+    const response = await axios(`${import.meta.env.VITE_LINK}/api/v1/users/refresh`, {
       method: 'GET',
       withCredentials: true,
     }).catch(() => {

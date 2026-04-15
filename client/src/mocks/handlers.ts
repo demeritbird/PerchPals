@@ -8,7 +8,7 @@ import { ConfirmActivateRequest } from '@/routes/AuthPage/layouts/ActivatePanel/
 import { ForgetPasswordRequest } from '@/routes/AuthPage/layouts/ForgetPasswordPanel/ForgetPasswordPanel';
 import { ResetPasswordRequest } from '@/routes/AuthPage/layouts/ResetPasswordPanel/ResetPasswordPanel';
 
-const SERVER_URL = 'http://127.0.0.1:3001';
+const SERVER_URL = import.meta.env.VITE_LINK;
 const TAG = '** Mock Handlers';
 
 const errorJSON = ({ statusCode, message }: { statusCode: number; message: string }) => {
