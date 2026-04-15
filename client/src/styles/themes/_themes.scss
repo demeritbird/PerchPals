@@ -5,6 +5,10 @@
 :root.light {
   @each $name, $val in light.$theme-map {
     #{$name}: #{$val};
+    #{$name}-rgb:
+      #{red($val)},
+      #{green($val)},
+      #{blue($val)};
   }
 }
 // :root.dark {
@@ -15,7 +19,9 @@
 
 //// COLOR ////
 $color-black: var(--theme-black);
+$color-black-rgb: var(--theme-black-rgb);
 $color-white: var(--theme-white);
+$color-white-rgb: var(--theme-white-rgb);
 $color-grey-light-1: var(--theme-grey-light-1);
 $color-grey-light-2: var(--theme-grey-light-2);
 $color-grey-dark-1: var(--theme-grey-dark-1);
@@ -71,5 +77,5 @@ $opacity-80: 80%;
 $opacity-full: 100%;
 
 //// BOX-SHADOW ////
-$box-shadow--small: 0 v.$value-rem-2 v.$value-rem-2 rgba($color-black, $opacity-20);
-$box-shadow--medium: 0 v.$value-rem-4 v.$value-rem-4 rgba($color-black, $opacity-20);
+$box-shadow--small: 0 v.$value-rem-2 v.$value-rem-2 rgba($color-black-rgb, $opacity-20);
+$box-shadow--medium: 0 v.$value-rem-4 v.$value-rem-4 rgba($color-black-rgb, $opacity-20);

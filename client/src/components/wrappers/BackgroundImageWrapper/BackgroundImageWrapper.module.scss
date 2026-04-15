@@ -35,7 +35,7 @@
   }
   &-overlay {
     @include fill-parent();
-    background-color: rgba($color-white, 0.2);
+    background-color: rgba($color-white-rgb, 0.2);
 
     z-index: -1; // must be the lowest element after image.
   }
