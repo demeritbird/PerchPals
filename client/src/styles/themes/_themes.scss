@@ -1,3 +1,5 @@
+@use "sass:color";
+
 @use "./../abstracts/variables" as v;
 @use "light" as light;
 // @use "dark" as dark;
@@ -6,14 +8,18 @@
   @each $name, $val in light.$theme-map {
     #{$name}: #{$val};
     #{$name}-rgb:
-      #{red($val)},
-      #{green($val)},
-      #{blue($val)};
+      #{color.channel($val, "red", $space: rgb)},
+      #{color.channel($val, "green", $space: rgb)},
+      #{color.channel($val, "blue", $space: rgb)};
   }
 }
 // :root.dark {
 //   @each $name, $val in dark.$theme-map {
 //     #{$name}: #{$val};
+//     #{$name}-rgb:
+//       #{color.channel($val, "red", $space: rgb)},
+//       #{color.channel($val, "green", $space: rgb)},
+//       #{color.channel($val, "blue", $space: rgb)};
 //   }
 // }
 
