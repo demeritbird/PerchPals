@@ -2,13 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { MemoryRouter } from 'react-router-dom';
 
-import ForgetPasswordPanel from './ForgetPasswordPanel';
+import ResetPasswordPanel from './ResetPasswordPanel';
 import SnackbarProvider from '@/contexts/SnackbarProvider';
 import './../../../../styles/main.scss';
 
 export default {
-  title: 'Layouts/ForgetPasswordPanel',
-  component: ForgetPasswordPanel,
+  title: 'Layouts/ResetPasswordPanel',
+  component: ResetPasswordPanel,
   decorators: [
     (Story) => (
       <MemoryRouter>
@@ -21,17 +21,17 @@ export default {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as Meta<typeof ForgetPasswordPanel>;
+} as Meta<typeof ResetPasswordPanel>;
 
-type Story = StoryObj<typeof ForgetPasswordPanel>;
+type Story = StoryObj<typeof ResetPasswordPanel>;
 
 export const Component: Story = {
-  render: (args) => {
+  render: () => {
     const Wrapper = () => {
       return (
-        <ForgetPasswordPanel
+        <ResetPasswordPanel
           setCurrentRegistrationHandler={action('setCurrentRegistrationHandler')}
-        ></ForgetPasswordPanel>
+        ></ResetPasswordPanel>
       );
     };
     return <Wrapper />;

@@ -24,7 +24,9 @@
     "role": "user",
     "password": "test1234",
     "photo": "default-user.jpeg",
-    "active": "active"
+    "active": "active",
+    "passwordResetExpires": "2999-04-13T22:24:02.853+00:00",
+    "passwordResetToken": "d47156e7868c054bc1094428aa064baaa3d0990a53d07ac8f5fbceb2aa7c7cd7"
   },
   {
     "_id": "637adbb1b0d29a9a93ef3632",

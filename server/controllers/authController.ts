@@ -360,6 +360,10 @@ export const forgetPassword = catchAsync(
   }
 );
 
+interface ResetPasswordRequest {
+  password: string;
+  passwordConfirm: string;
+}
 /**
  * Requires user to go through /forgotpassword route first before being able to use this.
  * // TODO: Is there any way to undefine unwanted fields if request is ignored?
@@ -373,6 +377,12 @@ export const resetPassword = catchAsync(
       .update(req.params.token)
       .digest('hex');
 
+    const { password, passwordConfirm }: ResetPasswordRequest = req.body;
+
+    if (password !== passwordConfirm) {
+      return next(new AppError('Password is not the same as password confirm', 400));
+    }
+
     const user: UserDocument | null = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpires: { $gt: Date.now() }, // fail request if token is expired
@@ -381,14 +391,14 @@ export const resetPassword = catchAsync(
       return next(new AppError('Password Reset Token is invalid or has expired', 400));
     }
 
-    user.password = req.body.password;
-    user.passwordConfirm = req.body.passwordConfirm;
+    user.password = password;
+    user.passwordConfirm = passwordConfirm;
     // We will need to remove unnecessary fields as well.
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save();
 
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
     });
   }

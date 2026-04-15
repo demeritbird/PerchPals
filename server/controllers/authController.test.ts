@@ -215,3 +215,66 @@ describe('forget password', function () {
       });
   });
 });
+
+describe('reset password', function () {
+  const MOCK_INVALID_REQUEST_BODY = {
+    password: 'password',
+    passwordConfirm: 'wrongpassword',
+  };
+  const MOCK_REQUEST_BODY = {
+    password: 'password',
+    passwordConfirm: 'password',
+  };
+  const MOCK_INVALID_RESET_TOKEN = '123'; // user3
+
+  // cannot be run as it requires input from an external email
+  /*
+  it('should respond with status 200 when correct password and passwordConfirm is provided', function (done) {
+    chai
+      .request(app)
+      .patch(`/api/v1/users/resetPassword/${MOCK_RESET_TOKEN}`)
+      .send(MOCK_REQUEST_BODY)
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(200);
+        done();
+      });
+  });
+  */
+
+  it('should respond with status 401 when no reset token is provided', function (done) {
+    chai
+      .request(app)
+      .patch('/api/v1/users/resetPassword')
+      .send(MOCK_REQUEST_BODY)
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(401);
+        done();
+      });
+  });
+
+  it('should respond with status 400 when password is not the same as password confirm', function (done) {
+    chai
+      .request(app)
+      .patch(`/api/v1/users/resetPassword/${MOCK_INVALID_RESET_TOKEN}`)
+      .send(MOCK_INVALID_REQUEST_BODY)
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(400);
+        done();
+      });
+  });
+
+  it('should respond with status 400 when invalid reset token is provided', function (done) {
+    chai
+      .request(app)
+      .patch(`/api/v1/users/resetPassword/${MOCK_INVALID_RESET_TOKEN}`)
+      .send(MOCK_REQUEST_BODY)
+      .end(function (err: Error, res: ChaiHttp.Response) {
+        if (err) return done(err);
+        expect(res.status).to.eql(400);
+        done();
+      });
+  });
+});

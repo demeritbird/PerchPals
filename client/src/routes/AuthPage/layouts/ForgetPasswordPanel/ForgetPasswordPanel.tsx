@@ -100,10 +100,10 @@ function ForgetPasswordPanel(props: ForgetPasswordPanelProps) {
     <div className={styles.panel}>
       <div className={styles.panel__section}>
         <h3 className={`${styles.subheader} ${styles['heading-3']}`}>Forgot your password?</h3>
-        <h1 className={`${styles.caption} ${styles['body-1']}`}>
+        <p className={`${styles.caption} ${styles['body-1']}`}>
           Please enter your email and we will send you a code to recover your account right
           away.
-        </h1>
+        </p>
       </div>
       <div className={styles.panel__section}>
         <form className={styles.form} onSubmit={(event: FormEvent) => onSubmitHandler(event)}>
@@ -139,7 +139,7 @@ function ForgetPasswordPanel(props: ForgetPasswordPanelProps) {
                 to='/auth'
                 className={`${styles.prompt__highlight} ${styles['body-3B']}`}
                 onClick={() => {
-                  setCurrentRegistrationState(RegistrationStatus.SIGNUP);
+                  setCurrentRegistrationState(RegistrationStatus.LOGIN);
                 }}
               >
                 Login

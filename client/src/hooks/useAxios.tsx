@@ -9,7 +9,7 @@ import { ServerReturnStatus } from 'src/utils/types';
 export interface SuccessReponse {
   status: Extract<'success', ServerReturnStatus>;
   token?: string;
-  data: {
+  data?: {
     [key: string]: any;
   };
 }

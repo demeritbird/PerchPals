@@ -12,6 +12,7 @@ import RequireAuth from '../RequireAuth';
 import { UserRoles } from '@backend/types';
 import ActivatePanel from './layouts/ActivatePanel';
 import ForgetPasswordPanel from './layouts/ForgetPasswordPanel';
+import ResetPasswordPanel from './layouts/ResetPasswordPanel';
 
 export enum RegistrationStatus {
   LOGIN = 'login', // currently on login
@@ -54,6 +55,14 @@ function AuthPage() {
             path='/forget-password'
             element={
               <ForgetPasswordPanel
+                setCurrentRegistrationHandler={setCurrentRegistrationState}
+              />
+            }
+          />
+          <Route
+            path='/reset-password/:resetToken'
+            element={
+              <ResetPasswordPanel
                 setCurrentRegistrationHandler={setCurrentRegistrationState}
               />
             }

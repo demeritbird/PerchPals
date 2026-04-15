@@ -6,6 +6,7 @@ import { logValidity } from 'src/utils/helpers';
 import { Validity } from 'src/utils/types';
 import { ConfirmActivateRequest } from '@/routes/AuthPage/layouts/ActivatePanel/ActivatePanel';
 import { ForgetPasswordRequest } from '@/routes/AuthPage/layouts/ForgetPasswordPanel/ForgetPasswordPanel';
+import { ResetPasswordRequest } from '@/routes/AuthPage/layouts/ResetPasswordPanel/ResetPasswordPanel';
 
 const SERVER_URL = 'http://127.0.0.1:3001';
 const TAG = '** Mock Handlers';
@@ -178,10 +179,37 @@ const forgetPasswordHandler = http.post<never, ForgetPasswordRequest>(
   }
 );
 
+const resetPasswordHandler = http.post<never, ResetPasswordRequest>(
+  `${SERVER_URL}/api/v1/resetPassword/:resetToken`,
+  async ({ request, params }) => {
+    const { password, passwordConfirm } = await request.clone().json();
+    const { resetToken } = params;
+
+    if (!resetToken) {
+      return errorJSON({
+        statusCode: 400,
+        message: 'Password Reset Token is invalid or has expired',
+      });
+    }
+
+    if (password !== passwordConfirm) {
+      return errorJSON({
+        statusCode: 400,
+        message: 'Password is not the same as password confirm',
+      });
+    }
+
+    return HttpResponse.json<SuccessReponse>({
+      status: 'success',
+    });
+  }
+);
+
 const handlers = [
   loginHandler,
   signupHandler,
   confirmActivationHandler,
   forgetPasswordHandler,
+  resetPasswordHandler,
 ];
 export default handlers;
