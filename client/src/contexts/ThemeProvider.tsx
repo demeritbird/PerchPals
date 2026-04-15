@@ -1,18 +1,9 @@
-import { createContext, useEffect } from 'react';
+import { ThemeContext, ThemeContextOptions } from '@/hooks/useTheme';
+import { useEffect } from 'react';
 import useLocalStorage from 'src/hooks/useLocalStorage';
 
-type Theme = 'light'; // | 'dark';
-const DEFAULT_THEME: Theme = 'light';
-
-interface ThemeContextOptions {
-  theme: Theme;
-  setTheme: (prevTheme: Theme | ((prevTheme: Theme) => Theme)) => void;
-}
-
-const ThemeContext = createContext<ThemeContextOptions>({
-  theme: DEFAULT_THEME,
-  setTheme: () => {},
-});
+export type Theme = 'light'; // | 'dark';
+export const DEFAULT_THEME: Theme = 'light';
 
 export function ThemeProvider(props: React.PropsWithChildren) {
   const [theme, setTheme] = useLocalStorage<Theme>('theme', DEFAULT_THEME);
