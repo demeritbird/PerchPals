@@ -1,9 +1,6 @@
-import { ThemeContext, ThemeContextOptions } from '@/hooks/useTheme';
+import { DEFAULT_THEME, Theme, ThemeContext, ThemeContextOptions } from '@/hooks/useTheme';
 import { useEffect } from 'react';
 import useLocalStorage from 'src/hooks/useLocalStorage';
-
-export type Theme = 'light'; // | 'dark';
-export const DEFAULT_THEME: Theme = 'light';
 
 export function ThemeProvider(props: React.PropsWithChildren) {
   const [theme, setTheme] = useLocalStorage<Theme>('theme', DEFAULT_THEME);

@@ -1,5 +1,7 @@
 import { createContext, useContext } from 'react';
-import { DEFAULT_THEME, Theme } from './../contexts/ThemeProvider';
+
+export type Theme = 'light'; // | 'dark';
+export const DEFAULT_THEME: Theme = 'light';
 
 export interface ThemeContextOptions {
   theme: Theme;
