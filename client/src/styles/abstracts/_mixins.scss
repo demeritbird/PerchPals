@@ -51,3 +51,30 @@
     outline: none;
   }
 }
+
+/*
+  general media query by width size
+*/
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone {
+    @media (max-width: 37.5em) {
+      @content;
+    }
+    // insert media query here:
+  }
+
+  @if $breakpoint == tab-port {
+    @media (max-width: 56.25em) {
+      @content;
+    }
+    // insert media query here:
+  }
+
+  @if $breakpoint == tab-land {
+    @media (max-width: 75em) {
+      @content;
+    }
+    // insert media query here:
+  }
+}
