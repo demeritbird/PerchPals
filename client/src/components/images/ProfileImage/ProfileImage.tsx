@@ -1,4 +1,4 @@
-import { CurrentUser, Size, Validity } from 'src/utils/types';
+import { CurrentUser, ExtendedSize, Validity } from 'src/utils/types';
 import CameraIcon from '../../icons/CameraIcon/CameraIcon';
 import styles from './ProfileImage.module.scss';
 import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
@@ -9,8 +9,8 @@ import useAuth from 'src/hooks/useAuth';
 type ProfileImageProps = {
   src: string;
 } & (
-  | { size: Extract<Size, 'xs'>; isEdit?: never; caption?: never } // xs size cannot have isEdit
-  | { size: Exclude<Size, 'xs'>; isEdit?: boolean; caption?: string }
+  | { size: Extract<ExtendedSize, 'xs'>; isEdit?: never; caption?: never } // xs size cannot have isEdit
+  | { size: Exclude<ExtendedSize, 'xs'>; isEdit?: boolean; caption?: string }
 );
 
 const TAG = '** ProfileImage';
@@ -19,7 +19,7 @@ const TAG = '** ProfileImage';
  * displays profile image of user with uploading new image function
  *
  * @param {string} props.src base64 string of the image
- * @param {Size} props.size changes size of image
+ * @param {ExtendedSize} props.size changes size of image
  * @param {boolean | never} props.isEdit toggles icon that appears on edit
  * @param {string | never} props.caption text appearing under icon on edit
  *

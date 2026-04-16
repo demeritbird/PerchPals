@@ -32,9 +32,9 @@ function AuthPage() {
     <div className={styles.container}>
       <Fragment>
         {authUser && currentRegistrationState === RegistrationStatus.AUTH ? (
-          <ProfileImage src={authUser.photo} size='lg'></ProfileImage>
+          <ProfileImage src={authUser.photo} size='xl'></ProfileImage>
         ) : (
-          <AppLogo size='lg'></AppLogo>
+          <AppLogo size='xl'></AppLogo>
         )}
       </Fragment>
       <Routes>

@@ -1,18 +1,18 @@
-import { Size } from 'src/utils/types';
+import { ExtendedSize } from 'src/utils/types';
 import styles from './AppLogo.module.scss';
 
 interface AppLogoProps {
-  size: Size;
+  size: ExtendedSize;
 }
 
 /**
  * @desc
  * image showing the main logo of perchpals
  *
- * @param {Size} props.size size of image shown
+ * @param {ExtendedSize} props.size size of image shown
  *
  * @example
- * <AppLogo size='medium'>
+ * <AppLogo size='md'>
  */
 function AppLogo(props: AppLogoProps) {
   const { size } = props;
