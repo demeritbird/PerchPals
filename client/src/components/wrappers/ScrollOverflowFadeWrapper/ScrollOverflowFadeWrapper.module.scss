@@ -1,0 +1,52 @@
+@use "./../../../styles/main.scss" as *;
+
+$fade-height: 2rem;
+
+.container {
+  @include fill-parent;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.fade {
+  @include fill-parent;
+
+  background-color: transparent;
+  overflow-y: scroll;
+
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  mask-image: linear-gradient(
+    transparent,
+    $color-black $fade-height,
+    $color-black calc(100% - $fade-height),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    transparent,
+    $color-black $fade-height,
+    $color-black calc(100% - $fade-height),
+    transparent 100%
+  );
+  mask-size: 100% 100%;
+  mask-position:
+    0 0,
+    100% 0;
+  mask-repeat: no-repeat, no-repeat;
+
+  > :first-child {
+    // added so that when at top, there is space
+    // and does not hide children
+    margin-top: $fade-height;
+  }
+
+  > :last-child {
+    // added so that when at bottom, there is space
+    // and does not hide children
+    margin-bottom: $fade-height;
+  }
+}
