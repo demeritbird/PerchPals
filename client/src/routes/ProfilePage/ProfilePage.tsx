@@ -9,12 +9,7 @@ function ProfilePage() {
   return (
     <Fragment>
       <h2>Profile Page</h2>
-      <ProfileImage
-        src={`data:image/png;base64, ${authUser?.photo}`}
-        size='lg'
-        isEdit={true}
-        caption='edit'
-      />
+      <ProfileImage src={authUser!.photo} size='lg' isEdit={true} caption='edit' />
     </Fragment>
   );
 }

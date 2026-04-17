@@ -64,7 +64,7 @@ function AuthedPanel(props: AuthedPanelProps) {
   return (
     <div className={styles.panel}>
       <div className={styles.panel__section}>
-        <ProfileImage src={`data:image/png;base64, ${user!.photo}`} size='md' />
+        <ProfileImage src={user!.photo} size='md' />
         <h3 className={styles.greeting__upper}>Welcome back,</h3>
         <h2 className={styles.greeting__lower}>{user!.name}</h2>
       </div>

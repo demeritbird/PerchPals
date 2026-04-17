@@ -41,7 +41,7 @@ function ProfileImage(props: ProfileImageProps) {
     }
     if (!uploadedImage && uploadResponse && isResponseType(uploadResponse, 'success')) {
       const imageUrl = uploadResponse.data.photo;
-      setUploadedImage(`data:image/png;base64, ${imageUrl}`);
+      setUploadedImage(imageUrl);
 
       // update current local user information
       setAuthUser(
@@ -54,6 +54,10 @@ function ProfileImage(props: ProfileImageProps) {
       logValidity(TAG, Validity.PASS, 'Updated User Profile Image');
     }
   }, [setAuthUser, uploadedImage, uploadResponse, uploadError]);
+
+  const encodeImageToDataUrl = (url: string) => {
+    return `data:image/png;base64, ${url}`;
+  };
 
   function updateProfileImage(event: FormEvent): void {
     event.preventDefault();
@@ -75,7 +79,7 @@ function ProfileImage(props: ProfileImageProps) {
       <figure className={styles.profile__shape} data-testid='profile'>
         <img
           className={`${styles.profile__image} ${isEdit && styles['profile__image--blur']}`}
-          src={uploadedImage ?? src}
+          src={encodeImageToDataUrl(uploadedImage ?? src)}
           alt='Display Profile of User'
         />
         {isEdit && (
