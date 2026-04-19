@@ -1,11 +1,11 @@
 import { Fragment, MouseEventHandler } from 'react';
 import BouncingCirclesLoading from '../../loading/BouncingCirclesLoading';
 import styles from './CommonButton.module.scss';
-import { MainColor, Size } from 'src/utils/types';
+import { GreyscaleColor, MainColor, Size } from 'src/utils/types';
 
 interface CommonButtonProps {
   children: string;
-  color: MainColor;
+  color: MainColor | Extract<'grey', GreyscaleColor>;
   size: Omit<Size, 'sm'>;
   isLoading?: boolean;
   isError?: boolean;
@@ -18,7 +18,7 @@ interface CommonButtonProps {
  * reusable button with different states
  *
  * @param {string} props.children text content used in button
- * @param {MainColor} props.color color of button
+ * @param {MainColor | Extract<'grey', GreyscaleColor>} props.color color of button
  * @param {Omit<Size, 'sm'>} props.size size of button
  * @param {boolean | undefined} props.isLoading toggles button loading state
  * @param {boolean | undefined} props.isError toggles button error state

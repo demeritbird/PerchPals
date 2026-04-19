@@ -1,9 +1,9 @@
-import { MainColor, Size } from 'src/utils/types';
+import { GreyscaleColor, MainColor, Size } from 'src/utils/types';
 import styles from './BouncingCirclesLoading.module.scss';
 
 interface BouncingCirclesLoadingProps {
   size: Size;
-  color: MainColor;
+  color: MainColor | Extract<'grey', GreyscaleColor>;
 }
 function BouncingCirclesLoading(props: BouncingCirclesLoadingProps) {
   const { size, color } = props;

@@ -1,15 +1,13 @@
-import { Fragment } from 'react';
-import LogoutButton from '../../components/buttons/LogoutButton';
-import { useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import styles from './LandingPage.module.scss';
+import SidebarMenu from './layouts/SidebarMenu/SidebarMenu';
 
 function LandingPage() {
-  const navigate = useNavigate();
   return (
-    <Fragment>
-      <h1>Landing Page</h1>
-      <button onClick={() => {(navigate(`/profilepage`))}}>Profile Page</button>
-      <LogoutButton />
-    </Fragment>
+    <div className={`${styles.screen}`}>
+      <SidebarMenu />
+      <Outlet />
+    </div>
   );
 }
 

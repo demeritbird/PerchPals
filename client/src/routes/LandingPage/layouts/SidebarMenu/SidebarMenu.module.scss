@@ -1,0 +1,53 @@
+@use "./../../../../styles/main.scss" as *;
+
+.container {
+  @include flex-top-down;
+  height: 100%;
+  width: 36rem;
+
+  background-blend-mode: color;
+  background: linear-gradient(to bottom right, rgba($color-primary-rgb), rgba($color-primary-rgb, 0.8));
+  backdrop-filter: blur(1.6rem);
+  -webkit-backdrop-filter: blur(1.6rem);
+  padding: $spacing-lg;
+}
+
+.header {
+  position: relative;
+
+  @include flex-center;
+  width: 100%;
+
+  &__text {
+    color: $color-white;
+  }
+
+  &__logout {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+
+    @include flex-center;
+    height: 100%;
+  }
+}
+
+.profile {
+  @include flex-top-down;
+  text-align: center;
+
+  &__name {
+    color: $color-secondary-light;
+  }
+  &__email {
+    color: $color-grey-light-1;
+  }
+}
+
+.navigation {
+  @include remove-default-ul-style;
+  width: 100%;
+
+  padding: 0 $spacing-lg;
+}

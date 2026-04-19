@@ -38,6 +38,11 @@ $color-variants: (
   transition: color 0.2s;
 
   /// Size ///
+  &--xs {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
   &--sm {
     height: 3.2rem;
     width: 3.2rem;
@@ -49,6 +54,11 @@ $color-variants: (
   }
 
   &--lg {
+    height: 7.2rem;
+    width: 7.2rem;
+  }
+
+  &--xl {
     height: 9.6rem;
     width: 9.6rem;
   }

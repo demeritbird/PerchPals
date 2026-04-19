@@ -52,13 +52,17 @@ function App() {
           {/* Dashboard Pages */}
           <Route element={<RequireAuth />}>
             <Route
-              path='/landingpage'
               element={
                 <Suspense fallback={<div>Loading...</div>}>
-                  <LandingPage />
+                  <Outlet />
                 </Suspense>
               }
-            />
+            >
+              <Route path='/landingpage' element={<LandingPage />}>
+                <Route index element={<></>}></Route>
+                <Route path='profile' element={<></>}></Route>
+              </Route>
+            </Route>
             <Route
               path='/profilepage'
               element={
@@ -70,7 +74,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route path='/*' element={<Navigate to='/auth' replace />} />
+        {/* <Route path='/*' element={<Navigate to='/auth' replace />} /> */}
       </Route>
     </Routes>
   );

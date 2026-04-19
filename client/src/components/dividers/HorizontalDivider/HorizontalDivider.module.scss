@@ -1,0 +1,18 @@
+@use "./../../../styles/main.scss" as *;
+
+.divider {
+  height: 1px;
+  width: 100%;
+
+  border-radius: $radius-lg;
+
+  &--white {
+    background-color: $color-white;
+  }
+  &--grey {
+    background-color: $color-grey-dark-1;
+  }
+  &--grey-light {
+    background-color: $color-grey-light-1;
+  }
+}

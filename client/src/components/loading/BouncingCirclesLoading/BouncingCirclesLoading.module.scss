@@ -215,9 +215,6 @@ $shadow-resting-large: multiply($shadow-resting-small, $large-mulitplier);
   &--secondary {
     background-color: $color-secondary;
   }
-  &--grey {
-    background-color: $color-grey-dark-1;
-  }
 
   &--sm {
     top: $circle-resting-small;

@@ -1,0 +1,10 @@
+@use "./../../styles/main.scss" as *;
+
+.screen {
+  @include fill-parent;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  padding: 0 $spacing-2xl;
+}

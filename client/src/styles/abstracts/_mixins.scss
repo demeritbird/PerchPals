@@ -36,6 +36,26 @@
   text-overflow: ellipsis;
 }
 
+@mixin remove-default-ul-style {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+@mixin remove-default-li-style {
+  li {
+    margin: 0;
+  }
+}
+
+@mixin remove-default-link-style {
+  a {
+    text-decoration: none;
+  }
+}
+
 @mixin remove-default-button-style {
   border: none;
   outline: none;

@@ -6,9 +6,10 @@ export enum Validity {
   FAIL,
 }
 
-export type MainColor = 'primary' | 'secondary' | 'grey';
+export type MainColor = 'primary' | 'secondary';
 export type AccentColor = 'red' | 'red-light' | 'green' | 'green-light';
-export type ColorWithAccent = MainColor | AccentColor | 'white' | 'grey-light';
+export type GreyscaleColor = 'white' | 'grey' | 'grey-light';
+export type AllColors = MainColor | AccentColor | GreyscaleColor;
 export type Size = 'sm' | 'md' | 'lg';
 export type ExtendedSize = Size | 'xs' | 'xl';
 export enum SuccessStatus {

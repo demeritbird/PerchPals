@@ -1,0 +1,19 @@
+@use "./../../../styles/main.scss" as *;
+
+.item {
+  @include remove-default-li-style;
+  @include remove-default-link-style;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: $spacing-lg;
+
+  &__link {
+    color: $color-white;
+
+    &--active {
+      color: $color-secondary;
+    }
+  }
+}
