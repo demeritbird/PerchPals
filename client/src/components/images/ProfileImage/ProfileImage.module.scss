@@ -1,26 +1,7 @@
 @use "./../../../styles/main" as *;
 
 .profile {
-  &--xs {
-    height: 2.4rem;
-    width: 2.4rem;
-  }
-  &--sm {
-    height: 4.8rem;
-    width: 4.8rem;
-  }
-  &--md {
-    height: 6.4rem;
-    width: 6.4rem;
-  }
-  &--lg {
-    height: 12rem;
-    width: 12rem;
-  }
-  &--xl {
-    height: 24rem;
-    width: 24rem;
-  }
+  @include images-size;
 
   &__shape {
     @include fill-parent;

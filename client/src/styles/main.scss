@@ -5,6 +5,7 @@
 @forward "base/typography";
 @forward "base/utilities";
 
+@forward "components/images" as images-*;
 @forward "pages/auth" as auth-*;
 
 @forward "themes/themes";
