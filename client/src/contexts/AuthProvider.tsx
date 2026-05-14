@@ -1,24 +1,17 @@
-import { createContext, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { CurrentUser } from '../utils/types';
+import { AuthContext, AuthContextOptions, PersistType } from '@/hooks/useAuth';
 
-type PersistType = 'true' | 'false';
-interface AuthContextOptions {
-  authUser: CurrentUser;
-  setAuthUser: React.Dispatch<React.SetStateAction<CurrentUser>>;
-
-  persist: PersistType;
-  setPersist: (prevSel: PersistType) => void;
+interface AuthProviderProps {
+  children: ReactNode;
+  value?: CurrentUser;
 }
-const AuthContext = createContext<AuthContextOptions>({
-  authUser: null,
-  setAuthUser: () => {},
-  persist: 'false',
-  setPersist: () => {},
-});
 
-export function AuthProvider(props: React.PropsWithChildren) {
-  const [auth, setAuth] = useState<CurrentUser>(null);
+export function AuthProvider(props: AuthProviderProps) {
+  const { value, children } = props;
+
+  const [auth, setAuth] = useState<CurrentUser>(value ?? null);
   const [persistStore, setPersistStore] = useLocalStorage<PersistType>('persist', 'false');
 
   const authContextValue: AuthContextOptions = {
@@ -28,9 +21,7 @@ export function AuthProvider(props: React.PropsWithChildren) {
     setPersist: setPersistStore,
   };
 
-  return (
-    <AuthContext.Provider value={authContextValue}>{props.children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={authContextValue}>{children}</AuthContext.Provider>;
 }
 
-export default AuthContext;
+export default AuthProvider;
