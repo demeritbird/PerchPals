@@ -7,7 +7,7 @@ import { logValidity } from 'src/utils/helpers';
 import useAuth from 'src/hooks/useAuth';
 
 type ProfileImageProps = {
-  src: string;
+  src?: string;
 } & (
   | { size: Extract<ExtendedSize, 'xs'>; isEdit?: never; caption?: never } // xs size cannot have isEdit
   | { size: Exclude<ExtendedSize, 'xs'>; isEdit?: boolean; caption?: string }
@@ -59,6 +59,13 @@ function ProfileImage(props: ProfileImageProps) {
     return `data:image/png;base64, ${url}`;
   };
 
+  const useCandidateImageAsPhoto = (): string => {
+    if (uploadedImage) return encodeImageToDataUrl(uploadedImage);
+    if (src) return encodeImageToDataUrl(src);
+
+    return 'img/default-user.jpeg';
+  };
+
   function updateProfileImage(event: FormEvent): void {
     event.preventDefault();
     if (!fileInputRef.current?.files) return;
@@ -79,7 +86,7 @@ function ProfileImage(props: ProfileImageProps) {
       <figure className={styles.profile__shape} data-testid='profile'>
         <img
           className={`${styles.profile__image} ${isEdit && styles['profile__image--blur']}`}
-          src={encodeImageToDataUrl(uploadedImage ?? src)}
+          src={useCandidateImageAsPhoto()}
           alt='Display Profile of User'
         />
         {isEdit && (
