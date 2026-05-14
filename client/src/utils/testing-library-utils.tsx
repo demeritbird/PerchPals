@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
-import { AuthProvider } from '../contexts/AuthProvider';
 import { BrowserRouter } from 'react-router-dom';
+import { AuthContext } from '@/hooks/useAuth';
+import { AccountStatus, UserRoles } from '@backend/types';
 
 const nestedProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -11,7 +12,24 @@ const nestedProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
         v7_relativeSplatPath: true,
       }}
     >
-      <AuthProvider>{children}</AuthProvider>
+      <AuthContext.Provider
+        value={{
+          authUser: {
+            id: '123',
+            email: 'newuser@example.com',
+            name: 'newuser',
+            photo: 'default-user.jpeg',
+            role: UserRoles.USER,
+            token: 'token',
+            active: AccountStatus.PENDING,
+          },
+          setAuthUser: vi.fn(),
+          persist: 'true',
+          setPersist: vi.fn(),
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
     </BrowserRouter>
   );
 };

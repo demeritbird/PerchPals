@@ -8,26 +8,9 @@ import SnackbarProvider from '@/contexts/SnackbarProvider';
 
 const setup = () => {
   render(
-    <AuthContext.Provider
-      value={{
-        authUser: {
-          id: '123',
-          email: 'newuser@example.com',
-          name: 'newuser',
-          photo: 'default-user-base64.jpeg',
-          role: UserRoles.USER,
-          token: 'token',
-          active: AccountStatus.PENDING,
-        },
-        setAuthUser: vi.fn(),
-        persist: 'true',
-        setPersist: vi.fn(),
-      }}
-    >
-      <SnackbarProvider>
-        <ActivatePanel setCurrentRegistrationHandler={vitest.fn()} />
-      </SnackbarProvider>
-    </AuthContext.Provider>
+    <SnackbarProvider>
+      <ActivatePanel setCurrentRegistrationHandler={vitest.fn()} />
+    </SnackbarProvider>
   );
   const inputs = screen.getAllByRole('textbox');
   const confirmActivateBtn = screen.getByRole('button', { name: /Verify Account/i });
