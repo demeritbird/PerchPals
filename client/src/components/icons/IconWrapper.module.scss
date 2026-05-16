@@ -29,6 +29,7 @@ $color-variants: (
 }
 
 .container {
+  @include flex-center;
   &-hover {
     cursor: pointer;
   }

@@ -53,7 +53,11 @@ function IconWrapper(props: IconWrapperProps) {
     outline: outlineIcon,
   };
 
-  return <div className={hoverColor && styles[`container-hover`]}>{IconState[type]}</div>;
+  return (
+    <div className={`${styles.container} ${hoverColor && styles[`container-hover`]}`}>
+      {IconState[type]}
+    </div>
+  );
 }
 
 export default IconWrapper;

@@ -2,11 +2,13 @@ import { Fragment, MouseEventHandler } from 'react';
 import BouncingCirclesLoading from '../../loading/BouncingCirclesLoading';
 import styles from './CommonButton.module.scss';
 import { GreyscaleColor, MainColor, Size } from 'src/utils/types';
+import { IconProps } from '@/components/icons/IconWrapper';
 
 interface CommonButtonProps {
   children: string;
   color: MainColor | Extract<'grey', GreyscaleColor>;
   size: Omit<Size, 'sm'>;
+  icon?: React.ComponentType<IconProps>;
   isLoading?: boolean;
   isError?: boolean;
   isSubmit?: boolean;
@@ -20,6 +22,7 @@ interface CommonButtonProps {
  * @param {string} props.children text content used in button
  * @param {MainColor | Extract<'grey', GreyscaleColor>} props.color color of button
  * @param {Omit<Size, 'sm'>} props.size size of button
+ * @param {React.ComponentType<IconProps>} props.icon placeholder shown in input
  * @param {boolean | undefined} props.isLoading toggles button loading state
  * @param {boolean | undefined} props.isError toggles button error state
  * @param {boolean | undefined} props.isSubmit will fire a submit event if toggled on
@@ -39,7 +42,16 @@ interface CommonButtonProps {
    </CommonButton>
 */
 function CommonButton(props: CommonButtonProps) {
-  const { children, color, size, isLoading, isError, isSubmit, onClickHandler } = props;
+  const {
+    children,
+    color,
+    size,
+    icon: Icon,
+    isLoading,
+    isError,
+    isSubmit,
+    onClickHandler,
+  } = props;
 
   const getBouncingCircleLoadingSize = (size: Omit<Size, 'sm'>): Partial<Size> => {
     switch (size) {
@@ -75,8 +87,10 @@ function CommonButton(props: CommonButtonProps) {
       type={isSubmit ? 'submit' : undefined}
       onClick={onClickHandler}
       className={`${styles.btn} ${styles[`btn--${size}`]} ${getButtonFontStyle(size)} 
-                  ${!isError || isLoading ? styles[`btn--${color}`] : styles['btn--error']}`}
+                  ${!isError || isLoading ? styles[`btn--${color}`] : styles['btn--error']}
+                  u-gap-x--sm`}
     >
+      {Icon && <Icon size='sm' type='fill' color='white' />}
       <span className={styles['btn__text']}>{getButtonContent()}</span>
     </button>
   );

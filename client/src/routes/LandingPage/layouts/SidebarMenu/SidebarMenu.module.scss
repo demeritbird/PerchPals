@@ -51,3 +51,22 @@
 
   padding: 0 $spacing-lg;
 }
+
+.modules {
+  @include fill-parent;
+  @include flex-top-down;
+  flex-grow: 1;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    width: 100%;
+
+    &-text {
+      color: $color-secondary;
+    }
+  }
+}

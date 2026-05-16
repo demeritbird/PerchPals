@@ -7,6 +7,8 @@ import HouseIcon from '@/components/icons/HouseIcon/HouseIcon';
 import UserIcon from '@/components/icons/UserIcon';
 import { useLocation } from 'react-router-dom';
 import HorizontalDivider from '@/components/dividers/HorizontalDivider';
+import CommonButton from '@/components/buttons/CommonButton';
+import AddIcon from '@/components/icons/AddIcon';
 
 function SidebarMenu() {
   const { authUser } = useAuth();
@@ -46,7 +48,26 @@ function SidebarMenu() {
         </ul>
       </nav>
       <HorizontalDivider color='white'></HorizontalDivider>
-      {/* TODO: create get all modules here */}
+
+      <div className={`${styles.modules} u-gap-y--lg`}>
+        <div className={styles.modules__header}>
+          <p className={`${styles[`modules__header-text`]} body-1B`}>Your Modules</p>
+          <CommonButton
+            isLoading={false}
+            isError={false}
+            isSubmit={true}
+            size='md'
+            icon={AddIcon}
+            color='secondary'
+            onClickHandler={() => {
+              /* TODO: create module modal on click */
+            }}
+          >
+            New
+          </CommonButton>
+        </div>
+        <div className={styles.modules__body}>{/* TODO: create get all modules here */}</div>
+      </div>
     </aside>
   );
 }

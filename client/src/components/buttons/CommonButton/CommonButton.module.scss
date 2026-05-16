@@ -8,7 +8,7 @@
   cursor: pointer;
 
   min-height: 4rem;
-  min-width: 16rem;
+  min-width: 9.6rem;
   max-width: 100%;
 
   background-color: $color-primary;
@@ -36,11 +36,11 @@
   // Size
   &--md {
     height: 4rem;
-    width: 16rem;
+    max-width: 16rem;
   }
   &--lg {
     height: 6.4rem;
-    width: 44rem;
+    max-width: 44rem;
   }
 
   // State
