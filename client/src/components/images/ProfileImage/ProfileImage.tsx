@@ -1,19 +1,22 @@
-import { CurrentUser, ExtendedSize, Validity } from 'src/utils/types';
+import { ExtendedSize } from 'src/utils/types';
 import CameraIcon from '../../icons/CameraIcon/CameraIcon';
 import styles from './ProfileImage.module.scss';
-import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
-import useAxios, { isResponseType } from 'src/hooks/useAxios';
-import { logValidity } from 'src/utils/helpers';
-import useAuth from 'src/hooks/useAuth';
+import { ChangeEventHandler, Fragment } from 'react';
 
 type ProfileImageProps = {
   src?: string;
 } & (
-  | { size: Extract<ExtendedSize, 'xs'>; isEdit?: never; caption?: never } // xs size cannot have isEdit
-  | { size: Exclude<ExtendedSize, 'xs'>; isEdit?: boolean; caption?: string }
+  | { size: Extract<ExtendedSize, 'xs'>; edit?: never; caption?: never } // xs size cannot have fileRef or edited.
+  | {
+      size: Exclude<ExtendedSize, 'xs'>;
+      edit?: {
+        fileRef: React.RefObject<HTMLInputElement>;
+        onChangeHandler: ChangeEventHandler<HTMLInputElement>;
+      };
+      caption?: string;
+    }
 );
 
-const TAG = '** ProfileImage';
 /**
  * @desc
  * displays profile image of user with uploading new image function
@@ -24,72 +27,34 @@ const TAG = '** ProfileImage';
  * @param {string | never} props.caption text appearing under icon on edit
  *
  * @example
- * <ProfileImage src={`data:image/png;base64, ${authUser!.photo}`} size='lg' isEdit={true} caption='edit' />
+ * <ProfileImage
+ *   src={`data:image/png;base64, ${authUser!.photo}`}
+ *   size='lg'
+ *   isEdit={{ fileRef: profileImageFileRef, onChangeHandler: updateProfileImage }}
+ *   caption='edit'
+ * />
  */
 function ProfileImage(props: ProfileImageProps) {
-  const { src, caption = null, isEdit = false, size } = props;
-  const { setAuthUser } = useAuth();
-  const { request: uploadData, response: uploadResponse, error: uploadError } = useAxios();
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (uploadError) {
-      logValidity(TAG, Validity.FAIL, 'Fail to Update User Profile Image');
-      return;
-    }
-    if (!uploadedImage && uploadResponse && isResponseType(uploadResponse, 'success')) {
-      const imageUrl = uploadResponse.data.photo;
-      setUploadedImage(imageUrl);
-
-      // update current local user information
-      setAuthUser(
-        (prevUser: CurrentUser): CurrentUser => ({
-          ...prevUser!,
-          photo: imageUrl,
-        })
-      );
-
-      logValidity(TAG, Validity.PASS, 'Updated User Profile Image');
-    }
-  }, [setAuthUser, uploadedImage, uploadResponse, uploadError]);
+  const { src, caption = null, edit = null, size } = props;
 
   const encodeImageToDataUrl = (url: string) => {
     return `data:image/png;base64, ${url}`;
   };
 
   const useCandidateImageAsPhoto = (): string => {
-    if (uploadedImage) return encodeImageToDataUrl(uploadedImage);
     if (src) return encodeImageToDataUrl(src);
-
     return 'img/default-user.jpeg';
   };
-
-  function updateProfileImage(event: FormEvent): void {
-    event.preventDefault();
-    if (!fileInputRef.current?.files) return;
-
-    const inputPhoto: File = fileInputRef.current.files[0];
-    const form = new FormData();
-    form.append('photo', inputPhoto);
-
-    uploadData({
-      method: 'patch',
-      url: 'api/v1/users/updateMyPhoto',
-      requestBody: form,
-    });
-  }
 
   const baseProfileImageComponent: JSX.Element = (
     <div className={`${styles.profile} ${styles[`profile--${size}`]}`}>
       <figure className={styles.profile__shape} data-testid='profile'>
         <img
-          className={`${styles.profile__image} ${isEdit && styles['profile__image--blur']}`}
+          className={`${styles.profile__image} ${edit?.fileRef && styles['profile__image--blur']}`}
           src={useCandidateImageAsPhoto()}
           alt='Display Profile of User'
         />
-        {isEdit && (
+        {edit?.fileRef && (
           <div className={styles.profile__items}>
             <CameraIcon size='sm' type='outline' color='white' />
             <figcaption className={styles['profile__caption']}>{caption}</figcaption>
@@ -108,8 +73,8 @@ function ProfileImage(props: ProfileImageProps) {
           accept='image/*'
           id='photo'
           name='photo'
-          ref={fileInputRef}
-          onChange={(e) => updateProfileImage(e)}
+          ref={edit?.fileRef}
+          onChange={(e) => edit?.onChangeHandler(e)}
           style={{ display: 'none' }}
         />
       </label>
@@ -117,7 +82,7 @@ function ProfileImage(props: ProfileImageProps) {
   );
 
   return (
-    <Fragment>{!isEdit ? baseProfileImageComponent : editProfileImageFormWrapper}</Fragment>
+    <Fragment>{!edit ? baseProfileImageComponent : editProfileImageFormWrapper}</Fragment>
   );
 }
 export default ProfileImage;

@@ -29,7 +29,7 @@ const meta = {
         },
       },
     },
-    isEdit: {
+    edit: {
       control: { type: 'boolean' },
       if: { arg: 'size', neq: 'xs' },
     },
@@ -42,6 +42,6 @@ export const component: Story = {
   args: {
     src: '/img/default-user.jpeg',
     size: 'md',
-    isEdit: false,
+    edit: undefined,
   },
 };
