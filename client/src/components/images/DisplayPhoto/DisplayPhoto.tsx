@@ -23,7 +23,10 @@ type DisplayPhotoProps = {
  *
  * @param {string} props.src base64 string of the image
  * @param {ExtendedSize} props.size changes size of image
- * @param {boolean | never} props.isEdit toggles icon that appears on edit
+ * @param {React.RefObject<HTMLInputElement> | never} props.edit.fileRef
+ * ref that holds the image
+ * @param {ChangeEventHandler<HTMLInputElement> | never} props.edit.onChangeHandler
+ * ref of function passed from parent to listen to any changes in image
  * @param {string | never} props.caption text appearing under icon on edit
  *
  * @example
