@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useAxios from '../../../../hooks/useAxios';
 import useAuth from '../../../../hooks/useAuth';
-import ProfileImage from '../../../../components/images/ProfileImage';
+import DisplayPhoto from '../../../../components/images/DisplayPhoto';
 
 import styles from './AuthedPanel.module.scss';
 
@@ -64,7 +64,7 @@ function AuthedPanel(props: AuthedPanelProps) {
   return (
     <div className={styles.panel}>
       <div className={styles.panel__section}>
-        <ProfileImage src={user!.photo} size='md' />
+        <DisplayPhoto src={user!.photo} size='md' />
         <h3 className={styles.greeting__upper}>Welcome back,</h3>
         <h2 className={styles.greeting__lower}>{user!.name}</h2>
       </div>

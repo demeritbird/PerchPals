@@ -1,6 +1,6 @@
 import { FormEvent, Fragment, useEffect, useRef, useState } from 'react';
 
-import ProfileImage from '../../components/images/ProfileImage';
+import DisplayPhoto from '../../components/images/DisplayPhoto';
 import useAuth from 'src/hooks/useAuth';
 import { logValidity } from '@/utils/helpers';
 import useAxios, { isResponseType } from '@/hooks/useAxios';
@@ -11,12 +11,12 @@ function ProfilePage() {
   const { authUser, setAuthUser } = useAuth();
   const { request: uploadData, response: uploadResponse, error: uploadError } = useAxios();
 
-  const profileImageFileRef = useRef<HTMLInputElement>(null);
+  const displayPhotoFileRef = useRef<HTMLInputElement>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (uploadError) {
-      logValidity(TAG, Validity.FAIL, 'Fail to Update User Profile Image');
+      logValidity(TAG, Validity.FAIL, 'Fail to Update User Display Photo');
       return;
     }
     if (!uploadedImage && uploadResponse && isResponseType(uploadResponse, 'success')) {
@@ -31,15 +31,15 @@ function ProfilePage() {
         })
       );
 
-      logValidity(TAG, Validity.PASS, 'Updated User Profile Image');
+      logValidity(TAG, Validity.PASS, 'Updated User Display Photo');
     }
   }, [setAuthUser, uploadedImage, uploadResponse, uploadError]);
 
-  function updateProfileImage(event: FormEvent): void {
+  function updateDisplayPhoto(event: FormEvent): void {
     event.preventDefault();
-    if (!profileImageFileRef.current?.files) return;
+    if (!displayPhotoFileRef.current?.files) return;
 
-    const inputPhoto: File = profileImageFileRef.current.files[0];
+    const inputPhoto: File = displayPhotoFileRef.current.files[0];
     const form = new FormData();
     form.append('photo', inputPhoto);
 
@@ -53,10 +53,10 @@ function ProfilePage() {
   return (
     <Fragment>
       <h2>Profile Page</h2>
-      <ProfileImage
+      <DisplayPhoto
         src={authUser!.photo}
         size='lg'
-        edit={{ fileRef: profileImageFileRef, onChangeHandler: updateProfileImage }}
+        edit={{ fileRef: displayPhotoFileRef, onChangeHandler: updateDisplayPhoto }}
         caption='edit'
       />
     </Fragment>

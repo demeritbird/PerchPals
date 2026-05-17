@@ -5,7 +5,7 @@ import LoginPanel from './layouts/LoginPanel';
 import SignupPanel from './layouts/SignupPanel';
 
 import styles from './AuthPage.module.scss';
-import ProfileImage from 'src/components/images/ProfileImage';
+import DisplayPhoto from '@/components/images/DisplayPhoto';
 import AppLogo from 'src/components/images/AppLogo';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import RequireAuth from '../RequireAuth';
@@ -32,7 +32,7 @@ function AuthPage() {
     <div className={styles.container}>
       <Fragment>
         {authUser && currentRegistrationState === RegistrationStatus.AUTH ? (
-          <ProfileImage src={authUser.photo} size='xl'></ProfileImage>
+          <DisplayPhoto src={authUser.photo} size='xl'></DisplayPhoto>
         ) : (
           <AppLogo size='xl'></AppLogo>
         )}

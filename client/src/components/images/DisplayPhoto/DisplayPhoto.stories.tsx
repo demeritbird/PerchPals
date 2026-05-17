@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import './../../../styles/main.scss';
-import ProfileImage from './ProfileImage';
+import DisplayPhoto from './DisplayPhoto';
 
 const meta = {
-  title: 'Components/Images/ProfileImage',
-  component: ProfileImage,
+  title: 'Components/Images/DisplayPhoto',
+  component: DisplayPhoto,
   parameters: {
     docs: {
       description: {
-        component: 'Displays profile image of user with uploading new image function',
+        component: 'Displays profile image with uploading new image function',
       },
     },
     controls: {
@@ -34,10 +34,10 @@ const meta = {
       if: { arg: 'size', neq: 'xs' },
     },
   },
-} satisfies Meta<typeof ProfileImage>;
+} satisfies Meta<typeof DisplayPhoto>;
 export default meta;
 
-type Story = StoryObj<typeof ProfileImage>;
+type Story = StoryObj<typeof DisplayPhoto>;
 export const component: Story = {
   args: {
     src: '/img/default-user.jpeg',

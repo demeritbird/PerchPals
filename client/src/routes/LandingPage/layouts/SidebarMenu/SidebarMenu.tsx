@@ -1,7 +1,7 @@
 import ExitIcon from '@/components/icons/ExitIcon';
 import styles from './SidebarMenu.module.scss';
 import useAuth from '@/hooks/useAuth';
-import ProfileImage from '@/components/images/ProfileImage';
+import DisplayPhoto from '@/components/images/DisplayPhoto';
 import NavigationItem from '@/components/items/NavigationItem/NavigationItem';
 import HouseIcon from '@/components/icons/HouseIcon/HouseIcon';
 import UserIcon from '@/components/icons/UserIcon';
@@ -23,7 +23,7 @@ function SidebarMenu() {
         </div>
       </div>
       <div className={`${styles.profile} u-gap-y--md`}>
-        <ProfileImage size='lg' src={authUser!.photo}></ProfileImage>
+        <DisplayPhoto size='lg' src={authUser!.photo}></DisplayPhoto>
         <div className={`u-flex-col u-gap-y--sm`}>
           <h3 className={`${styles.profile__name} heading-3`}>{authUser!.name}</h3>
           <p className={`${styles.profile__email} body-3 `}>{authUser!.email}</p>

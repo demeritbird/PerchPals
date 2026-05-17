@@ -1,9 +1,9 @@
 import { ExtendedSize } from 'src/utils/types';
 import CameraIcon from '../../icons/CameraIcon/CameraIcon';
-import styles from './ProfileImage.module.scss';
+import styles from './DisplayPhoto.module.scss';
 import { ChangeEventHandler, Fragment } from 'react';
 
-type ProfileImageProps = {
+type DisplayPhotoProps = {
   src?: string;
 } & (
   | { size: Extract<ExtendedSize, 'xs'>; edit?: never; caption?: never } // xs size cannot have fileRef or edited.
@@ -27,14 +27,14 @@ type ProfileImageProps = {
  * @param {string | never} props.caption text appearing under icon on edit
  *
  * @example
- * <ProfileImage
+ * <DisplayPhoto
  *   src={`data:image/png;base64, ${authUser!.photo}`}
  *   size='lg'
- *   isEdit={{ fileRef: profileImageFileRef, onChangeHandler: updateProfileImage }}
+ *   isEdit={{ fileRef: displayPhotoFileRef, onChangeHandler: updateDisplayPhoto }}
  *   caption='edit'
  * />
  */
-function ProfileImage(props: ProfileImageProps) {
+function DisplayPhoto(props: DisplayPhotoProps) {
   const { src, caption = null, edit = null, size } = props;
 
   const encodeImageToDataUrl = (url: string) => {
@@ -46,7 +46,7 @@ function ProfileImage(props: ProfileImageProps) {
     return 'img/default-user.jpeg';
   };
 
-  const baseProfileImageComponent: JSX.Element = (
+  const baseDisplayPhotoComponent: JSX.Element = (
     <div className={`${styles.profile} ${styles[`profile--${size}`]}`}>
       <figure className={styles.profile__shape} data-testid='profile'>
         <img
@@ -64,10 +64,10 @@ function ProfileImage(props: ProfileImageProps) {
     </div>
   );
 
-  const editProfileImageFormWrapper: JSX.Element = (
+  const editDisplayPhotoFormWrapper: JSX.Element = (
     <form encType='multipart/form-data'>
       <label htmlFor='photo'>
-        {baseProfileImageComponent}
+        {baseDisplayPhotoComponent}
         <input
           type='file'
           accept='image/*'
@@ -82,7 +82,7 @@ function ProfileImage(props: ProfileImageProps) {
   );
 
   return (
-    <Fragment>{!edit ? baseProfileImageComponent : editProfileImageFormWrapper}</Fragment>
+    <Fragment>{!edit ? baseDisplayPhotoComponent : editDisplayPhotoFormWrapper}</Fragment>
   );
 }
-export default ProfileImage;
+export default DisplayPhoto;
